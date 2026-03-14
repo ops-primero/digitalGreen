@@ -23,7 +23,7 @@
     --border: rgba(13,74,43,0.12);
     --radius: 12px;
     --radius-lg: 20px;
-    --font-display: 'Fraunces', Georgia, serif;
+    --font-display: "PP Fragment Serif", serif;
     --font-body: 'DM Sans', sans-serif;
   }
 
@@ -152,6 +152,22 @@
     from { transform: scale(1.06) translateX(0px) translateY(0px); }
     to   { transform: scale(1.11) translateX(-18px) translateY(-8px); }
   }
+
+  @keyframes verticalMove {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.moving-vertical {
+  animation: verticalMove 3s ease-in-out infinite;
+}
   /* Layered overlays: bottom-up gradient for content legibility + subtle vignette */
   .hero-bg-img::after {
     content: '';
@@ -534,12 +550,13 @@
   /* ── STORY SECTION BG IMAGE ── */
   .story { position: relative; }
   .story-bg-img {
-    position: absolute; right: 0; top: 0; bottom: 0; width: 50%; z-index: 0;
+    right: 0; top: 0; bottom: 0; width: 100%; z-index: 0;
     overflow: hidden;
   }
   .story-bg-img img {
-    width: 100%; height: 100%; object-fit: cover;
-    opacity: 0.06; filter: saturate(0.5);
+    width: 90%; height: 100%; object-fit: cover;
+    border-radius: 20px;
+    /* opacity: 0.06; filter: saturate(0.5); */
   }
   .story > * { position: relative; z-index: 1; }
 
@@ -595,6 +612,8 @@
   /* IMPACT NUMBERS */
   .impact {
     padding: 4rem 8%; background: white;
+    position: relative;
+    z-index: 1;
   }
   .section-label {
     font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
@@ -648,6 +667,19 @@
     width: 500px; height: 500px; border-radius: 50%;
     background: rgba(37,163,90,0.12);
     pointer-events: none;
+  }
+  .farmerchat::after {
+    content: '';
+    position: absolute;
+    width: 40vw; height: 18rem;
+    background-image: url(images/decor.png);
+    background-size: auto 100%;
+    background-repeat: repeat;
+    pointer-events: none;
+    left: 6px;
+    bottom: 50px; 
+    animation: verticalMove 3s ease-in-out infinite;
+    opacity: 0.3;
   }
   .farmerchat-inner {
     display: grid; grid-template-columns: 1fr 1fr;
@@ -999,6 +1031,23 @@
   /* Interactive Counter */
   .counter-animate { transition: all 0.5s ease; }
 
+.decor {
+    pointer-events: none;
+    /* z-index: -1; */
+    position: absolute;
+    right: 0;
+    /* bottom: -100px; */
+    -webkit-transform: scale(1, -1);
+    transform: scale(1, -1);
+}
+
+  .decor__pattern {
+    width: 42vw;
+    height: 12rem;
+    background-image: url(images/decor.png);
+    background-size: auto 100%;
+    background-repeat: repeat;
+}
   /* SCROLL REVEAL */
   .reveal {
     opacity: 0; transform: translateY(30px);
@@ -1277,6 +1326,9 @@
 
 <!-- IMPACT -->
 <section class="impact" id="impact">
+  <div class="decor">
+    <div class="decor__pattern moving-vertical"></div>
+  </div>
   <div class="reveal">
     <div class="section-label">Our Impact</div>
     <div class="section-title">18 years of <em>measurable change</em> on the ground</div>
@@ -1327,7 +1379,7 @@
 <!-- FARMERCHAT -->
 <section class="farmerchat" id="farmerchat">
   <div class="farmerchat-inner">
-    <div>
+    <div style="background: #0D4A2B; z-index: 2;">
       <div class="section-label reveal">FarmerChat · AI-Powered Advisory</div>
       <div class="section-title reveal">Hyperlocal farming guidance, powered by <em>AI</em></div>
       <p class="farmerchat-desc reveal">
@@ -1363,10 +1415,6 @@
           </div>
         </div>
       </div>
-      <a href="#" class="btn-primary reveal" style="width:fit-content">
-        Try FarmerChat
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
     </div>
 
     <!-- Chat mockup -->
@@ -1398,16 +1446,27 @@
       </div>
     </div>
   </div>
+  <div style="align-items: center;
+    display: flex;
+    flex-direction: column;">
+  <a href="#" class="btn-primary reveal" style="width:fit-content">
+        Try FarmerChat
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      </div>
 </section>
 
 <!-- STORY / TIMELINE -->
 <section class="story" id="about">
   <div>
     <div class="section-label reveal">Our Story</div>
-    <div class="section-title reveal">From Microsoft Research to <em>millions of farms</em></div>
-    <p style="color:var(--ink-muted);line-height:1.8;font-size:0.95rem" class="reveal">
+    <div class="section-title reveal" style="margin-bottom: 2.5rem;">From Microsoft Research to <em>millions of farms</em></div>
+    <!-- <p style="color:var(--ink-muted);line-height:1.8;font-size:0.95rem" class="reveal">
       Digital Green began with a simple but powerful insight: farmers trust other farmers. Video-based peer learning transformed agricultural advisory in India — and that foundation now powers an AI-enabled future.
-    </p>
+    </p> -->
+    <div class="story-bg-img">
+    <img src="https://images.pexels.com/photos/7415327/pexels-photo-7415327.jpeg" alt="Farmers in field with technology">
+      </div>
     <a href="#" class="btn-secondary reveal" style="margin-top:1.5rem;width:fit-content">
       Read Our Full Story
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
