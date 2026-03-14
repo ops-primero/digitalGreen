@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Green Trust — Technology for Farming Communities</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #0D4A2B;
+    --green-mid: #1A7A44;
+    --green-vivid: #25A35A;
+    --green-light: #DFFAEC;
+    --green-pale: #F2FBF5;
+    --earth: #D97A2B;
+    --earth-light: #FDF0E3;
+    --cream: #FAFAF7;
+    --ink: #0F1A14;
+    --ink-muted: #3D5248;
+    --ink-faint: #7B9486;
+    --white: #FFFFFF;
+    --border: rgba(13,74,43,0.12);
+    --radius: 12px;
+    --radius-lg: 20px;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 5%;
+    background: rgba(250,250,247,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  nav.scrolled {
+    padding: 0.65rem 5%;
+    box-shadow: 0 2px 20px rgba(13,74,43,0.08);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-mark {
+    width: 36px; height: 36px;
+    background: var(--green-mid);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .nav-logo-mark::after {
+    content: '';
+    width: 18px; height: 18px;
+    border: 2.5px solid white;
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 4px -4px 0 white;
+  }
+  .nav-logo-text {
+    font-family: var(--font-display);
+    font-size: 1.05rem; font-weight: 600;
+    color: var(--green-deep); line-height: 1.2;
+  }
+  .nav-logo-text span { display: block; font-size: 0.65rem; font-weight: 400; color: var(--ink-faint); letter-spacing: 0.08em; font-family: var(--font-body); }
+  .nav-links {
+    display: flex; gap: 0; list-style: none;
+  }
+  .nav-links a {
+    display: block; padding: 0.5rem 1.1rem;
+    text-decoration: none; font-size: 0.875rem; font-weight: 500;
+    color: var(--ink-muted);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { background: var(--green-light); color: var(--green-deep); }
+  .nav-cta {
+    background: var(--green-mid); color: white !important;
+    border-radius: 8px !important; padding: 0.5rem 1.25rem !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--green-deep) !important; color: white !important; }
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px;
+  }
+  .nav-hamburger span {
+    width: 22px; height: 2px; background: var(--ink);
+    border-radius: 2px; transition: all 0.3s;
+  }
+
+  /* ═══════════ HERO — FULL BLEED REDESIGN ═══════════ */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative; overflow: hidden;
+    padding-top: 80px;
+  }
+
+  /* Particle canvas sits above photo, below content */
+  #heroCanvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 2;
+    opacity: 0.35;
+  }
+
+  .hero-bg-shape {
+    position: absolute; right: 0; top: 0; bottom: 0;
+    width: 55%; background: var(--green-pale);
+    z-index: 0; clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+    transition: clip-path 0.6s ease;
+  }
+
+  .hero-left {
+    padding: 8% 5% 6% 8%;
+    display: flex; flex-direction: column; justify-content: center;
+    z-index: 2;
+  }
+
+  /* ── FULL BLEED BACKGROUND PHOTO ── */
+  .hero-bg-img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-bg-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+    filter: saturate(1.1) brightness(0.72);
+    transform: scale(1.06);
+    animation: heroImgDrift 26s ease-in-out infinite alternate;
+  }
+  @keyframes heroImgDrift {
+    from { transform: scale(1.06) translateX(0px) translateY(0px); }
+    to   { transform: scale(1.11) translateX(-18px) translateY(-8px); }
+  }
+  /* Layered overlays: bottom-up gradient for content legibility + subtle vignette */
+  .hero-bg-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top,
+        rgba(5, 20, 10, 0.94) 0%,
+        rgba(8, 30, 16, 0.82) 22%,
+        rgba(10, 38, 20, 0.55) 45%,
+        rgba(13, 50, 25, 0.22) 68%,
+        rgba(0,0,0,0.08) 100%
+      ),
+      radial-gradient(ellipse at 50% 100%, rgba(37,163,90,0.18) 0%, transparent 65%);
+  }
+
+  /* Remove old shape */
+  .hero-bg-shape { display: none; }
+
+  /* ── HERO CONTENT — centered over photo ── */
+  .hero-body {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 5rem 6% 4rem;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* Badge */
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #0D4A2B;
+    border: 1px solid rgba(111,212,154,0.35);
+    color: #6FD49A;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 7px 18px; border-radius: 100px;
+    margin-bottom: 2rem; width: fit-content;
+    backdrop-filter: blur(8px);
+    animation: fadeUp 0.7s ease both;
+    cursor: default;
+  }
+  .hero-tag::before {
+    content: ''; width: 6px; height: 6px;
+    border-radius: 50%; background: #6FD49A;
+    animation: livePulse 1.8s infinite;
+  }
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(111,212,154,0.6); }
+    50% { opacity: 0.7; transform: scale(1.5); box-shadow: 0 0 0 7px rgba(111,212,154,0); }
+  }
+
+  /* Hero heading — white on photo */
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.12;
+    color: white;
+    margin-bottom: 1.75rem;
+    animation: fadeUp 0.7s 0.1s ease both;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.3);
+  }
+  h1 em { font-style: italic; color: #6FD49A; text-shadow: 0 0 40px rgba(111,212,154,0.4); }
+
+  /* 3-line heading blocks */
+  .hero-line1,
+  .hero-line2,
+  .hero-line3 { display: block; }
+  .hero-line2 {
+    display: flex; align-items: baseline;
+    gap: 0; white-space: nowrap;
+  }
+  /* .hero-line3 { font-style: italic; color: #6FD49A; } */
+
+  /* Rotating word */
+  .hero-rotating-wrap {
+    display: inline-block;
+    overflow: hidden;
+    height: 1.12em;
+    line-height: 1.12em;
+    vertical-align: bottom;
+    margin-left: 0.22em;
+  }
+  .rotating-words {
+    display: flex; flex-direction: column;
+  }
+  .rotating-words span {
+    display: block;
+    height: 1.12em; line-height: 1.12em;
+    white-space: nowrap;
+    font-style: italic; color: #6FD49A;
+    flex-shrink: 0;
+    text-shadow: 0 0 40px rgba(111,212,154,0.4);
+  }
+
+  /* Hero description */
+  .hero-desc {
+    font-size: 1.1rem; line-height: 1.8;
+    color: rgba(255,255,255,0.75);
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  /* Stats row */
+  .hero-mini-stats {
+    display: flex; gap: 1.5rem; margin-bottom: 2rem;
+    animation: fadeUp 0.7s 0.28s ease both;
+  }
+  .hero-mini-stat {
+    padding: 1.1rem 2rem;
+    cursor: default;
+    transition: background 0.25s;
+    text-align: center;
+  }
+  .hero-mini-stat:hover { background: rgba(255,255,255,0.1); }
+  .hero-mini-stat .hms-num {
+    font-family: var(--font-display);
+    font-size: 1.75rem; font-weight: 600;
+    color: #6FD49A; line-height: 1;
+  }
+  .hero-mini-stat .hms-label {
+    font-size: 0.72rem; color: rgba(255,255,255,0.55);
+    font-weight: 500; margin-top: 4px; white-space: nowrap;
+  }
+  .hero-mini-stat-divider {
+    width: 1px;
+    background: rgba(255,255,255,0.12);
+    align-self: stretch;
+  }
+
+  /* CTA buttons */
+  .hero-actions {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.35s ease both;
+  }
+  
+  .btn-primary {
+    background: var(--green-vivid); color: white;
+    padding: 0.95rem 2.2rem; border-radius: 12px;
+    font-weight: 600; font-size: 0.95rem;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 9px;
+    transition: all 0.25s;
+    box-shadow: 0 4px 24px rgba(37,163,90,0.45);
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0.12);
+    transform: translateX(-100%) skewX(-15deg);
+    transition: transform 0.4s;
+  }
+  .btn-primary:hover::after { transform: translateX(120%) skewX(-15deg); }
+  .btn-primary:hover {
+    background: var(--green-mid);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 36px rgba(37,163,90,0.55);
+  }
+  .btn-secondary {
+    background: transparent; color: var(--green-mid);
+    padding: 0.85rem 2rem; border-radius: 10px;
+    font-weight: 600; font-size: 0.925rem;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    border: 1.5px solid var(--green-mid);
+    transition: all 0.25s;
+  }
+  .btn-secondary:hover { background: var(--green-light); transform: translateY(-2px); }
+
+  /* ── HERO RIGHT ── */
+  .hero-right {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    padding: 3rem 5% 3rem 1%;
+    z-index: 2;
+  }
+
+  .hero-visual { width: 70%; position: relative; }
+
+  /* Main canvas frame */
+  .hero-canvas-frame {
+    width: 100%; aspect-ratio: 1/1;
+    border-radius: 28px; overflow: hidden;
+    position: relative;
+    /* background: #0D4A2B; */
+    /* box-shadow: 0 40px 100px rgba(13,74,43,0.3), 0 8px 24px rgba(13,74,43,0.15); */
+    cursor: crosshair;
+  }
+  #farmCanvas {
+    position: absolute; inset: 0;
+    width: 100% !important; height: 100% !important;
+    display: block;
+  }
+
+  /* Overlay tooltip on hover */
+  .canvas-tooltip {
+    position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+    background: rgba(255,255,255,0.12); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white; font-size: 0.72rem; padding: 5px 14px; border-radius: 100px;
+    white-space: nowrap; pointer-events: none;
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .hero-canvas-frame:hover .canvas-tooltip { opacity: 1; }
+
+  /* Mode toggle buttons */
+  .hero-mode-btns {
+    position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 6px;
+    background: rgba(0,0,0,0.25); backdrop-filter: blur(6px);
+    border-radius: 100px; padding: 5px 8px;
+  }
+  .hero-mode-btn {
+    font-size: 0.72rem; font-weight: 600; padding: 4px 12px;
+    border-radius: 100px; border: none; cursor: pointer;
+    transition: all 0.22s; color: rgba(255,255,255,0.6);
+    background: transparent;
+  }
+  .hero-mode-btn.active { background: white; color: var(--green-deep); }
+  .hero-mode-btn:hover:not(.active) { color: white; background: rgba(255,255,255,0.1); }
+
+  /* Floating info chips around the frame */
+  .hero-chip {
+    position: absolute; background: white; border-radius: 14px;
+    padding: 10px 14px; box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    white-space: nowrap; cursor: default;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: chipFloat var(--dur, 4s) ease-in-out infinite alternate;
+    animation-delay: var(--delay, 0s);
+    z-index: 3;
+  }
+  .hero-chip:hover {
+    transform: translateY(-5px) scale(1.04) !important;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+  }
+  @keyframes chipFloat {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-8px); }
+  }
+  .hero-chip.chip-tl { top: 8%; left: -38px; --dur: 3.8s; --delay: 0s; }
+  .hero-chip.chip-bl { bottom: 14%; left: -28px; --dur: 4.4s; --delay: 0.6s; }
+  .hero-chip.chip-tr { top: 20%; right: -22px; --dur: 4.1s; --delay: 1.1s; }
+  .hero-chip.chip-br { bottom: 8%; right: -20px; --dur: 3.6s; --delay: 0.3s; }
+  .hero-chip .chip-num {
+    font-family: var(--font-display); font-size: 1.5rem;
+    font-weight: 600; color: var(--green-mid); line-height: 1;
+  }
+  .hero-chip .chip-label { font-size: 0.68rem; color: var(--ink-faint); font-weight: 500; margin-top: 2px; }
+  .hero-chip .chip-trend {
+    font-size: 0.65rem; font-weight: 700; margin-top: 5px;
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 2px 7px; border-radius: 100px;
+  }
+  .chip-trend.up { background: var(--green-light); color: var(--green-deep); }
+  .chip-trend.amber { background: var(--earth-light); color: #7A3B10; }
+
+  /* Scroll hint */
+  .hero-scroll-hint {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: var(--ink-faint); font-size: 0.7rem; letter-spacing: 0.08em;
+    text-transform: uppercase; z-index: 5;
+    animation: fadeUp 1s 1s ease both;
+  }
+  .scroll-arrow {
+    width: 20px; height: 32px;
+    border: 1.5px solid rgba(255,255,255,0.25); border-radius: 100px;
+    position: relative; display: flex; justify-content: center;
+  }
+  .scroll-arrow::after {
+    content: ''; position: absolute; top: 5px;
+    width: 4px; height: 8px; background: #6FD49A; border-radius: 100px;
+    animation: scrollBounce 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    80% { transform: translateY(12px); opacity: 0; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes floatIn { from { opacity: 0; transform: scale(0.9) translateX(10px); } to { opacity: 1; transform: scale(1) translateX(0); } }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.3); }
+  }
+
+  /* TRUST BAR — infinite marquee */
+  .trust-bar {
+    background: var(--green-deep);
+    padding: 1rem 0;
+    display: flex; align-items: center; gap: 0;
+    overflow: hidden;
+  }
+  .trust-bar-label {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.45); text-transform: uppercase; white-space: nowrap;
+    padding: 0 1.5rem 0 2.5rem; flex-shrink: 0;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .trust-marquee-outer {
+    overflow: hidden; flex: 1; mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+  }
+  .trust-marquee-track {
+    display: flex; width: max-content;
+    animation: marqueeScroll 32s linear infinite;
+  }
+  .trust-marquee-track:hover { animation-play-state: paused; }
+  .trust-marquee-set {
+    display: flex; align-items: center; gap: 0; flex-shrink: 0;
+  }
+  .partner-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 0.45rem 1.4rem;
+    font-family: var(--font-display); font-size: 0.9rem; font-weight: 400; font-style: italic;
+    color: rgba(255,255,255,0.7); white-space: nowrap;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    transition: color 0.2s, background 0.2s; cursor: default;
+  }
+  .partner-pill:hover { color: white; background: rgba(255,255,255,0.05); }
+  .partner-flag { font-style: normal; font-size: 1rem; }
+  .partner-icon { font-style: normal; font-size: 0.75rem; color: rgba(111,212,154,0.7); }
+  @keyframes marqueeScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── HERO BACKGROUND IMAGE — prominent & beautiful ── */
+  .hero-bg-img {
+    position: absolute; inset: 0; z-index: 0;
+    overflow: hidden;
+  }
+  .hero-bg-img img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 35%;
+    opacity: 1;
+    filter: saturate(0.75) brightness(0.92);
+    transform: scale(1.04);
+    animation: heroImgDrift 18s ease-in-out infinite alternate;
+  }
+  @keyframes heroImgDrift {
+    from { transform: scale(1.04) translateX(0); }
+    to   { transform: scale(1.08) translateX(-1%); }
+  }
+  /* Multi-layer overlay: left is almost opaque for text readability, right fades for canvas */
+  .hero-bg-img::after {
+    content: ''; position: absolute; inset: 0;
+
+  }
+
+  /* ── IMPACT SECTION PHOTO STRIP ── */
+  .impact-photo-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 12px; margin-top: 3rem;
+  }
+  .impact-photo {
+    border-radius: 12px; overflow: hidden;
+    height: 180px; position: relative;
+  }
+  .impact-photo img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .impact-photo:hover img { transform: scale(1.07); }
+  .impact-photo-cap {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(13,74,43,0.85));
+    color: white; font-size: 0.72rem; font-weight: 600;
+    padding: 1.5rem 0.75rem 0.6rem; letter-spacing: 0.04em;
+  }
+
+  /* ── STORY SECTION BG IMAGE ── */
+  .story { position: relative; }
+  .story-bg-img {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 50%; z-index: 0;
+    overflow: hidden;
+  }
+  .story-bg-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.06; filter: saturate(0.5);
+  }
+  .story > * { position: relative; z-index: 1; }
+
+  /* ── SOLUTIONS SECTION ── */
+  .solutions-header-img {
+    width: 100%; height: 260px; border-radius: 20px; overflow: hidden;
+    margin-bottom: 3rem; position: relative;
+  }
+  .solutions-header-img img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center 60%;
+    filter: saturate(0.8);
+  }
+  .solutions-header-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to right, rgba(13,74,43,0.8) 0%, rgba(13,74,43,0.2) 60%, transparent 100%);
+  }
+  .solutions-header-text {
+    position: absolute; inset: 0; z-index: 1;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 2.5rem;
+  }
+  .solutions-header-text .section-label { color: #6FD49A; margin-bottom: 0.5rem; }
+  .solutions-header-text .section-title { color: white; max-width: 480px; margin: 0; }
+
+  /* ── FIELD STORIES SECTION IMAGES ── */
+  .story-card-img {
+    height: 200px; position: relative; overflow: hidden;
+  }
+  .story-card-img img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center;
+    transition: transform 0.5s ease;
+  }
+  .story-card:hover .story-card-img img { transform: scale(1.06); }
+  .story-card-img-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: flex-end; padding: 1rem;
+  }
+  .story-card-img-overlay.green { background: linear-gradient(transparent 50%, rgba(13,74,43,0.7)); }
+  .story-card-img-overlay.earth { background: linear-gradient(transparent 50%, rgba(100,45,5,0.7)); }
+  .story-card-img-overlay.teal  { background: linear-gradient(transparent 50%, rgba(5,60,60,0.7)); }
+
+  /* ── CTA SECTION BG IMAGE ── */
+  .cta-section { position: relative; overflow: hidden; }
+  .cta-bg-img {
+    position: absolute; inset: 0; z-index: 0;
+  }
+  .cta-bg-img img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center 40%;
+    opacity: 0.12; filter: saturate(0.5) sepia(0.3);
+  }
+  .cta-section > * { position: relative; z-index: 1; }
+
+  /* IMPACT NUMBERS */
+  .impact {
+    padding: 4rem 8%; background: white;
+  }
+  .section-label {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--green-vivid);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 300; line-height: 1.2; color: var(--ink);
+    max-width: 560px;
+    margin-bottom: 3.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--green-mid); }
+
+  .impact-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2px; background: var(--border);
+    border-radius: 16px; overflow: hidden;
+  }
+  .impact-cell {
+    background: white; padding: 2.5rem 2rem;
+    text-align: center;
+    transition: background 0.25s;
+    cursor: default;
+  }
+  .impact-cell:hover { background: var(--green-pale); }
+  .impact-cell .big-num {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 600; color: var(--green-mid);
+    line-height: 1; margin-bottom: 0.5rem;
+  }
+  .impact-cell .big-num span { font-size: 0.55em; color: var(--green-vivid); vertical-align: super; }
+  .impact-cell .metric-label {
+    font-size: 0.875rem; color: var(--ink-muted); line-height: 1.5;
+  }
+  .impact-cell .metric-sub {
+    font-size: 0.75rem; color: var(--ink-faint); margin-top: 4px;
+  }
+
+  /* FARMERCHAT FEATURE */
+  .farmerchat {
+    padding: 6rem 8%;
+    background: var(--green-deep);
+    position: relative; overflow: hidden;
+  }
+  .farmerchat::before {
+    content: '';
+    position: absolute; top: -100px; right: -100px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: rgba(37,163,90,0.12);
+    pointer-events: none;
+  }
+  .farmerchat-inner {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  .farmerchat .section-label { color: #6FD49A; }
+  .farmerchat .section-title { color: white; max-width: none; margin-bottom: 1.25rem; }
+  .farmerchat-desc {
+    font-size: 1rem; color: rgba(255,255,255,0.7); line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+  .fc-features {
+    display: flex; flex-direction: column; gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .fc-feat {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 0.875rem 1rem;
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.25s; cursor: default;
+  }
+  .fc-feat:hover {
+    background: rgba(255,255,255,0.1); border-color: rgba(111,212,154,0.3);
+    transform: translateX(4px);
+  }
+  .fc-feat-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(37,163,90,0.25);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 15px;
+  }
+  .fc-feat-text { font-size: 0.875rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
+  .fc-feat-text strong { color: white; display: block; font-size: 0.925rem; margin-bottom: 1px; }
+
+  /* Chat Mockup */
+  .chat-mockup {
+    background: #1a2820;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .chat-header {
+    background: var(--green-mid);
+    padding: 1rem 1.25rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .chat-header-dot { width: 8px; height: 8px; border-radius: 50%; background: #6FD49A; }
+  .chat-header-name {
+    font-weight: 600; font-size: 0.875rem; color: white;
+    flex: 1;
+  }
+  .chat-header-badge {
+    font-size: 0.68rem; background: rgba(255,255,255,0.2);
+    color: white; padding: 3px 8px; border-radius: 100px;
+  }
+  .chat-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 12px; min-height: 300px; }
+  .chat-msg {
+    max-width: 80%; padding: 10px 14px;
+    border-radius: 12px; font-size: 0.82rem; line-height: 1.55;
+  }
+  .chat-msg.user {
+    align-self: flex-end;
+    background: var(--green-mid); color: white;
+    border-bottom-right-radius: 4px;
+  }
+  .chat-msg.bot {
+    align-self: flex-start;
+    background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85);
+    border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.1);
+  }
+  .chat-msg.bot .msg-label {
+    font-size: 0.68rem; color: #6FD49A; font-weight: 600;
+    margin-bottom: 4px; display: block;
+  }
+  .chat-input-row {
+    padding: 0.875rem 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; gap: 8px; align-items: center;
+  }
+  .chat-input {
+    flex: 1; background: rgba(255,255,255,0.08); border: none; outline: none;
+    border-radius: 8px; padding: 8px 12px;
+    font-size: 0.82rem; color: rgba(255,255,255,0.7);
+    font-family: var(--font-body);
+    cursor: text;
+  }
+  .chat-input::placeholder { color: rgba(255,255,255,0.3); }
+  .chat-send {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--green-vivid); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .chat-send:hover { background: var(--green-mid); }
+  .chat-send svg { width: 14px; height: 14px; fill: white; }
+  .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 2px 0; }
+  .typing-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    animation: typingBounce 1.4s infinite ease-in-out;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.16s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.32s; }
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+
+  /* STORY */
+  .story {
+    padding: 6rem 8%;
+    background: var(--cream);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  .story-timeline {
+    position: relative; padding-left: 2rem;
+  }
+  .story-timeline::before {
+    content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+    width: 2px; background: linear-gradient(to bottom, var(--green-vivid), var(--green-light));
+    border-radius: 2px;
+  }
+  .timeline-item {
+    position: relative; margin-bottom: 2rem;
+    opacity: 0.6; transition: opacity 0.3s; cursor: default;
+  }
+  .timeline-item:hover, .timeline-item.active { opacity: 1; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -2.4rem; top: 6px;
+    width: 10px; height: 10px; border-radius: 50%;
+    border: 2px solid var(--green-light);
+    background: var(--cream);
+    transition: all 0.3s;
+  }
+  .timeline-item:hover::before, .timeline-item.active::before {
+    background: var(--green-vivid); border-color: var(--green-vivid);
+    box-shadow: 0 0 0 4px rgba(37,163,90,0.2);
+  }
+  .timeline-year {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--green-vivid); margin-bottom: 4px;
+  }
+  .timeline-event {
+    font-size: 0.925rem; color: var(--ink-muted); line-height: 1.5;
+  }
+  .timeline-event strong { color: var(--ink); display: block; margin-bottom: 2px; }
+
+  /* SOLUTIONS */
+  .solutions {
+    padding: 6rem 8%; background: white;
+  }
+  .solutions-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .solution-card {
+    border: 1.5px solid var(--border); border-radius: 16px;
+    padding: 2rem; transition: all 0.3s; cursor: default;
+    position: relative; overflow: hidden;
+  }
+  .solution-card::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--green-vivid), var(--green-mid));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .solution-card:hover {
+    border-color: rgba(26,122,68,0.3);
+    box-shadow: 0 8px 32px rgba(13,74,43,0.1);
+    transform: translateY(-4px);
+  }
+  .solution-card:hover::after { transform: scaleX(1); }
+  .solution-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--green-light); color: var(--green-mid);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 1.25rem;
+  }
+  .solution-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem; font-weight: 400; color: var(--ink);
+    margin-bottom: 0.625rem;
+  }
+  .solution-desc {
+    font-size: 0.875rem; color: var(--ink-muted); line-height: 1.65;
+  }
+  .solution-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 1.25rem; font-size: 0.825rem; font-weight: 600;
+    color: var(--green-mid); text-decoration: none;
+    transition: gap 0.2s;
+  }
+  .solution-link:hover { gap: 10px; }
+
+  /* REACH MAP */
+  .reach {
+    padding: 6rem 8%; background: var(--green-pale);
+  }
+  .reach-inner {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 4rem; align-items: center;
+  }
+  .reach-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-top: 2rem;
+  }
+  .reach-stat {
+    background: white; border-radius: 12px;
+    padding: 1.25rem; border: 1px solid var(--border);
+    transition: transform 0.2s;
+  }
+  .reach-stat:hover { transform: translateY(-3px); }
+  .reach-stat .rs-num {
+    font-family: var(--font-display);
+    font-size: 1.7rem; font-weight: 600; color: var(--green-mid);
+    line-height: 1;
+  }
+  .reach-stat .rs-label { font-size: 0.78rem; color: var(--ink-faint); margin-top: 4px; }
+  .reach-stat .rs-detail {
+    font-size: 0.72rem; color: var(--green-vivid); font-weight: 600;
+    margin-top: 6px;
+  }
+
+  /* India map SVG */
+  .india-map {
+    width: 100%; max-width: 400px;
+    margin: 0 auto; display: block;
+  }
+
+  /* STORIES */
+  .field-stories {
+    padding: 6rem 8%; background: white;
+  }
+  .stories-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .story-card {
+    border-radius: 16px; overflow: hidden;
+    border: 1.5px solid var(--border);
+    transition: all 0.3s; cursor: default;
+    background: white;
+  }
+  .story-card:hover {
+    box-shadow: 0 12px 40px rgba(13,74,43,0.12);
+    transform: translateY(-5px);
+  }
+  .story-card-img {
+    height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; position: relative; overflow: hidden;
+  }
+  .story-card-img.green { background: linear-gradient(135deg, #1A7A44, #0D4A2B); }
+  .story-card-img.earth { background: linear-gradient(135deg, #D97A2B, #8B4A10); }
+  .story-card-img.teal { background: linear-gradient(135deg, #0D7A7A, #044A4A); }
+  .story-card-body { padding: 1.5rem; }
+  .story-tag {
+    display: inline-block; padding: 3px 10px; border-radius: 100px;
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
+    text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .story-tag.green { background: var(--green-light); color: var(--green-deep); }
+  .story-tag.earth { background: var(--earth-light); color: #7A3B10; }
+  .story-tag.teal { background: #E1F5F5; color: #0D5A5A; }
+  .story-card-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem; font-weight: 400; line-height: 1.4;
+    color: var(--ink); margin-bottom: 0.5rem;
+  }
+  .story-card-excerpt {
+    font-size: 0.82rem; color: var(--ink-muted); line-height: 1.6;
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 6rem 8%;
+    background: var(--earth-light);
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before, .cta-section::after {
+    content: ''; position: absolute; border-radius: 50%;
+    background: rgba(217,122,43,0.1);
+  }
+  .cta-section::before { width: 600px; height: 600px; left: -200px; top: -200px; }
+  .cta-section::after { width: 400px; height: 400px; right: -100px; bottom: -100px; }
+  .cta-content { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+  .cta-content .section-label { color: var(--earth); }
+  .cta-content .section-title { max-width: none; margin: 0 auto 1rem; }
+  .cta-content p {
+    font-size: 1rem; color: var(--ink-muted); line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-earth {
+    background: var(--earth); color: white;
+    padding: 0.875rem 2rem; border-radius: 10px;
+    font-weight: 600; font-size: 0.925rem;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.25s;
+    box-shadow: 0 4px 16px rgba(217,122,43,0.3);
+  }
+  .btn-earth:hover { filter: brightness(0.9); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.6);
+    padding: 4rem 8% 2rem;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand p {
+    font-size: 0.875rem; line-height: 1.75; margin-top: 1rem;
+    max-width: 280px;
+  }
+  .footer-col h4 {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: white;
+    margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .footer-col a {
+    color: rgba(255,255,255,0.55); text-decoration: none;
+    font-size: 0.875rem; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: #6FD49A; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.5rem;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-bottom p { font-size: 0.8rem; }
+  .footer-social { display: flex; gap: 12px; }
+  .social-btn {
+    width: 34px; height: 34px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5); font-size: 0.8rem; font-weight: 700;
+    text-decoration: none; transition: all 0.2s; font-family: serif;
+  }
+  .social-btn:hover { border-color: #6FD49A; color: #6FD49A; }
+
+  /* Interactive Counter */
+  .counter-animate { transition: all 0.5s ease; }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .hero-body { padding: 4rem 6% 3rem; }
+    .hero-right { display: none; }
+    .hero-bg-shape { display: none; }
+    .hero-left { padding: 6rem 6% 4rem; }
+    .hero-mini-stats { flex-wrap: wrap; justify-content: center; }
+    .impact-photo-strip { grid-template-columns: repeat(2,1fr); }
+    .solutions-header-img { height: 200px; }
+    .story-bg-img { display: none; }
+    .impact-grid { grid-template-columns: repeat(2, 1fr); }
+    .farmerchat-inner { grid-template-columns: 1fr; }
+    .story { grid-template-columns: 1fr; }
+    .solutions-grid { grid-template-columns: 1fr; }
+    .reach-inner { grid-template-columns: 1fr; }
+    .stories-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .trust-bar { justify-content: center; }
+    h1 { font-size: clamp(2.2rem, 6vw, 3rem); }
+  }
+  @media (max-width: 600px) {
+    .impact-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .reach-stats { grid-template-columns: 1fr 1fr; }
+    .impact-photo-strip { grid-template-columns: repeat(2,1fr); }
+    .solutions-header-img { height: 160px; }
+  }
+
+  /* Language Ticker */
+  .lang-ticker {
+    overflow: hidden; padding: 0.6rem 8%;
+    background: var(--green-pale); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .lang-ticker-label {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--green-mid); white-space: nowrap; flex-shrink: 0;
+  }
+  .lang-ticker-track {
+    display: flex; gap: 2rem; animation: scroll 25s linear infinite;
+    white-space: nowrap;
+  }
+  .lang-chip {
+    font-size: 0.8rem; color: var(--ink-muted);
+    padding: 2px 10px; background: white; border-radius: 100px;
+    border: 1px solid var(--border);
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 70px; left: 0; right: 0; z-index: 99;
+    background: white; border-bottom: 1px solid var(--border);
+    padding: 1rem 5%;
+    flex-direction: column; gap: 0.25rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    padding: 0.75rem 1rem; border-radius: 8px;
+    color: var(--ink-muted); text-decoration: none;
+    font-size: 0.925rem; font-weight: 500;
+    transition: background 0.2s;
+  }
+  .mobile-menu a:hover { background: var(--green-light); color: var(--green-deep); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark"></div>
+    <div class="nav-logo-text">
+      Digital Green Trust
+      <span>Empowering Farming Communities</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#farmerchat">FarmerChat</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#stories">Stories</a></li>
+    <li><a href="#contact" class="nav-cta">Partner With Us</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#farmerchat" onclick="toggleMenu()">FarmerChat</a>
+  <a href="#impact" onclick="toggleMenu()">Impact</a>
+  <a href="#stories" onclick="toggleMenu()">Stories</a>
+  <a href="#contact" onclick="toggleMenu()">Partner With Us</a>
+</div>
+
+<!-- LANGUAGE TICKER -->
+<div class="lang-ticker">
+  <div class="lang-ticker-label">26 Languages</div>
+  <div class="lang-ticker-track" id="langTrack">
+    <span class="lang-chip">हिन्दी</span>
+    <span class="lang-chip">বাংলা</span>
+    <span class="lang-chip">தமிழ்</span>
+    <span class="lang-chip">తెలుగు</span>
+    <span class="lang-chip">ಕನ್ನಡ</span>
+    <span class="lang-chip">मराठी</span>
+    <span class="lang-chip">ਪੰਜਾਬੀ</span>
+    <span class="lang-chip">ગુજરાતી</span>
+    <span class="lang-chip">ଓଡ଼ିଆ</span>
+    <span class="lang-chip">English</span>
+    <span class="lang-chip">اردو</span>
+    <span class="lang-chip">Assamese</span>
+    <span class="lang-chip">हिन्दी</span>
+    <span class="lang-chip">বাংলা</span>
+    <span class="lang-chip">தமிழ்</span>
+    <span class="lang-chip">తెలుగు</span>
+    <span class="lang-chip">ಕನ್ನಡ</span>
+    <span class="lang-chip">मराठी</span>
+    <span class="lang-chip">ਪੰਜਾਬੀ</span>
+    <span class="lang-chip">ગુજરાતી</span>
+    <span class="lang-chip">ଓଡ଼ିଆ</span>
+    <span class="lang-chip">English</span>
+    <span class="lang-chip">اردو</span>
+    <span class="lang-chip">Assamese</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="heroSection">
+  <canvas id="heroCanvas"></canvas>
+
+  <!-- Full-bleed background photo -->
+  <div class="hero-bg-img">
+    <img src="https://images.pexels.com/photos/33786602/pexels-photo-33786602.jpeg" alt="Lush green farmland" loading="eager">
+  </div>
+  <div class="hero-bg-shape"></div>
+
+  <!-- LEFT -->
+  <div class="hero-left">
+    <div class="hero-tag">Founded 2008 · Social Impact Organization</div>
+
+    <h1 style="text-align: left;">
+      <span class="hero-line1">Technology that</span>
+      <span class="hero-line2">puts <span class="hero-rotating-wrap"><span class="rotating-words" id="rotatingWords"><span>farmers first</span><span>women farmers</span><span>rural India</span><span>communities</span></span></span></span>
+      <span class="hero-line3">within reach</span>
+    </h1>
+
+    <p class="hero-desc">
+      Digital Green Trust harnesses AI and community knowledge to transform how agricultural advisory reaches rural communities — in their own languages, on their own terms.
+    </p>
+    <!-- Mini stats 
+    <div class="hero-mini-stats">
+      <div class="hero-mini-stat">
+        <div class="hms-num" id="heroCount1">0</div>
+        <div class="hms-label">Farmers Reached</div>
+      </div>
+      <div class="hero-mini-stat-divider"></div>
+      <div class="hero-mini-stat">
+        <div class="hms-num" id="heroCount2">0%</div>
+        <div class="hms-label">Women Users</div>
+      </div>
+      <div class="hero-mini-stat-divider"></div>
+      <div class="hero-mini-stat">
+        <div class="hms-num" id="heroCount3">0</div>
+        <div class="hms-label">Languages</div>
+      </div>
+    </div>
+-->
+    <div class="hero-actions">
+      <a href="#farmerchat" class="btn-primary">
+        Explore FarmerChat
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#impact" class="btn-secondary">See Our Impact</a>
+    </div>
+  </div>
+
+  <!-- RIGHT: interactive canvas farm -->
+  <div class="hero-right">
+    <div class="hero-visual">
+
+      <!-- Floating chips -->
+      <!-- <div class="hero-chip chip-tl">
+        <div class="chip-num" id="chip1">5.5M</div>
+        <div class="chip-label">Farmers Reached</div>
+        <div class="chip-trend up">↑ 18% YoY</div>
+      </div>
+      <div class="hero-chip chip-bl">
+        <div class="chip-num">100K+</div>
+        <div class="chip-label">Frontline Workers</div>
+        <div class="chip-trend up">52% women</div>
+      </div>
+      <div class="hero-chip chip-tr">
+        <div class="chip-num">600K</div>
+        <div class="chip-label">FarmerChat Users</div>
+        <div class="chip-trend amber">45% women</div>
+      </div>
+      <div class="hero-chip chip-br">
+        <div class="chip-num">26</div>
+        <div class="chip-label">Languages</div>
+        <div class="chip-trend up">All regions</div>
+      </div> -->
+
+      <!-- Main interactive canvas -->
+      <div class="hero-canvas-frame" id="heroFrame">
+        <div class="canvas-tooltip">Move your cursor · Click to interact</div>
+        <canvas id="farmCanvas"></canvas>
+        <div class="hero-mode-btns">
+          <button class="hero-mode-btn active" onclick="setMode('network')" id="btn-network">Network</button>
+          <button class="hero-mode-btn" onclick="setMode('fields')" id="btn-fields">Fields</button>
+          <button class="hero-mode-btn" onclick="setMode('rain')" id="btn-rain">Monsoon</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="hero-scroll-hint">
+    <div class="scroll-arrow"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- TRUST BAR — infinite marquee -->
+<div class="trust-bar">
+  <div class="trust-bar-label">Partners &amp; Funders</div>
+  <div class="trust-marquee-outer">
+    <div class="trust-marquee-track" id="marqueeTrack">
+      <div class="trust-marquee-set">
+        <div class="partner-pill"><span class="partner-flag">🇮🇳</span>Government of India</div>
+        <div class="partner-pill"><span class="partner-icon">◆</span>Bill &amp; Melinda Gates Foundation</div>
+        <div class="partner-pill"><span class="partner-flag">🇺🇸</span>USAID</div>
+        <div class="partner-pill"><span class="partner-icon">🌐</span>World Bank</div>
+        <div class="partner-pill"><span class="partner-icon">⊞</span>Microsoft</div>
+        <div class="partner-pill"><span class="partner-icon">🌾</span>CGIAR</div>
+        <div class="partner-pill"><span class="partner-icon">◈</span>Omidyar Network</div>
+        <div class="partner-pill"><span class="partner-flag">🇬🇧</span>UK Aid</div>
+        <div class="partner-pill"><span class="partner-icon">❖</span>Rockefeller Foundation</div>
+        <div class="partner-pill"><span class="partner-icon">🌱</span>GIZ</div>
+        <div class="partner-pill"><span class="partner-icon">◉</span>NABARD</div>
+        <div class="partner-pill"><span class="partner-flag">🇳🇱</span>Netherlands MFA</div>
+      </div>
+      <!-- Duplicate for seamless loop -->
+      <div class="trust-marquee-set" aria-hidden="true">
+        <div class="partner-pill"><span class="partner-flag">🇮🇳</span>Government of India</div>
+        <div class="partner-pill"><span class="partner-icon">◆</span>Bill &amp; Melinda Gates Foundation</div>
+        <div class="partner-pill"><span class="partner-flag">🇺🇸</span>USAID</div>
+        <div class="partner-pill"><span class="partner-icon">🌐</span>World Bank</div>
+        <div class="partner-pill"><span class="partner-icon">⊞</span>Microsoft</div>
+        <div class="partner-pill"><span class="partner-icon">🌾</span>CGIAR</div>
+        <div class="partner-pill"><span class="partner-icon">◈</span>Omidyar Network</div>
+        <div class="partner-pill"><span class="partner-flag">🇬🇧</span>UK Aid</div>
+        <div class="partner-pill"><span class="partner-icon">❖</span>Rockefeller Foundation</div>
+        <div class="partner-pill"><span class="partner-icon">🌱</span>GIZ</div>
+        <div class="partner-pill"><span class="partner-icon">◉</span>NABARD</div>
+        <div class="partner-pill"><span class="partner-flag">🇳🇱</span>Netherlands MFA</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPACT -->
+<section class="impact" id="impact">
+  <div class="reveal">
+    <div class="section-label">Our Impact</div>
+    <div class="section-title">18 years of <em>measurable change</em> on the ground</div>
+  </div>
+  <div class="impact-grid reveal">
+    <div class="impact-cell">
+      <div class="big-num" data-target="5.5" data-suffix="M" id="heroCount1">0</div>
+      <div class="metric-label">Smallholder Farmers Reached</div>
+      <div class="metric-sub">50% women</div>
+    </div>
+    <div class="impact-cell">
+      <div class="big-num" data-target="100" data-suffix="K+" id="heroCount2">0</div>
+      <div class="metric-label">Frontline Workers Trained</div>
+      <div class="metric-sub">52% women</div>
+    </div>
+    <div class="impact-cell">
+      <div class="big-num" data-target="600" data-suffix="K+" id="heroCount3">0</div>
+      <div class="metric-label">FarmerChat Users in India</div>
+      <div class="metric-sub">45% women</div>
+    </div>
+    <div class="impact-cell">
+      <div class="big-num" data-target="26" id="heroCount4">0</div>
+      <div class="metric-label">Languages Supported</div>
+      <div class="metric-sub">Localized guidance</div>
+    </div>
+  </div>
+  <!-- Photo strip -->
+  <!-- <div class="impact-photo-strip reveal">
+    <div class="impact-photo">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75&auto=format&fit=crop&crop=center" alt="Farmer using smartphone">
+      <div class="impact-photo-cap">FarmerChat in Action</div>
+    </div>
+    <div class="impact-photo">
+      <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600&q=75&auto=format&fit=crop&crop=center" alt="Women farmers">
+      <div class="impact-photo-cap">Women-Led Agriculture</div>
+    </div>
+    <div class="impact-photo">
+      <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&q=75&auto=format&fit=crop&crop=center" alt="Village training session">
+      <div class="impact-photo-cap">Community Training</div>
+    </div>
+    <div class="impact-photo">
+      <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=75&auto=format&fit=crop&crop=center" alt="Farm fields India">
+      <div class="impact-photo-cap">Across 18+ States</div>
+    </div>
+  </div> -->
+</section>
+
+<!-- FARMERCHAT -->
+<section class="farmerchat" id="farmerchat">
+  <div class="farmerchat-inner">
+    <div>
+      <div class="section-label reveal">FarmerChat · AI-Powered Advisory</div>
+      <div class="section-title reveal">Hyperlocal farming guidance, powered by <em>AI</em></div>
+      <p class="farmerchat-desc reveal">
+        Launched in 2024, FarmerChat is an open-source AI solution delivering climate-smart, localized advice to farmers in their own language — via WhatsApp, voice, or app. Millions of queries answered, one farmer at a time.
+      </p>
+      <div class="fc-features reveal">
+        <div class="fc-feat">
+          <div class="fc-feat-icon">🌾</div>
+          <div class="fc-feat-text">
+            <strong>Hyperlocal crop advice</strong>
+            Tailored recommendations based on local soil, weather, and season
+          </div>
+        </div>
+        <div class="fc-feat">
+          <div class="fc-feat-icon">🌍</div>
+          <div class="fc-feat-text">
+            <strong>26 regional languages</strong>
+            Farmers ask in their mother tongue, get answers they understand
+          </div>
+        </div>
+        <div class="fc-feat">
+          <div class="fc-feat-icon">🤖</div>
+          <div class="fc-feat-text">
+            <strong>Open-source & government-ready</strong>
+            Built to strengthen public extension systems, not replace them
+          </div>
+        </div>
+        <div class="fc-feat">
+          <div class="fc-feat-icon">♀</div>
+          <div class="fc-feat-text">
+            <strong>45% women users</strong>
+            Designed with inclusion at its core — accessibility first
+          </div>
+        </div>
+      </div>
+      <a href="#" class="btn-primary reveal" style="width:fit-content">
+        Try FarmerChat
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- Chat mockup -->
+    <div class="chat-mockup reveal" id="chatMockup">
+      <div class="chat-header">
+        <div class="chat-header-dot"></div>
+        <div class="chat-header-name">FarmerChat 🌱</div>
+        <div class="chat-header-badge">AI Powered</div>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="chat-msg bot">
+          <span class="msg-label">FarmerChat</span>
+          नमस्ते! मैं FarmerChat हूँ। आज मैं आपकी खेती में कैसे मदद कर सकता हूँ? 🌾
+        </div>
+        <div class="chat-msg user">मेरी गेहूं की फसल में पीले धब्बे आ रहे हैं</div>
+        <div class="chat-msg bot">
+          <span class="msg-label">FarmerChat</span>
+          यह गेहूं की पीली रतुआ बीमारी के लक्षण हो सकते हैं। <br><br>
+          ✅ तुरंत Propiconazole (0.1%) का छिड़काव करें<br>
+          ✅ सुबह ओस के समय खेत में न जाएं<br>
+          ✅ 10 दिन बाद दोबारा जांच करें
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chatInput" placeholder="अपना सवाल पूछें... / Ask your question...">
+        <button class="chat-send" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY / TIMELINE -->
+<section class="story" id="about">
+  <div>
+    <div class="section-label reveal">Our Story</div>
+    <div class="section-title reveal">From Microsoft Research to <em>millions of farms</em></div>
+    <p style="color:var(--ink-muted);line-height:1.8;font-size:0.95rem" class="reveal">
+      Digital Green began with a simple but powerful insight: farmers trust other farmers. Video-based peer learning transformed agricultural advisory in India — and that foundation now powers an AI-enabled future.
+    </p>
+    <a href="#" class="btn-secondary reveal" style="margin-top:1.5rem;width:fit-content">
+      Read Our Full Story
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="story-timeline reveal">
+    <div class="timeline-item active">
+      <div class="timeline-year">2008</div>
+      <div class="timeline-event"><strong>Founded at Microsoft Research</strong> Video-based agricultural advisory program begins in rural India</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2012</div>
+      <div class="timeline-event"><strong>Government partnerships scale up</strong> Collaboration with state governments across India</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2016</div>
+      <div class="timeline-event"><strong>Digital tools for frontline workers</strong> Mobile platforms for 100,000+ agricultural extension agents</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2020</div>
+      <div class="timeline-event"><strong>AI integration begins</strong> Data-driven insights woven into advisory systems</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2024</div>
+      <div class="timeline-event"><strong>FarmerChat launches</strong> Open-source AI solution reaches 600,000+ farmers, 45% women</div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTIONS -->
+<section class="solutions">
+  <div class="solutions-header-img reveal">
+    <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1400&q=75&auto=format&fit=crop&crop=center" alt="Farmers in field with technology">
+    <div class="solutions-header-text">
+      <div class="section-label">What We Do</div>
+      <div class="section-title">Building <em>resilient</em> farming communities through technology</div>
+    </div>
+  </div>
+  <div class="solutions-grid">
+    <div class="solution-card reveal">
+      <div class="solution-icon">🤖</div>
+      <div class="solution-title">AI-Enabled Advisory</div>
+      <div class="solution-desc">FarmerChat delivers climate-smart, hyperlocal guidance via AI — accessible on WhatsApp, voice, and app in 26 languages.</div>
+      <a href="#" class="solution-link">Learn more →</a>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">📱</div>
+      <div class="solution-title">Digital Extension Systems</div>
+      <div class="solution-desc">Mobile tools that empower frontline workers to deliver timely, accurate advice to farmers at scale across India.</div>
+      <a href="#" class="solution-link">Learn more →</a>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">🎥</div>
+      <div class="solution-title">Community Video Learning</div>
+      <div class="solution-desc">Farmer-produced, localized videos in regional languages that build trust and drive adoption of sustainable practices.</div>
+      <a href="#" class="solution-link">Learn more →</a>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">📊</div>
+      <div class="solution-title">Data & Analytics</div>
+      <div class="solution-desc">Real-time data platforms that help governments and partners make evidence-based decisions for agricultural programs.</div>
+      <a href="#" class="solution-link">Learn more →</a>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">🤝</div>
+      <div class="solution-title">Capacity Building</div>
+      <div class="solution-desc">Training programs that equip 100,000+ frontline workers — majority women — to become trusted community advisors.</div>
+      <a href="#" class="solution-link">Learn more →</a>
+    </div>
+    <div class="solution-card reveal">
+      <div class="solution-icon">🌱</div>
+      <div class="solution-title">Climate-Smart Agriculture</div>
+      <div class="solution-desc">Helping smallholder farmers adapt to climate change with resilient farming practices and early warning systems.</div>
+      <a href="#" class="solution-link">Learn more →</a>
+    </div>
+  </div>
+</section>
+
+<!-- REACH -->
+<section class="reach">
+  <div class="reach-inner">
+    <div>
+      <div class="section-label reveal">Where We Work</div>
+      <div class="section-title reveal">Deep roots across <em>India's</em> farming heartland</div>
+      <p style="color:var(--ink-muted);font-size:0.95rem;line-height:1.8;margin-bottom:1rem" class="reveal">
+        Operating across states from Bihar to Karnataka, Digital Green Trust partners with state governments, civil society, and private sector to reach the last mile.
+      </p>
+      <div class="reach-stats reveal">
+        <div class="reach-stat">
+          <div class="rs-num">18+</div>
+          <div class="rs-label">Indian States</div>
+          <div class="rs-detail">Active programs</div>
+        </div>
+        <div class="reach-stat">
+          <div class="rs-num">26</div>
+          <div class="rs-label">Languages</div>
+          <div class="rs-detail">Local dialects included</div>
+        </div>
+        <div class="reach-stat">
+          <div class="rs-num">500+</div>
+          <div class="rs-label">Farmer Groups</div>
+          <div class="rs-detail">Video production partners</div>
+        </div>
+        <div class="reach-stat">
+          <div class="rs-num">100K+</div>
+          <div class="rs-label">Frontline Workers</div>
+          <div class="rs-detail">Trained & active</div>
+        </div>
+      </div>
+    </div>
+    <!-- India Map -->
+    <div class="reveal">
+      <svg class="india-map" viewBox="0 0 400 450" xmlns="http://www.w3.org/2000/svg">
+        <!-- Simplified India outline -->
+        <path d="M160,30 L200,20 L240,35 L270,60 L285,90 L290,120 L285,150 L300,165 L310,190 L305,220 L295,245 L310,265 L315,290 L300,315 L280,335 L260,355 L245,380 L235,410 L220,430 L210,440 L200,430 L185,410 L175,385 L160,360 L140,335 L120,310 L105,285 L95,255 L90,225 L100,200 L95,175 L100,150 L85,130 L90,105 L105,80 L125,60 Z" 
+          fill="var(--green-light)" stroke="var(--green-mid)" stroke-width="2" stroke-linejoin="round"/>
+        
+        <!-- State highlights -->
+        <circle cx="175" cy="120" r="8" fill="var(--green-mid)" opacity="0.7">
+          <animate attributeName="r" values="8;12;8" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.7;0.4;0.7" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="220" cy="145" r="6" fill="var(--green-vivid)" opacity="0.8">
+          <animate attributeName="r" values="6;10;6" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="155" cy="200" r="7" fill="var(--green-mid)" opacity="0.7">
+          <animate attributeName="r" values="7;11;7" dur="3s" begin="1s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="200" cy="220" r="9" fill="var(--earth)" opacity="0.6">
+          <animate attributeName="r" values="9;14;9" dur="2.8s" begin="0.3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="240" cy="190" r="6" fill="var(--green-vivid)" opacity="0.8">
+          <animate attributeName="r" values="6;9;6" dur="2.2s" begin="0.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="175" cy="300" r="7" fill="var(--green-mid)" opacity="0.7">
+          <animate attributeName="r" values="7;11;7" dur="2.6s" begin="0.6s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="210" cy="350" r="5" fill="var(--green-vivid)" opacity="0.6">
+          <animate attributeName="r" values="5;8;5" dur="2.4s" begin="1.2s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- Legend -->
+        <circle cx="50" cy="400" r="6" fill="var(--green-mid)" opacity="0.7"/>
+        <text x="62" y="405" font-family="DM Sans, sans-serif" font-size="11" fill="var(--ink-muted)">Active Programs</text>
+        <circle cx="50" cy="420" r="6" fill="var(--earth)" opacity="0.6"/>
+        <text x="62" y="425" font-family="DM Sans, sans-serif" font-size="11" fill="var(--ink-muted)">FarmerChat Focus</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- FIELD STORIES -->
+<section class="field-stories" id="stories">
+  <div class="reveal">
+    <div class="section-label">Field Stories</div>
+    <div class="section-title">Voices from <em>the farm</em></div>
+  </div>
+  <div class="stories-grid">
+    <div class="story-card reveal">
+      <div class="story-card-img">
+        <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=600&q=75&auto=format&fit=crop&crop=faces,center" alt="Woman farmer with phone">
+        <div class="story-card-img-overlay green"></div>
+      </div>
+      <div class="story-card-body">
+        <span class="story-tag green">Women Farmers</span>
+        <div class="story-card-title">Sunita's Story: How FarmerChat Saved Her Rice Crop</div>
+        <div class="story-card-excerpt">A first-generation smartphone user in Bihar, Sunita used voice queries in Maithili to diagnose and treat a fungal infection — saving 80% of her harvest.</div>
+      </div>
+    </div>
+    <div class="story-card reveal">
+      <div class="story-card-img">
+        <img src="https://images.unsplash.com/photo-1620200423727-8127f75d7f53?w=600&q=75&auto=format&fit=crop&crop=center" alt="Agricultural extension worker with farmers">
+        <div class="story-card-img-overlay earth"></div>
+      </div>
+      <div class="story-card-body">
+        <span class="story-tag earth">Extension Workers</span>
+        <div class="story-card-title">Rajan's Network: Reaching 300 Farmers With One Phone</div>
+        <div class="story-card-excerpt">Agricultural extension worker Rajan uses the Digital Green platform to train and advise 300 smallholder farmers across 12 villages in Jharkhand.</div>
+      </div>
+    </div>
+    <div class="story-card reveal">
+      <div class="story-card-img">
+        <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=600&q=75&auto=format&fit=crop&crop=center" alt="Drought affected farm field">
+        <div class="story-card-img-overlay teal"></div>
+      </div>
+      <div class="story-card-body">
+        <span class="story-tag teal">Climate Resilience</span>
+        <div class="story-card-title">Drought-Ready: AI Alerts Help Farmers Plan for the Worst</div>
+        <div class="story-card-excerpt">In Karnataka's drought-prone regions, climate advisory via FarmerChat helped 4,000 farmers switch to water-efficient varieties before monsoon failure.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-content reveal">
+    <div class="section-label">Get Involved</div>
+    <div class="section-title">Join us in building a <em>farmer-first</em> future</div>
+    <p>
+      Whether you're a government partner, donor, NGO, or researcher — Digital Green Trust offers pathways to scale impact. Together, we can reach every smallholder farmer with the guidance they deserve.
+    </p>
+    <div class="cta-btns">
+      <a href="#" class="btn-primary">Partner With Us</a>
+      <a href="#" class="btn-earth">Support Our Work</a>
+      <a href="#" class="btn-secondary">Download Impact Report</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="nav-logo-mark" style="background:#25A35A"></div>
+        <span style="font-family:var(--font-display);font-size:1.05rem;color:white;font-weight:400">Digital Green Trust</span>
+      </div>
+      <p>Harnessing technology and community knowledge to build resilient, prosperous farming communities across India.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Organization</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Team</a></li>
+        <li><a href="#">Board of Trustees</a></li>
+        <li><a href="#">Annual Reports</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="#">FarmerChat</a></li>
+        <li><a href="#">Digital Extension</a></li>
+        <li><a href="#">Community Video</a></li>
+        <li><a href="#">Data Platforms</a></li>
+        <li><a href="#">Open Source</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Media Enquiries</a></li>
+        <li><a href="#">Partner Portal</a></li>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">www.digitalgreen.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Digital Green Trust. Registered in India.</p>
+    <div class="footer-social">
+      <a href="#" class="social-btn">𝕏</a>
+      <a href="#" class="social-btn">in</a>
+      <a href="#" class="social-btn">f</a>
+      <a href="#" class="social-btn">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══ ROTATING WORDS — infinite one-direction loop, no snap ═══
+(function() {
+  const track = document.getElementById('rotatingWords');
+  if (!track) return;
+
+  // Clone all words and append — gives us a seamless buffer
+  const originals = Array.from(track.querySelectorAll('span'));
+  originals.forEach(s => track.appendChild(s.cloneNode(true)));
+
+  const total = originals.length;   // 4
+  const lineH = 1.12;                // must match CSS height/line-height in em
+  let current = 0;
+
+  function next() {
+    current++;
+    track.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+    track.style.transform = `translateY(-${current * lineH}em)`;
+
+    // When we've scrolled through all real words (now showing clones), silently snap back
+    if (current >= total) {
+      setTimeout(() => {
+        track.style.transition = 'none';
+        current = 0;
+        track.style.transform = `translateY(0)`;
+      }, 650); // wait for transition to finish before snapping
+    }
+  }
+
+  setInterval(next, 2400);
+})();
+
+// ═══ NAVBAR ═══
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ═══ MOBILE MENU ═══
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ═══ SCROLL REVEAL ═══
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ═══ TIMELINE HOVER ═══
+document.querySelectorAll('.timeline-item').forEach(item => {
+  item.addEventListener('mouseenter', () => {
+    document.querySelectorAll('.timeline-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+// ═══ ANIMATED COUNTERS (hero mini-stats) ═══
+// function animateCount(id, target, suffix, duration) {
+//   const el = document.getElementById(id);
+//   if (!el) return;
+//   const start = performance.now();
+//   const isDecimal = String(target).includes('.');
+//   function update(now) {
+//     const progress = Math.min((now - start) / duration, 1);
+//     const ease = 1 - Math.pow(1 - progress, 3);
+//     const val = isDecimal ? (ease * target).toFixed(1) : Math.round(ease * target);
+//     el.textContent = val + suffix;
+//     if (progress < 1) requestAnimationFrame(update);
+//   }
+//   requestAnimationFrame(update);
+// }
+// setTimeout(() => {
+//   animateCount('heroCount1', 5.5, 'M', 1800);
+//   animateCount('heroCount2', 100, 'K+', 1100);
+//   animateCount('heroCount3', 600, 'K+', 1800);
+//   animateCount('heroCount4', 26, '', 1100);
+// }, 600);
+
+function animateCount(id, target, suffix, duration) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const start = performance.now();
+  const isDecimal = String(target).includes('.');
+
+  function update(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+
+    const val = isDecimal
+      ? (ease * target).toFixed(1)
+      : Math.round(ease * target);
+
+    el.textContent = val + suffix;
+
+    if (progress < 1) requestAnimationFrame(update);
+  }
+
+  requestAnimationFrame(update);
+}
+
+const counterSection = document.querySelector('#heroCount1').parentElement;
+
+const observer1 = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+
+        animateCount('heroCount1', 5.5, 'M', 1800);
+        animateCount('heroCount2', 100, 'K+', 1600);
+        animateCount('heroCount3', 600, 'K+', 2000);
+        animateCount('heroCount4', 26, '', 1900);
+
+        observer.disconnect(); // run only once
+      }
+    });
+  },
+  {
+    threshold: 0.4 // triggers when 40% visible
+  }
+);
+
+observer1.observe(counterSection);
+
+// ═══ BACKGROUND PARTICLE FIELD ═══
+(function() {
+  const canvas = document.getElementById('heroCanvas');
+  const section = document.getElementById('heroSection');
+  if (!canvas || !section) return;
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  const dots = [];
+  let mouse = { x: -999, y: -999 };
+
+  function resize() {
+    W = canvas.width = section.offsetWidth;
+    H = canvas.height = section.offsetHeight;
+  }
+  resize();
+  new ResizeObserver(resize).observe(section);
+
+  for (let i = 0; i < 50; i++) {
+    dots.push({ x: Math.random(), y: Math.random(),
+      vx: (Math.random()-0.5)*0.0003, vy: (Math.random()-0.5)*0.0003,
+      r: Math.random()*2+1, a: Math.random()*0.4+0.1 });
+  }
+
+  window.addEventListener('mousemove', e => {
+    const rect = section.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top;
+  });
+
+  function draw() {
+    if (!W || !H) { requestAnimationFrame(draw); return; }
+    ctx.clearRect(0, 0, W, H);
+    const maxDist = 150;
+    for (let i = 0; i < dots.length; i++) {
+      const d = dots[i];
+      const mdx = d.x*W - mouse.x, mdy = d.y*H - mouse.y;
+      const md = Math.sqrt(mdx*mdx + mdy*mdy);
+      if (md < 90) { d.vx += (mdx/md)*0.00006; d.vy += (mdy/md)*0.00006; }
+      d.vx *= 0.99; d.vy *= 0.99;
+      d.x += d.vx; d.y += d.vy;
+      if (d.x < 0) { d.x = 0; d.vx *= -1; }
+      if (d.x > 1) { d.x = 1; d.vx *= -1; }
+      if (d.y < 0) { d.y = 0; d.vy *= -1; }
+      if (d.y > 1) { d.y = 1; d.vy *= -1; }
+      for (let j = i+1; j < dots.length; j++) {
+        const e2 = dots[j];
+        const dx = (d.x-e2.x)*W, dy = (d.y-e2.y)*H;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        if (dist < maxDist) {
+          ctx.beginPath();
+          ctx.moveTo(d.x*W, d.y*H); ctx.lineTo(e2.x*W, e2.y*H);
+          ctx.strokeStyle = `rgba(37,163,90,${0.05*(1-dist/maxDist)})`;
+          ctx.lineWidth = 1; ctx.stroke();
+        }
+      }
+      ctx.beginPath(); ctx.arc(d.x*W, d.y*H, d.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(37,163,90,${d.a})`; ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ INTERACTIVE FARM CANVAS ═══
+(function() {
+  const farmCanvas = document.getElementById('farmCanvas');
+  const heroFrame = document.getElementById('heroFrame');
+  if (!farmCanvas || !heroFrame) return;
+  const fc = farmCanvas.getContext('2d');
+
+  let currentMode = 'network';
+  let farmMouse = { x: 0.5, y: 0.5 };
+  let clickRipples = [];
+  let t = 0;
+  let W = 0, H = 0;
+
+  // Sync canvas pixel size to its CSS size
+  function syncSize() {
+    W = farmCanvas.offsetWidth;
+    H = farmCanvas.offsetHeight;
+    if (W > 0 && H > 0) {
+      farmCanvas.width = W;
+      farmCanvas.height = H;
+    }
+  }
+  new ResizeObserver(syncSize).observe(heroFrame);
+  setTimeout(syncSize, 100); // also run after first paint
+
+  heroFrame.addEventListener('mousemove', e => {
+    const rect = heroFrame.getBoundingClientRect();
+    farmMouse.x = (e.clientX - rect.left) / rect.width;
+    farmMouse.y = (e.clientY - rect.top) / rect.height;
+  });
+  heroFrame.addEventListener('mouseleave', () => { farmMouse.x = 0.5; farmMouse.y = 0.5; });
+  heroFrame.addEventListener('click', e => {
+    const rect = heroFrame.getBoundingClientRect();
+    clickRipples.push({
+      x: (e.clientX - rect.left) / rect.width,
+      y: (e.clientY - rect.top) / rect.height,
+      r: 0, a: 0.8
+    });
+  });
+
+  window.setMode = function(mode) {
+    currentMode = mode;
+    document.querySelectorAll('.hero-mode-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById('btn-' + mode);
+    if (btn) btn.classList.add('active');
+  };
+
+  // ── Network nodes ──
+  const nodes = [];
+  for (let i = 0; i < 28; i++) {
+    nodes.push({
+      x: 0.1 + Math.random()*0.8, y: 0.1 + Math.random()*0.8,
+      vx: (Math.random()-0.5)*0.0004, vy: (Math.random()-0.5)*0.0004,
+      r: Math.random()*2.5+2, type: i < 4 ? 'hub' : 'node',
+      pulse: Math.random()*Math.PI*2,
+      label: i < 4 ? ['Bihar','Karnataka','Uttar Pradesh','Odisha'][i] : null
+    });
+  }
+
+  // ── Rain ──
+  const raindrops = [];
+  for (let i = 0; i < 100; i++) {
+    raindrops.push({ x: Math.random(), y: Math.random(),
+      speed: 0.004 + Math.random()*0.005,
+      len: 0.025 + Math.random()*0.03, a: 0.35 + Math.random()*0.35 });
+  }
+
+  // ── Crops ──
+  const crops = [];
+  for (let r = 0; r < 12; r++) {
+    for (let c = 0; c < 18; c++) {
+      crops.push({
+        x: (c+0.5)/18, y: 0.32 + r*0.06,
+        h: 0.04 + Math.random()*0.04,
+        phase: Math.random()*Math.PI*2,
+        healthy: Math.random() > 0.1
+      });
+    }
+  }
+
+  // ── Packet system ──
+  const packets = [];
+  let packetTimer = 0;
+
+  function spawnPacket() {
+    const hub = nodes[Math.floor(Math.random()*4)];
+    const dest = nodes[4 + Math.floor(Math.random()*(nodes.length-4))];
+    packets.push({ sx: hub.x, sy: hub.y, ex: dest.x, ey: dest.y, p: 0, speed: 0.008 });
+  }
+
+  function drawNetwork() {
+    // Background
+    const bg = fc.createLinearGradient(0, 0, 0, H);
+    // bg.addColorStop(0, '#071c0f'); bg.addColorStop(1, '#0f3a1e');
+    bg.addColorStop(0, 'rgba(7, 28, 15, 0.7)');
+bg.addColorStop(1, 'rgba(15, 58, 30, 0.7)');
+//     bg.addColorStop(0, 'transparent');
+// bg.addColorStop(1, 'transparent');
+    fc.fillStyle = bg; fc.fillRect(0, 0, W, H);
+
+    // Star-like dots
+    for (let s = 0; s < 30; s++) {
+      const sx = ((s * 97 + 13) % 97) / 100 * W;
+      const sy = ((s * 53 + 7) % 89) / 100 * H * 0.5;
+      const sa = 0.15 + ((s * 31) % 10) / 30;
+      fc.beginPath(); fc.arc(sx, sy, 1, 0, Math.PI*2);
+      fc.fillStyle = `rgba(255,255,255,${sa})`; fc.fill();
+    }
+
+    // Update + draw edges
+    nodes.forEach(n => {
+      const dx = farmMouse.x - n.x, dy = farmMouse.y - n.y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if (d < 0.35 && d > 0.005) { n.vx += dx*0.000012; n.vy += dy*0.000012; }
+      n.vx *= 0.98; n.vy *= 0.98;
+      n.x = Math.max(0.04, Math.min(0.96, n.x + n.vx));
+      n.y = Math.max(0.04, Math.min(0.96, n.y + n.vy));
+      n.pulse += 0.025;
+    });
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i+1; j < nodes.length; j++) {
+        const dx = (nodes[i].x - nodes[j].x)*W;
+        const dy = (nodes[i].y - nodes[j].y)*H;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const maxD = (nodes[i].type==='hub' || nodes[j].type==='hub') ? 210 : 100;
+        if (dist < maxD) {
+          const alpha = 0.18 * (1 - dist/maxD);
+          fc.beginPath();
+          fc.moveTo(nodes[i].x*W, nodes[i].y*H);
+          fc.lineTo(nodes[j].x*W, nodes[j].y*H);
+          fc.strokeStyle = `rgba(111,212,154,${alpha})`;
+          fc.lineWidth = (nodes[i].type==='hub'||nodes[j].type==='hub') ? 1.2 : 0.6;
+          fc.stroke();
+        }
+      }
+    }
+
+    // Animated data packets
+    packetTimer += 0.016;
+    if (packetTimer > 1.2) { spawnPacket(); packetTimer = 0; }
+    for (let i = packets.length-1; i >= 0; i--) {
+      const pk = packets[i];
+      pk.p += pk.speed;
+      if (pk.p >= 1) { packets.splice(i, 1); continue; }
+      const px = (pk.sx + (pk.ex - pk.sx)*pk.p)*W;
+      const py = (pk.sy + (pk.ey - pk.sy)*pk.p)*H;
+      fc.beginPath(); fc.arc(px, py, 3.5, 0, Math.PI*2);
+      fc.fillStyle = 'rgba(255,220,80,0.95)'; fc.fill();
+      fc.beginPath(); fc.arc(px, py, 7, 0, Math.PI*2);
+      fc.fillStyle = 'rgba(255,220,80,0.15)'; fc.fill();
+    }
+
+    // Draw nodes
+    nodes.forEach(n => {
+      const nx = n.x*W, ny = n.y*H;
+      const mdx = (farmMouse.x - n.x)*W, mdy = (farmMouse.y - n.y)*H;
+      const md = Math.sqrt(mdx*mdx + mdy*mdy);
+      const hi = md < 55 ? (1 - md/55) : 0;
+
+      if (n.type === 'hub') {
+        const pulse = 0.5 + 0.5*Math.sin(n.pulse);
+        fc.beginPath(); fc.arc(nx, ny, n.r + 14 + pulse*8, 0, Math.PI*2);
+        fc.fillStyle = `rgba(111,212,154,${0.07*pulse})`; fc.fill();
+        fc.beginPath(); fc.arc(nx, ny, n.r + 5, 0, Math.PI*2);
+        fc.fillStyle = 'rgba(111,212,154,0.25)'; fc.fill();
+      }
+
+      fc.beginPath(); fc.arc(nx, ny, n.r + hi*4, 0, Math.PI*2);
+      fc.fillStyle = n.type==='hub'
+        ? `rgba(111,212,154,${0.85+hi*0.15})`
+        : `rgba(255,255,255,${0.45+hi*0.45})`;
+      fc.fill();
+
+      if (n.label && hi > 0.15) {
+        fc.font = `600 ${10+hi*3}px DM Sans,sans-serif`;
+        fc.fillStyle = `rgba(255,255,255,${0.5+hi*0.5})`;
+        fc.textAlign = 'center';
+        fc.fillText(n.label, nx, ny - n.r - 9);
+      }
+    });
+
+    // Mouse glow
+    const grd = fc.createRadialGradient(farmMouse.x*W, farmMouse.y*H, 0, farmMouse.x*W, farmMouse.y*H, 90);
+    grd.addColorStop(0, 'rgba(111,212,154,0.1)');
+    grd.addColorStop(1, 'rgba(0,0,0,0)');
+    fc.fillStyle = grd; fc.fillRect(0, 0, W, H);
+  }
+
+  function drawFields() {
+    // Sky
+    const sky = fc.createLinearGradient(0, 0, 0, H*0.35);
+    sky.addColorStop(0, '#07200E'); sky.addColorStop(1, '#174A26');
+    fc.fillStyle = sky; fc.fillRect(0, 0, W, H);
+
+    // Ground
+    fc.fillStyle = '#0E2E17';
+    fc.fillRect(0, H*0.32, W, H);
+
+    // Sun follows mouse horizontally
+    const sunX = W * (0.2 + farmMouse.x * 0.6);
+    const sunY = H * 0.14;
+    const sg = fc.createRadialGradient(sunX, sunY, 0, sunX, sunY, 65);
+    sg.addColorStop(0, 'rgba(255,215,80,0.7)');
+    sg.addColorStop(0.3, 'rgba(255,195,40,0.25)');
+    sg.addColorStop(1, 'rgba(0,0,0,0)');
+    fc.fillStyle = sg;
+    fc.beginPath(); fc.arc(sunX, sunY, 65, 0, Math.PI*2); fc.fill();
+    fc.beginPath(); fc.arc(sunX, sunY, 18, 0, Math.PI*2);
+    fc.fillStyle = 'rgba(255,230,100,0.9)'; fc.fill();
+
+    // Horizon glow
+    const hg = fc.createLinearGradient(0, H*0.22, 0, H*0.36);
+    hg.addColorStop(0, 'rgba(255,180,50,0.12)'); hg.addColorStop(1, 'rgba(0,0,0,0)');
+    fc.fillStyle = hg; fc.fillRect(0, H*0.22, W, H*0.14);
+
+    // Draw crops — sway toward mouse
+    crops.forEach(c => {
+      const cx = c.x*W, cy = c.y*H;
+      const wind = (farmMouse.x - 0.5) * 14;
+      const sway = Math.sin(t*1.6 + c.phase)*3 + wind;
+      const cH = c.h*H;
+      // Stalk
+      fc.beginPath();
+      fc.moveTo(cx, cy);
+      fc.quadraticCurveTo(cx + sway*0.4, cy - cH*0.5, cx + sway, cy - cH);
+      fc.strokeStyle = c.healthy ? 'rgba(130,220,120,0.65)' : 'rgba(210,130,50,0.55)';
+      fc.lineWidth = 1.5; fc.stroke();
+      // Head
+      fc.beginPath(); fc.arc(cx + sway, cy - cH, 2.5, 0, Math.PI*2);
+      fc.fillStyle = c.healthy ? 'rgba(190,255,160,0.8)' : 'rgba(255,180,70,0.7)';
+      fc.fill();
+    });
+
+    // Birds
+    for (let b = 0; b < 4; b++) {
+      const bx = ((t*0.025 + b*0.28) % 1.15 - 0.08)*W;
+      const by = H*(0.08 + b*0.03 + Math.sin(t + b)*0.01);
+      const wing = Math.sin(t*5 + b*1.3)*4;
+      fc.beginPath();
+      fc.moveTo(bx-6, by); fc.quadraticCurveTo(bx-3, by-wing, bx, by);
+      fc.quadraticCurveTo(bx+3, by-wing, bx+6, by);
+      fc.strokeStyle = 'rgba(255,255,255,0.25)'; fc.lineWidth=1.2; fc.stroke();
+    }
+  }
+
+  function drawRain() {
+    // Stormy sky
+    fc.fillStyle = '#050e08'; fc.fillRect(0, 0, W, H);
+
+    // Ground
+    fc.fillStyle = '#0a1e0e'; fc.fillRect(0, H*0.75, W, H*0.25);
+
+    // Lightning
+    if (Math.sin(t*0.35) > 0.96) {
+      fc.fillStyle = 'rgba(220,240,255,0.07)'; fc.fillRect(0, 0, W, H);
+      const bx = W*(0.25 + Math.random()*0.5);
+      fc.beginPath(); fc.moveTo(bx, 0);
+      fc.lineTo(bx-12, H*0.28); fc.lineTo(bx+8, H*0.38); fc.lineTo(bx-18, H*0.65);
+      fc.strokeStyle='rgba(255,255,200,0.65)'; fc.lineWidth=1.8; fc.stroke();
+      fc.strokeStyle='rgba(255,255,200,0.2)'; fc.lineWidth=6; fc.stroke();
+    }
+
+    // Rain
+    raindrops.forEach(d => {
+      d.y += d.speed + (farmMouse.y - 0.5)*0.002;
+      if (d.y > 1) { d.y = -d.len; d.x = Math.random(); }
+      const angle = 0.1 + (farmMouse.x - 0.5)*0.3;
+      const rx = d.x*W + (d.y*H)*Math.tan(angle);
+      fc.beginPath();
+      fc.moveTo(rx, d.y*H);
+      fc.lineTo(rx - d.len*H*Math.tan(angle), (d.y-d.len)*H);
+      fc.strokeStyle = `rgba(160,220,255,${d.a})`; fc.lineWidth=1; fc.stroke();
+    });
+
+    // Water surface ripples
+    const groundY = H*0.75;
+    for (let i = 0; i < 8; i++) {
+      const rx2 = (0.07 + i*0.12)*W;
+      const phase2 = (t*2.5 + i*0.9) % (Math.PI*2);
+      const rw = 4 + Math.sin(phase2)*10;
+      if (rw > 0) {
+        fc.beginPath();
+        fc.ellipse(rx2, groundY+4, rw, rw*0.3, 0, 0, Math.PI*2);
+        fc.strokeStyle = `rgba(100,200,160,${0.18*(1-Math.sin(phase2)*0.4)})`; fc.lineWidth=1; fc.stroke();
+      }
+    }
+
+    // Click ripples
+    clickRipples.forEach(rp => {
+      fc.beginPath(); fc.arc(rp.x*W, rp.y*H, rp.r*Math.min(W,H)*0.5, 0, Math.PI*2);
+      fc.strokeStyle = `rgba(130,210,255,${rp.a*0.6})`; fc.lineWidth=1.5; fc.stroke();
+    });
+
+    // Cursor puddle glow
+    const pg = fc.createRadialGradient(farmMouse.x*W, farmMouse.y*H, 0, farmMouse.x*W, farmMouse.y*H, 50);
+    pg.addColorStop(0,'rgba(80,180,255,0.12)'); pg.addColorStop(1,'rgba(0,0,0,0)');
+    fc.fillStyle=pg; fc.fillRect(0,0,W,H);
+  }
+
+  function loop() {
+    if (W < 1 || H < 1) { syncSize(); requestAnimationFrame(loop); return; }
+    fc.clearRect(0, 0, W, H);
+    t += 0.016;
+
+    // Update ripples
+    clickRipples = clickRipples.filter(r => r.a > 0.02);
+    clickRipples.forEach(r => { r.r += 0.02; r.a *= 0.93; });
+
+    if (currentMode === 'network') drawNetwork();
+    else if (currentMode === 'fields') drawFields();
+    else if (currentMode === 'rain') drawRain();
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ═══ FARMERCHAT DEMO ═══
+const chatResponses = {
+  default: [
+    { hi: "मुझे और जानकारी दीजिए। आप किस फसल की बात कर रहे हैं?", en: "Could you tell me more? Which crop are you referring to?" },
+    { hi: "यह समस्या आम है। मैं आपको सही उपाय बताता हूँ।", en: "This is a common issue. Let me provide you the right solution." },
+    { hi: "आपकी फसल की देखभाल के लिए यह जानकारी उपयोगी होगी।", en: "This information will be useful for your crop care." }
+  ],
+  weather: { hi: "आपके क्षेत्र में अगले 5 दिनों में बारिश की संभावना है। खेत की सिंचाई अभी न करें। ☁️", en: "Rain is expected in your area in the next 5 days. Avoid irrigation now. ☁️" },
+  pest: { hi: "यह कीट प्रबंधन के लिए नीम का तेल (2%) छिड़कें। सुबह या शाम को छिड़काव करें। 🌿", en: "Spray neem oil (2%) for pest management. Apply in morning or evening. 🌿" },
+  fertilizer: { hi: "DAP उर्वरक 50 kg/एकड़ की दर से डालें। वर्षा के बाद डालना सबसे अच्छा है। 💧", en: "Apply DAP fertilizer at 50 kg/acre. Best applied after rainfall. 💧" }
+};
+
+let msgCount = 0;
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const body = document.getElementById('chatBody');
+  const text = input.value.trim();
+  if (!text) return;
+  const userMsg = document.createElement('div');
+  userMsg.className = 'chat-msg user';
+  userMsg.textContent = text;
+  body.appendChild(userMsg);
+  input.value = '';
+
+  const typing = document.createElement('div');
+  typing.className = 'chat-msg bot';
+  typing.innerHTML = '<span class="msg-label">FarmerChat</span><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  body.appendChild(typing);
+  body.scrollTop = body.scrollHeight;
+
+  setTimeout(() => {
+    body.removeChild(typing);
+    const botMsg = document.createElement('div');
+    botMsg.className = 'chat-msg bot';
+    const lower = text.toLowerCase();
+    let response;
+    if (lower.includes('weather') || lower.includes('rain') || lower.includes('बारिश') || lower.includes('मौसम')) response = chatResponses.weather;
+    else if (lower.includes('pest') || lower.includes('insect') || lower.includes('कीट')) response = chatResponses.pest;
+    else if (lower.includes('fertilizer') || lower.includes('urea') || lower.includes('खाद')) response = chatResponses.fertilizer;
+    else { response = chatResponses.default[msgCount % chatResponses.default.length]; msgCount++; }
+    botMsg.innerHTML = `<span class="msg-label">FarmerChat</span>${response.hi}<br><span style="font-size:0.75rem;opacity:0.6;margin-top:4px;display:block">${response.en}</span>`;
+    body.appendChild(botMsg);
+    body.scrollTop = body.scrollHeight;
+  }, 1500);
+}
+document.getElementById('chatInput').addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+</script>
+</body>
+</html>
