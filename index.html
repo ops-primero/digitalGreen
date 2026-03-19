@@ -4,27 +4,56 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Digital Green Trust — Technology for Farming Communities</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: "PP Fragment Serif";
+    src: url("PPFragment-SerifRegular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "PP Fragment Serif";
+    src: url("PPFragment-SerifExtraBold.otf") format("opentype");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "PP Fragment Sans";
+    src: url("PPFragment-SansRegular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "PP Fragment Sans";
+    src: url("PPFragment-SansExtraBold.otf") format("opentype");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
 <style>
   :root {
-    --green-deep: #0D4A2B;
-    --green-mid: #1A7A44;
-    --green-vivid: #25A35A;
-    --green-light: #DFFAEC;
-    --green-pale: #F2FBF5;
-    --earth: #D97A2B;
-    --earth-light: #FDF0E3;
-    --cream: #FAFAF7;
-    --ink: #0F1A14;
-    --ink-muted: #3D5248;
-    --ink-faint: #7B9486;
+    --green-deep: #30572A;
+    --green-mid: #1CA069;
+    --green-vivid: #A5DE48;
+    --green-light: #EAF8CC;
+    --green-pale: #f3f3f3;
+    --earth: #55BFDE;
+    --earth-light: #F5EDA4;
+    --cream: #FFFFFF;
+    --ink: #101410;
+    --ink-muted: #071F58;
+    --ink-faint: #5B7BA8;
     --white: #FFFFFF;
-    --border: rgba(13,74,43,0.12);
+    --border: rgba(28,160,105,0.15);
     --radius: 12px;
     --radius-lg: 20px;
     --font-display: "PP Fragment Serif", serif;
-    --font-body: 'DM Sans', sans-serif;
+    --font-body: "PP Fragment Sans", sans-serif;
+    --font-sans-bold: "PP Fragment Sans", sans-serif;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -43,34 +72,26 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 1rem 5%;
-    background: rgba(250,250,247,0.92);
+    background: rgba(255,255,255,0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     transition: all 0.3s ease;
   }
   nav.scrolled {
     padding: 0.65rem 5%;
-    box-shadow: 0 2px 20px rgba(13,74,43,0.08);
+    box-shadow: 0 2px 20px rgba(48,87,42,0.08);
   }
   .nav-logo {
     display: flex; align-items: center; gap: 10px;
     text-decoration: none;
   }
   .nav-logo-mark {
-    width: 36px; height: 36px;
-    background: var(--green-mid);
+    /* width: 36px; height: 36px; */
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     position: relative; overflow: hidden;
   }
-  .nav-logo-mark::after {
-    content: '';
-    width: 18px; height: 18px;
-    border: 2.5px solid white;
-    border-radius: 50%;
-    position: absolute;
-    box-shadow: 4px -4px 0 white;
-  }
+  .nav-logo-mark::after { content: none; }
   .nav-logo-text {
     font-family: var(--font-display);
     font-size: 1.05rem; font-weight: 600;
@@ -173,15 +194,6 @@
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      linear-gradient(to top,
-        rgba(5, 20, 10, 0.94) 0%,
-        rgba(8, 30, 16, 0.82) 22%,
-        rgba(10, 38, 20, 0.55) 45%,
-        rgba(13, 50, 25, 0.22) 68%,
-        rgba(0,0,0,0.08) 100%
-      ),
-      radial-gradient(ellipse at 50% 100%, rgba(37,163,90,0.18) 0%, transparent 65%);
   }
 
   /* Remove old shape */
@@ -204,9 +216,9 @@
   /* Badge */
   .hero-tag {
     display: inline-flex; align-items: center; gap: 8px;
-    background: #0D4A2B;
-    border: 1px solid rgba(111,212,154,0.35);
-    color: #6FD49A;
+    background: #30572A;
+    border: 1px solid rgba(165,222,72,0.35);
+    color: #A5DE48;
     font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
     text-transform: uppercase;
     padding: 7px 18px; border-radius: 100px;
@@ -217,12 +229,12 @@
   }
   .hero-tag::before {
     content: ''; width: 6px; height: 6px;
-    border-radius: 50%; background: #6FD49A;
+    border-radius: 50%; background: #A5DE48;
     animation: livePulse 1.8s infinite;
   }
   @keyframes livePulse {
-    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(111,212,154,0.6); }
-    50% { opacity: 0.7; transform: scale(1.5); box-shadow: 0 0 0 7px rgba(111,212,154,0); }
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(165,222,72,0.6); }
+    50% { opacity: 0.7; transform: scale(1.5); box-shadow: 0 0 0 7px rgba(165,222,72,0); }
   }
 
   /* Hero heading — white on photo */
@@ -236,7 +248,7 @@
     animation: fadeUp 0.7s 0.1s ease both;
     text-shadow: 0 2px 24px rgba(0,0,0,0.3);
   }
-  h1 em { font-style: italic; color: #6FD49A; text-shadow: 0 0 40px rgba(111,212,154,0.4); }
+  h1 em { font-style: italic; color: #A5DE48; text-shadow: 0 0 40px rgba(165,222,72,0.4); }
 
   /* 3-line heading blocks */
   .hero-line1,
@@ -264,9 +276,9 @@
     display: block;
     height: 1.12em; line-height: 1.12em;
     white-space: nowrap;
-    font-style: italic; color: #6FD49A;
+    font-style: italic; color: #A5DE48;
     flex-shrink: 0;
-    text-shadow: 0 0 40px rgba(111,212,154,0.4);
+    text-shadow: 0 0 40px rgba(165,222,72,0.4);
   }
 
   /* Hero description */
@@ -293,7 +305,7 @@
   .hero-mini-stat .hms-num {
     font-family: var(--font-display);
     font-size: 1.75rem; font-weight: 600;
-    color: #6FD49A; line-height: 1;
+    color: #A5DE48; line-height: 1;
   }
   .hero-mini-stat .hms-label {
     font-size: 0.72rem; color: rgba(255,255,255,0.55);
@@ -314,10 +326,10 @@
   .btn-primary {
     background: var(--green-vivid); color: white;
     padding: 0.95rem 2.2rem; border-radius: 12px;
-    font-weight: 600; font-size: 0.95rem;
+    font-family: var(--font-sans-bold); font-weight: 800; font-size: 0.875rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
     text-decoration: none; display: inline-flex; align-items: center; gap: 9px;
     transition: all 0.25s;
-    box-shadow: 0 4px 24px rgba(37,163,90,0.45);
     position: relative; overflow: hidden;
   }
   .btn-primary::after {
@@ -330,12 +342,13 @@
   .btn-primary:hover {
     background: var(--green-mid);
     transform: translateY(-3px);
-    box-shadow: 0 10px 36px rgba(37,163,90,0.55);
+    box-shadow: 0 10px 36px rgba(28,160,105,0.55);
   }
   .btn-secondary {
     background: transparent; color: var(--green-mid);
     padding: 0.85rem 2rem; border-radius: 10px;
-    font-weight: 600; font-size: 0.925rem;
+    font-family: var(--font-sans-bold); font-weight: 800; font-size: 0.8rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
     text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
     border: 1.5px solid var(--green-mid);
     transition: all 0.25s;
@@ -380,18 +393,111 @@
   /* Mode toggle buttons */
   .hero-mode-btns {
     position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
-    display: flex; gap: 6px;
-    background: rgba(0,0,0,0.25); backdrop-filter: blur(6px);
-    border-radius: 100px; padding: 5px 8px;
+    display: flex; gap: 5px; justify-content: center;
+    max-width: calc(100% - 16px);
+    background: rgba(0,0,0,0.3); backdrop-filter: blur(6px);
+    border-radius: 14px; padding: 6px 8px;
+    z-index: 10;
   }
   .hero-mode-btn {
-    font-size: 0.72rem; font-weight: 600; padding: 4px 12px;
+    font-size: 0.6rem; font-weight: 700; padding: 4px 10px;
     border-radius: 100px; border: none; cursor: pointer;
     transition: all 0.22s; color: rgba(255,255,255,0.6);
-    background: transparent;
+    background: transparent; white-space: nowrap;
+    font-family: var(--font-sans-bold); letter-spacing: 0.04em;
   }
   .hero-mode-btn.active { background: white; color: var(--green-deep); }
   .hero-mode-btn:hover:not(.active) { color: white; background: rgba(255,255,255,0.1); }
+
+  /* Frame overlays */
+  .frame-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s ease;
+    padding: 20px 24px; z-index: 4;
+  }
+
+  .network-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    gap: 12px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s ease;
+    padding: 20px 24px; z-index: 4;
+    top: 5%;
+    align-items: center;
+  }
+
+  .network-overlay.visible { opacity: 1; pointer-events: auto; }
+  
+  .frame-overlay.visible { opacity: 1; pointer-events: auto; }
+  .frame-overlay-card {
+    background: rgba(7,28,15,0.88);
+    border: 1px solid rgba(165,222,72,0.3);
+    border-radius: 14px; padding: 16px 20px;
+    max-width: 260px; width: 100%;
+    backdrop-filter: blur(10px);
+  }
+  .foc-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-sans-bold); font-weight: 800;
+    font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--green-vivid); background: rgba(165,222,72,0.12);
+    border-radius: 20px; padding: 4px 10px; margin-bottom: 10px;
+  }
+  .foc-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green-vivid); animation: livePulse 1.2s ease-in-out infinite;
+  }
+  .foc-badge.weather { color: #7dd3fc; background: rgba(125,211,252,0.1); }
+  .foc-badge.weather::before { background: #7dd3fc; }
+  .foc-alert {
+    font-family: var(--font-body); font-size: 0.82rem;
+    color: white; font-weight: 600; margin-bottom: 6px; line-height: 1.4;
+  }
+  .foc-action {
+    font-family: var(--font-body); font-size: 0.72rem;
+    color: rgba(255,255,255,0.6); line-height: 1.5;
+  }
+  .foc-stat {
+    font-family: var(--font-display); font-size: 2.6rem;
+    font-weight: 800; color: var(--green-vivid); line-height: 1;
+    text-align: center;
+  }
+  .foc-label {
+    font-family: var(--font-body); font-size: 0.9rem;
+    color: white; font-weight: 600; text-align: center; margin-top: 4px;
+  }
+  .foc-sub {
+    font-family: var(--font-body); font-size: 0.72rem;
+    color: rgba(255,255,255,0.5); text-align: center; margin-top: 4px;
+  }
+  .frame-outcome {
+    font-family: var(--font-sans-bold); font-weight: 800;
+    font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--green-vivid);
+    opacity: 0; transform: translateY(6px);
+    transition: opacity 0.5s 0.7s ease, transform 0.5s 0.7s ease;
+  }
+  .network-overlay.visible .frame-outcome { opacity: 1; transform: translateY(0); }
+  .frame-overlay.visible .frame-outcome { opacity: 1; transform: translateY(0); }
+  .foc-cta {
+    font-family: var(--font-sans-bold); font-weight: 800;
+    font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--green-vivid); text-decoration: none;
+    border: 1px solid rgba(165,222,72,0.4); border-radius: 20px;
+    padding: 7px 16px; transition: background 0.2s, color 0.2s;
+  }
+  .foc-cta:hover { background: var(--green-vivid); color: var(--ink); }
+  .frame-status {
+    position: absolute; top:1rem; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-body); font-size: 0.68rem;
+    color: rgba(255,255,255,0.4); background: rgba(0,0,0,0.28);
+    border-radius: 20px; padding: 4px 12px; pointer-events: none;
+    z-index: 3; white-space: nowrap; transition: opacity 0.3s;
+  }
 
   /* Floating info chips around the frame */
   .hero-chip {
@@ -426,7 +532,7 @@
     padding: 2px 7px; border-radius: 100px;
   }
   .chip-trend.up { background: var(--green-light); color: var(--green-deep); }
-  .chip-trend.amber { background: var(--earth-light); color: #7A3B10; }
+  .chip-trend.amber { background: var(--earth-light); color: #071F58; }
 
   /* Scroll hint */
   .hero-scroll-hint {
@@ -443,7 +549,7 @@
   }
   .scroll-arrow::after {
     content: ''; position: absolute; top: 5px;
-    width: 4px; height: 8px; background: #6FD49A; border-radius: 100px;
+    width: 4px; height: 8px; background: #A5DE48; border-radius: 100px;
     animation: scrollBounce 1.8s ease-in-out infinite;
   }
   @keyframes scrollBounce {
@@ -465,14 +571,17 @@
 
   /* TRUST BAR — infinite marquee */
   .trust-bar {
-    background: var(--green-deep);
     padding: 1rem 0;
     display: flex; align-items: center; gap: 0;
     overflow: hidden;
   }
   .trust-bar-label {
-    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
-    color: rgba(255,255,255,0.45); text-transform: uppercase; white-space: nowrap;
+    /* background: var(--green-deep); */
+    display: flex;
+    height: 4rem;
+    align-items: center;
+    font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em;
+    color: var(--green-deep); text-transform: uppercase; white-space: nowrap;
     padding: 0 1.5rem 0 2.5rem; flex-shrink: 0;
     border-right: 1px solid rgba(255,255,255,0.1);
   }
@@ -497,7 +606,7 @@
   }
   .partner-pill:hover { color: white; background: rgba(255,255,255,0.05); }
   .partner-flag { font-style: normal; font-size: 1rem; }
-  .partner-icon { font-style: normal; font-size: 0.75rem; color: rgba(111,212,154,0.7); }
+  .partner-icon { font-style: normal; font-size: 0.75rem; color: rgba(165,222,72,0.7); }
   @keyframes marqueeScroll {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
@@ -542,7 +651,7 @@
   .impact-photo:hover img { transform: scale(1.07); }
   .impact-photo-cap {
     position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(transparent, rgba(13,74,43,0.85));
+    background: linear-gradient(transparent, rgba(48,87,42,0.85));
     color: white; font-size: 0.72rem; font-weight: 600;
     padding: 1.5rem 0.75rem 0.6rem; letter-spacing: 0.04em;
   }
@@ -571,14 +680,14 @@
   }
   .solutions-header-img::after {
     content: ''; position: absolute; inset: 0;
-    background: linear-gradient(to right, rgba(13,74,43,0.8) 0%, rgba(13,74,43,0.2) 60%, transparent 100%);
+    background: linear-gradient(to right, rgba(48,87,42,0.85) 0%, rgba(28,160,105,0.2) 60%, transparent 100%);
   }
   .solutions-header-text {
     position: absolute; inset: 0; z-index: 1;
     display: flex; flex-direction: column; justify-content: center;
     padding: 0 2.5rem;
   }
-  .solutions-header-text .section-label { color: #6FD49A; margin-bottom: 0.5rem; }
+  .solutions-header-text .section-label { color: #A5DE48; margin-bottom: 0.5rem; }
   .solutions-header-text .section-title { color: white; max-width: 480px; margin: 0; }
 
   /* ── FIELD STORIES SECTION IMAGES ── */
@@ -594,9 +703,9 @@
     position: absolute; inset: 0;
     display: flex; align-items: flex-end; padding: 1rem;
   }
-  .story-card-img-overlay.green { background: linear-gradient(transparent 50%, rgba(13,74,43,0.7)); }
-  .story-card-img-overlay.earth { background: linear-gradient(transparent 50%, rgba(100,45,5,0.7)); }
-  .story-card-img-overlay.teal  { background: linear-gradient(transparent 50%, rgba(5,60,60,0.7)); }
+  /* .story-card-img-overlay.green { background: linear-gradient(transparent 50%, rgba(48,87,42,0.7)); }
+  .story-card-img-overlay.earth { background: linear-gradient(transparent 50%, rgba(35,81,245,0.7)); }
+  .story-card-img-overlay.teal  { background: linear-gradient(transparent 50%, rgba(7,31,88,0.7)); } */
 
   /* ── CTA SECTION BG IMAGE ── */
   .cta-section { position: relative; overflow: hidden; }
@@ -611,7 +720,7 @@
 
   /* IMPACT NUMBERS */
   .impact {
-    padding: 4rem 8%; background: white;
+    padding: 4rem 8%; background: var(--green-pale);
     position: relative;
     z-index: 1;
   }
@@ -631,16 +740,22 @@
 
   .impact-grid {
     display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 2px; background: var(--border);
+    gap: 2px;
     border-radius: 16px; overflow: hidden;
   }
   .impact-cell {
-    background: white; padding: 2.5rem 2rem;
+    padding: 2.5rem 2rem;
     text-align: center;
-    transition: background 0.25s;
+    /* transition: background 0.25s; */
     cursor: default;
   }
-  .impact-cell:hover { background: var(--green-pale); }
+  .impact-cell:hover { background: var(--border); }
+  .impact-cell-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: var(--green-light); color: var(--green-mid);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+  }
   .impact-cell .big-num {
     font-family: var(--font-display);
     font-size: clamp(2.5rem, 4vw, 3.5rem);
@@ -665,7 +780,7 @@
     content: '';
     position: absolute; top: -100px; right: -100px;
     width: 500px; height: 500px; border-radius: 50%;
-    background: rgba(37,163,90,0.12);
+    background: rgba(28,160,105,0.12);
     pointer-events: none;
   }
   .farmerchat::after {
@@ -685,7 +800,7 @@
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 5rem; align-items: center;
   }
-  .farmerchat .section-label { color: #6FD49A; }
+  .farmerchat .section-label { color: #A5DE48; }
   .farmerchat .section-title { color: white; max-width: none; margin-bottom: 1.25rem; }
   .farmerchat-desc {
     font-size: 1rem; color: rgba(255,255,255,0.7); line-height: 1.8;
@@ -703,21 +818,29 @@
     transition: all 0.25s; cursor: default;
   }
   .fc-feat:hover {
-    background: rgba(255,255,255,0.1); border-color: rgba(111,212,154,0.3);
+    background: rgba(255,255,255,0.1); border-color: rgba(165,222,72,0.3);
     transform: translateX(4px);
   }
   .fc-feat-icon {
     width: 32px; height: 32px; border-radius: 8px;
-    background: rgba(37,163,90,0.25);
+    background: rgba(85,191,222,0.25);
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0; font-size: 15px;
   }
   .fc-feat-text { font-size: 0.875rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
   .fc-feat-text strong { color: white; display: block; font-size: 0.925rem; margin-bottom: 1px; }
 
-  /* Chat Mockup */
+  /* phone mockup */
+  .fd-phone-wrap{display:flex;justify-content:center;align-items:center;}
+  .fd-phone{
+    width:70%;
+    border-radius:48px;
+    padding:14px;
+    position:relative;
+  }
+  
   .chat-mockup {
-    background: #1a2820;
+    background: #071830;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 40px 80px rgba(0,0,0,0.4);
@@ -728,7 +851,7 @@
     padding: 1rem 1.25rem;
     display: flex; align-items: center; gap: 10px;
   }
-  .chat-header-dot { width: 8px; height: 8px; border-radius: 50%; background: #6FD49A; }
+  .chat-header-dot { width: 8px; height: 8px; border-radius: 50%; background: #A5DE48; }
   .chat-header-name {
     font-weight: 600; font-size: 0.875rem; color: white;
     flex: 1;
@@ -753,7 +876,7 @@
     border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.1);
   }
   .chat-msg.bot .msg-label {
-    font-size: 0.68rem; color: #6FD49A; font-weight: 600;
+    font-size: 0.68rem; color: #A5DE48; font-weight: 600;
     margin-bottom: 4px; display: block;
   }
   .chat-input-row {
@@ -802,7 +925,7 @@
   }
   .story-timeline::before {
     content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
-    width: 2px; background: linear-gradient(to bottom, var(--green-vivid), var(--green-light));
+    width: 2px; background: linear-gradient(to bottom, var(--green-mid), var(--green-mid));
     border-radius: 2px;
   }
   .timeline-item {
@@ -813,17 +936,17 @@
   .timeline-item::before {
     content: ''; position: absolute; left: -2.4rem; top: 6px;
     width: 10px; height: 10px; border-radius: 50%;
-    border: 2px solid var(--green-light);
+    border: 2px solid var(--ink-faint);
     background: var(--cream);
     transition: all 0.3s;
   }
   .timeline-item:hover::before, .timeline-item.active::before {
-    background: var(--green-vivid); border-color: var(--green-vivid);
-    box-shadow: 0 0 0 4px rgba(37,163,90,0.2);
+    background: var(--ink-faint); border-color: var(--ink-faint);
+    box-shadow: 0 0 0 4px rgba(165,222,72,0.2);
   }
   .timeline-year {
     font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
-    color: var(--green-vivid); margin-bottom: 4px;
+    color: var(--green-mid); margin-bottom: 4px;
   }
   .timeline-event {
     font-size: 0.925rem; color: var(--ink-muted); line-height: 1.5;
@@ -851,8 +974,8 @@
     transition: transform 0.3s;
   }
   .solution-card:hover {
-    border-color: rgba(26,122,68,0.3);
-    box-shadow: 0 8px 32px rgba(13,74,43,0.1);
+    border-color: rgba(28,160,105,0.3);
+    box-shadow: 0 8px 32px rgba(48,87,42,0.1);
     transform: translateY(-4px);
   }
   .solution-card:hover::after { transform: scaleX(1); }
@@ -883,7 +1006,7 @@
     padding: 6rem 8%; background: var(--green-pale);
   }
   .reach-inner {
-    display: grid; grid-template-columns: 1fr 1.4fr;
+    display: grid; grid-template-columns: 1.2fr 1.4fr;
     gap: 4rem; align-items: center;
   }
   .reach-stats {
@@ -928,7 +1051,7 @@
     background: white;
   }
   .story-card:hover {
-    box-shadow: 0 12px 40px rgba(13,74,43,0.12);
+    box-shadow: 0 12px 40px rgba(48,87,42,0.12);
     transform: translateY(-5px);
   }
   .story-card-img {
@@ -936,9 +1059,9 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 3rem; position: relative; overflow: hidden;
   }
-  .story-card-img.green { background: linear-gradient(135deg, #1A7A44, #0D4A2B); }
-  .story-card-img.earth { background: linear-gradient(135deg, #D97A2B, #8B4A10); }
-  .story-card-img.teal { background: linear-gradient(135deg, #0D7A7A, #044A4A); }
+  .story-card-img.green { background: linear-gradient(135deg, #1CA069, #30572A); }
+  .story-card-img.earth { background: linear-gradient(135deg, #2351F5, #071F58); }
+  .story-card-img.teal { background: linear-gradient(135deg, #55BFDE, #071F58); }
   .story-card-body { padding: 1.5rem; }
   .story-tag {
     display: inline-block; padding: 3px 10px; border-radius: 100px;
@@ -946,8 +1069,8 @@
     text-transform: uppercase; margin-bottom: 0.75rem;
   }
   .story-tag.green { background: var(--green-light); color: var(--green-deep); }
-  .story-tag.earth { background: var(--earth-light); color: #7A3B10; }
-  .story-tag.teal { background: #E1F5F5; color: #0D5A5A; }
+  .story-tag.earth { background: var(--earth-light); color: #071F58; }
+  .story-tag.teal { background: #D8F2FA; color: #071F58; }
   .story-card-title {
     font-family: var(--font-display);
     font-size: 1.05rem; font-weight: 400; line-height: 1.4;
@@ -964,10 +1087,10 @@
     text-align: center;
     position: relative; overflow: hidden;
   }
-  .cta-section::before, .cta-section::after {
+  /* .cta-section::before, .cta-section::after {
     content: ''; position: absolute; border-radius: 50%;
-    background: rgba(217,122,43,0.1);
-  }
+    background: rgba(85,191,222,0.1);
+  } */
   .cta-section::before { width: 600px; height: 600px; left: -200px; top: -200px; }
   .cta-section::after { width: 400px; height: 400px; right: -100px; bottom: -100px; }
   .cta-content { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
@@ -981,10 +1104,11 @@
   .btn-earth {
     background: var(--earth); color: white;
     padding: 0.875rem 2rem; border-radius: 10px;
-    font-weight: 600; font-size: 0.925rem;
+    font-family: var(--font-sans-bold); font-weight: 800; font-size: 0.8rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
     text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
     transition: all 0.25s;
-    box-shadow: 0 4px 16px rgba(217,122,43,0.3);
+    box-shadow: 0 4px 16px rgba(85,191,222,0.3);
   }
   .btn-earth:hover { filter: brightness(0.9); transform: translateY(-2px); }
 
@@ -1011,7 +1135,7 @@
     color: rgba(255,255,255,0.55); text-decoration: none;
     font-size: 0.875rem; transition: color 0.2s;
   }
-  .footer-col a:hover { color: #6FD49A; }
+  .footer-col a:hover { color: #A5DE48; }
   .footer-bottom {
     border-top: 1px solid rgba(255,255,255,0.08);
     padding-top: 1.5rem;
@@ -1026,7 +1150,7 @@
     color: rgba(255,255,255,0.5); font-size: 0.8rem; font-weight: 700;
     text-decoration: none; transition: all 0.2s; font-family: serif;
   }
-  .social-btn:hover { border-color: #6FD49A; color: #6FD49A; }
+  .social-btn:hover { border-color: #A5DE48; color: #A5DE48; }
 
   /* Interactive Counter */
   .counter-animate { transition: all 0.5s ease; }
@@ -1057,6 +1181,8 @@
 
   /* MOBILE */
   @media (max-width: 900px) {
+    .partners-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 0.75rem; }
+    .partner-logo { width: 48px; height: 48px; border-radius: 12px; font-size: 0.68rem; }
     .hero-body { padding: 4rem 6% 3rem; }
     .hero-right { display: none; }
     .hero-bg-shape { display: none; }
@@ -1133,10 +1259,8 @@
 <!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo">
-    <div class="nav-logo-mark"></div>
-    <div class="nav-logo-text">
-      Digital Green Trust
-      <span>Empowering Farming Communities</span>
+    <div class="nav-logo-mark">
+      <img src="icon.png" alt="Digital Green icon" style="height:26px;object-fit:contain;">
     </div>
   </a>
   <ul class="nav-links">
@@ -1268,12 +1392,46 @@
 
       <!-- Main interactive canvas -->
       <div class="hero-canvas-frame" id="heroFrame">
-        <div class="canvas-tooltip">Move your cursor · Click to interact</div>
         <canvas id="farmCanvas"></canvas>
+
+        <!-- Frame status label -->
+        <div class="frame-status" id="frameStatus">Hover to explore · Click to interact</div>
+
+        <!-- Network overlay (click) -->
+        <div class="network-overlay" id="networkOverlay">
+          <div class="frame-overlay-card" style="text-align:center">
+            <div class="foc-stat">600,000+</div>
+            <div class="foc-label">farmers connected across India</div>
+            <div class="foc-sub">Delivering localized advisory at scale</div>
+          </div>
+        </div>
+
+        <!-- Insight overlay (click) -->
+        <div class="frame-overlay" id="insightOverlay">
+          <div class="frame-overlay-card">
+            <div class="foc-badge">AI Advisory</div>
+            <div class="foc-alert">Early signs of pest infection detected</div>
+            <div class="foc-action">Recommended action: Apply treatment within 48 hours</div>
+          </div>
+          <div class="frame-outcome">Health improved. Yield protected.</div>
+          <a class="foc-cta" href="#farmerchat">See how it works →</a>
+        </div>
+
+        <!-- Climate overlay (click) -->
+        <div class="frame-overlay" id="climateOverlay">
+          <div class="frame-overlay-card">
+            <div class="foc-badge weather">Weather Alert</div>
+            <div class="foc-alert">Heavy rainfall expected in next 48 hours</div>
+            <div class="foc-action">Recommended: Delay irrigation, protect crops</div>
+          </div>
+          <div class="frame-outcome">Better decisions. Reduced risk.</div>
+          <a class="foc-cta" href="#solutions">Explore climate-smart advisory →</a>
+        </div>
+
         <div class="hero-mode-btns">
-          <button class="hero-mode-btn active" onclick="setMode('network')" id="btn-network">Network</button>
-          <button class="hero-mode-btn" onclick="setMode('fields')" id="btn-fields">Fields</button>
-          <button class="hero-mode-btn" onclick="setMode('rain')" id="btn-rain">Monsoon</button>
+          <button class="hero-mode-btn active" onclick="setMode('network')" id="btn-network">Reach &amp; Network</button>
+          <button class="hero-mode-btn" onclick="setMode('insight')" id="btn-insight">From Insight to Action</button>
+          <button class="hero-mode-btn" onclick="setMode('climate')" id="btn-climate">Climate Resilience in Action</button>
         </div>
       </div>
     </div>
@@ -1288,37 +1446,125 @@
 
 <!-- TRUST BAR — infinite marquee -->
 <div class="trust-bar">
-  <div class="trust-bar-label">Partners &amp; Funders</div>
+  <div class="trust-bar-label">Partners</div>
   <div class="trust-marquee-outer">
     <div class="trust-marquee-track" id="marqueeTrack">
       <div class="trust-marquee-set">
-        <div class="partner-pill"><span class="partner-flag">🇮🇳</span>Government of India</div>
-        <div class="partner-pill"><span class="partner-icon">◆</span>Bill &amp; Melinda Gates Foundation</div>
-        <div class="partner-pill"><span class="partner-flag">🇺🇸</span>USAID</div>
-        <div class="partner-pill"><span class="partner-icon">🌐</span>World Bank</div>
-        <div class="partner-pill"><span class="partner-icon">⊞</span>Microsoft</div>
-        <div class="partner-pill"><span class="partner-icon">🌾</span>CGIAR</div>
-        <div class="partner-pill"><span class="partner-icon">◈</span>Omidyar Network</div>
-        <div class="partner-pill"><span class="partner-flag">🇬🇧</span>UK Aid</div>
-        <div class="partner-pill"><span class="partner-icon">❖</span>Rockefeller Foundation</div>
-        <div class="partner-pill"><span class="partner-icon">🌱</span>GIZ</div>
-        <div class="partner-pill"><span class="partner-icon">◉</span>NABARD</div>
-        <div class="partner-pill"><span class="partner-flag">🇳🇱</span>Netherlands MFA</div>
+        <div class="partner-pill"><img src="partners/jeevika.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/prerna.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/umed.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/jslps.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/nrlm.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/rgavp.png" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/goap.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/cnhm.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/serp.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/aptwd.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/unhm.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/doafe.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/mrd.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/rss.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/olm.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/nhmj.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/snmj.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/green.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/dsh.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/awaazde.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/jpal.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/access.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/asa.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/baif.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/dpip.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/mssrf.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/pani.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/path.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/pragati.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/pada.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/pci.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/rmf.png" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/sps.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/iicd.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/akt.png" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/csisa.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/dreh.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/illuminaid.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/societal.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/madhyam.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/nirman.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/worldvision.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/kovel.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/velugu.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/irri.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/bharatrohan.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/cysd.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/varrat.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/ekjut.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/garamvani.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/skymet.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/climacell.png" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/jsi.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/nielsen.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/dalberg.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/cms.jpg" style="width: 6rem"/></div>
       </div>
       <!-- Duplicate for seamless loop -->
       <div class="trust-marquee-set" aria-hidden="true">
-        <div class="partner-pill"><span class="partner-flag">🇮🇳</span>Government of India</div>
-        <div class="partner-pill"><span class="partner-icon">◆</span>Bill &amp; Melinda Gates Foundation</div>
-        <div class="partner-pill"><span class="partner-flag">🇺🇸</span>USAID</div>
-        <div class="partner-pill"><span class="partner-icon">🌐</span>World Bank</div>
-        <div class="partner-pill"><span class="partner-icon">⊞</span>Microsoft</div>
-        <div class="partner-pill"><span class="partner-icon">🌾</span>CGIAR</div>
-        <div class="partner-pill"><span class="partner-icon">◈</span>Omidyar Network</div>
-        <div class="partner-pill"><span class="partner-flag">🇬🇧</span>UK Aid</div>
-        <div class="partner-pill"><span class="partner-icon">❖</span>Rockefeller Foundation</div>
-        <div class="partner-pill"><span class="partner-icon">🌱</span>GIZ</div>
-        <div class="partner-pill"><span class="partner-icon">◉</span>NABARD</div>
-        <div class="partner-pill"><span class="partner-flag">🇳🇱</span>Netherlands MFA</div>
+        <div class="partner-pill"><img src="partners/jeevika.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/prerna.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/umed.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/jslps.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/nrlm.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/rgavp.png" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/goap.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/cnhm.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/serp.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/aptwd.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/unhm.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/doafe.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/mrd.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/rss.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/olm.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/nhmj.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/snmj.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/green.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/dsh.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/awaazde.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/jpal.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/access.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/asa.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/baif.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/dpip.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/mssrf.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/pani.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/path.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/pragati.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/pada.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/pci.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/rmf.png" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/sps.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/iicd.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/akt.png" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/csisa.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/dreh.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/illuminaid.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/societal.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/madhyam.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/nirman.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/worldvision.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/kovel.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/velugu.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/irri.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/bharatrohan.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/cysd.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/varrat.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/ekjut.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/garamvani.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/skymet.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/climacell.png" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/jsi.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/nielsen.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/dalberg.jpg" style="width: 6rem"/></div>
+        <div class="partner-pill"><img src="partners/cms.jpg" style="width: 6rem"/></div>
       </div>
     </div>
   </div>
@@ -1335,21 +1581,43 @@
   </div>
   <div class="impact-grid reveal">
     <div class="impact-cell">
+      <div class="impact-cell-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
       <div class="big-num" data-target="5.5" data-suffix="M" id="heroCount1">0</div>
       <div class="metric-label">Smallholder Farmers Reached</div>
       <div class="metric-sub">50% women</div>
     </div>
     <div class="impact-cell">
+      <div class="impact-cell-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+      </div>
       <div class="big-num" data-target="100" data-suffix="K+" id="heroCount2">0</div>
       <div class="metric-label">Frontline Workers Trained</div>
       <div class="metric-sub">52% women</div>
     </div>
     <div class="impact-cell">
+      <div class="impact-cell-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
       <div class="big-num" data-target="600" data-suffix="K+" id="heroCount3">0</div>
       <div class="metric-label">FarmerChat Users in India</div>
       <div class="metric-sub">45% women</div>
     </div>
     <div class="impact-cell">
+      <div class="impact-cell-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </div>
       <div class="big-num" data-target="26" id="heroCount4">0</div>
       <div class="metric-label">Languages Supported</div>
       <div class="metric-sub">Localized guidance</div>
@@ -1379,7 +1647,7 @@
 <!-- FARMERCHAT -->
 <section class="farmerchat" id="farmerchat">
   <div class="farmerchat-inner">
-    <div style="background: #0D4A2B; z-index: 2;">
+    <div style="background: #30572A; z-index: 2;">
       <div class="section-label reveal">FarmerChat · AI-Powered Advisory</div>
       <div class="section-title reveal">Hyperlocal farming guidance, powered by <em>AI</em></div>
       <p class="farmerchat-desc reveal">
@@ -1417,32 +1685,10 @@
       </div>
     </div>
 
-    <!-- Chat mockup -->
-    <div class="chat-mockup reveal" id="chatMockup">
-      <div class="chat-header">
-        <div class="chat-header-dot"></div>
-        <div class="chat-header-name">FarmerChat 🌱</div>
-        <div class="chat-header-badge">AI Powered</div>
-      </div>
-      <div class="chat-body" id="chatBody">
-        <div class="chat-msg bot">
-          <span class="msg-label">FarmerChat</span>
-          नमस्ते! मैं FarmerChat हूँ। आज मैं आपकी खेती में कैसे मदद कर सकता हूँ? 🌾
-        </div>
-        <div class="chat-msg user">मेरी गेहूं की फसल में पीले धब्बे आ रहे हैं</div>
-        <div class="chat-msg bot">
-          <span class="msg-label">FarmerChat</span>
-          यह गेहूं की पीली रतुआ बीमारी के लक्षण हो सकते हैं। <br><br>
-          ✅ तुरंत Propiconazole (0.1%) का छिड़काव करें<br>
-          ✅ सुबह ओस के समय खेत में न जाएं<br>
-          ✅ 10 दिन बाद दोबारा जांच करें
-        </div>
-      </div>
-      <div class="chat-input-row">
-        <input type="text" class="chat-input" id="chatInput" placeholder="अपना सवाल पूछें... / Ask your question...">
-        <button class="chat-send" onclick="sendMessage()">
-          <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
-        </button>
+    <!-- Phone mockup -->
+    <div class="fd-phone-wrap rv rv-d2">
+      <div class="fd-phone">
+        <img src="video.gif" style="width:100%;height:100%;object-fit:cover;"></img>
       </div>
     </div>
   </div>
@@ -1579,44 +1825,9 @@
     </div>
     <!-- India Map -->
     <div class="reveal">
-      <svg class="india-map" viewBox="0 0 400 450" xmlns="http://www.w3.org/2000/svg">
-        <!-- Simplified India outline -->
-        <path d="M160,30 L200,20 L240,35 L270,60 L285,90 L290,120 L285,150 L300,165 L310,190 L305,220 L295,245 L310,265 L315,290 L300,315 L280,335 L260,355 L245,380 L235,410 L220,430 L210,440 L200,430 L185,410 L175,385 L160,360 L140,335 L120,310 L105,285 L95,255 L90,225 L100,200 L95,175 L100,150 L85,130 L90,105 L105,80 L125,60 Z" 
-          fill="var(--green-light)" stroke="var(--green-mid)" stroke-width="2" stroke-linejoin="round"/>
-        
-        <!-- State highlights -->
-        <circle cx="175" cy="120" r="8" fill="var(--green-mid)" opacity="0.7">
-          <animate attributeName="r" values="8;12;8" dur="2.5s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.7;0.4;0.7" dur="2.5s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="220" cy="145" r="6" fill="var(--green-vivid)" opacity="0.8">
-          <animate attributeName="r" values="6;10;6" dur="2s" begin="0.5s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2s" begin="0.5s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="155" cy="200" r="7" fill="var(--green-mid)" opacity="0.7">
-          <animate attributeName="r" values="7;11;7" dur="3s" begin="1s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="200" cy="220" r="9" fill="var(--earth)" opacity="0.6">
-          <animate attributeName="r" values="9;14;9" dur="2.8s" begin="0.3s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="240" cy="190" r="6" fill="var(--green-vivid)" opacity="0.8">
-          <animate attributeName="r" values="6;9;6" dur="2.2s" begin="0.8s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="175" cy="300" r="7" fill="var(--green-mid)" opacity="0.7">
-          <animate attributeName="r" values="7;11;7" dur="2.6s" begin="0.6s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="210" cy="350" r="5" fill="var(--green-vivid)" opacity="0.6">
-          <animate attributeName="r" values="5;8;5" dur="2.4s" begin="1.2s" repeatCount="indefinite"/>
-        </circle>
-
-        <!-- Legend -->
-        <circle cx="50" cy="400" r="6" fill="var(--green-mid)" opacity="0.7"/>
-        <text x="62" y="405" font-family="DM Sans, sans-serif" font-size="11" fill="var(--ink-muted)">Active Programs</text>
-        <circle cx="50" cy="420" r="6" fill="var(--earth)" opacity="0.6"/>
-        <text x="62" y="425" font-family="DM Sans, sans-serif" font-size="11" fill="var(--ink-muted)">FarmerChat Focus</text>
-      </svg>
+      <img src="maps.gif" style="width: 90%;" />
     </div>
-  </div>
+    </div>
 </section>
 
 <!-- FIELD STORIES -->
@@ -1671,9 +1882,8 @@
       Whether you're a government partner, donor, NGO, or researcher — Digital Green Trust offers pathways to scale impact. Together, we can reach every smallholder farmer with the guidance they deserve.
     </p>
     <div class="cta-btns">
-      <a href="#" class="btn-primary">Partner With Us</a>
-      <a href="#" class="btn-earth">Support Our Work</a>
-      <a href="#" class="btn-secondary">Download Impact Report</a>
+      <a href="#" class="btn-earth">Partner With Us</a>
+      <a href="#" class="btn-secondary">Support Our Work</a>
     </div>
   </div>
 </section>
@@ -1683,8 +1893,10 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <div style="display:flex;align-items:center;gap:10px">
-        <div class="nav-logo-mark" style="background:#25A35A"></div>
-        <span style="font-family:var(--font-display);font-size:1.05rem;color:white;font-weight:400">Digital Green Trust</span>
+        <div class="nav-logo-mark">
+          <img src="iconWhite.png" alt="Digital Green icon" style="height:26px;object-fit:contain;">
+        </div>
+        <!-- <span style="font-family:var(--font-display);font-size:1.05rem;color:white;font-weight:400">Digital Green Trust</span> -->
       </div>
       <p>Harnessing technology and community knowledge to build resilient, prosperous farming communities across India.</p>
     </div>
@@ -1909,12 +2121,12 @@ observer1.observe(counterSection);
         if (dist < maxDist) {
           ctx.beginPath();
           ctx.moveTo(d.x*W, d.y*H); ctx.lineTo(e2.x*W, e2.y*H);
-          ctx.strokeStyle = `rgba(37,163,90,${0.05*(1-dist/maxDist)})`;
+          ctx.strokeStyle = `rgba(28,160,105,${0.05*(1-dist/maxDist)})`;
           ctx.lineWidth = 1; ctx.stroke();
         }
       }
       ctx.beginPath(); ctx.arc(d.x*W, d.y*H, d.r, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(37,163,90,${d.a})`; ctx.fill();
+      ctx.fillStyle = `rgba(28,160,105,${d.a})`; ctx.fill();
     }
     requestAnimationFrame(draw);
   }
@@ -1934,6 +2146,33 @@ observer1.observe(counterSection);
   let t = 0;
   let W = 0, H = 0;
 
+  // Overlay state
+  let networkClicked = false;
+  let climateActivated = false;
+
+  // Insight-specific state (driven by mouse X, not click)
+  let insightProgress = 0;        // smooth 0→1 following mouse.x
+  let insightMouseMoved = false;  // true once user actually moves mouse inside frame
+  let insightAdvisoryVisible = false;
+  let insightAdvisoryTimer = null;
+  let insightActivated = false;   // crops go green
+  let cropHealthProgress = 0;     // 0 = withered orange, 1 = healthy green
+
+  const networkOverlay = document.getElementById('networkOverlay');
+  const insightOverlay = document.getElementById('insightOverlay');
+  const climateOverlay = document.getElementById('climateOverlay');
+  const frameStatus   = document.getElementById('frameStatus');
+
+  const statusText = {
+    network: 'Hover to explore · Click to interact',
+    insight: 'Move right to reveal AI advisory →',
+    climate: 'Unpredictable weather · Click to respond'
+  };
+
+  function hideAllOverlays() {
+    [networkOverlay, insightOverlay, climateOverlay].forEach(o => o && o.classList.remove('visible'));
+  }
+
   // Sync canvas pixel size to its CSS size
   function syncSize() {
     W = farmCanvas.offsetWidth;
@@ -1944,28 +2183,49 @@ observer1.observe(counterSection);
     }
   }
   new ResizeObserver(syncSize).observe(heroFrame);
-  setTimeout(syncSize, 100); // also run after first paint
+  setTimeout(syncSize, 100);
 
   heroFrame.addEventListener('mousemove', e => {
     const rect = heroFrame.getBoundingClientRect();
     farmMouse.x = (e.clientX - rect.left) / rect.width;
     farmMouse.y = (e.clientY - rect.top) / rect.height;
+    if (currentMode === 'insight') insightMouseMoved = true;
   });
-  heroFrame.addEventListener('mouseleave', () => { farmMouse.x = 0.5; farmMouse.y = 0.5; });
+  heroFrame.addEventListener('mouseleave', () => {
+    farmMouse.x = 0.5; farmMouse.y = 0.5;
+    if (currentMode === 'insight' && !insightActivated) insightMouseMoved = false;
+  });
+
   heroFrame.addEventListener('click', e => {
+    if (e.target.closest('a')) return;
     const rect = heroFrame.getBoundingClientRect();
     clickRipples.push({
       x: (e.clientX - rect.left) / rect.width,
       y: (e.clientY - rect.top) / rect.height,
       r: 0, a: 0.8
     });
+    if (currentMode === 'network') {
+      networkClicked = !networkClicked;
+      networkClicked ? networkOverlay.classList.add('visible') : networkOverlay.classList.remove('visible');
+    } else if (currentMode === 'climate') {
+      climateActivated = !climateActivated;
+      climateActivated ? climateOverlay.classList.add('visible') : climateOverlay.classList.remove('visible');
+      if (frameStatus) frameStatus.textContent = climateActivated ? 'Advisory received.' : statusText.climate;
+    }
+    // insight is driven by mouse movement — no click needed
   });
 
   window.setMode = function(mode) {
     currentMode = mode;
+    networkClicked = false; climateActivated = false;
+    // Reset insight state
+    insightProgress = 0; insightMouseMoved = false; insightAdvisoryVisible = false; insightActivated = false; cropHealthProgress = 0;
+    if (insightAdvisoryTimer) { clearTimeout(insightAdvisoryTimer); insightAdvisoryTimer = null; }
+    hideAllOverlays();
     document.querySelectorAll('.hero-mode-btn').forEach(b => b.classList.remove('active'));
     const btn = document.getElementById('btn-' + mode);
     if (btn) btn.classList.add('active');
+    if (frameStatus) frameStatus.textContent = statusText[mode] || '';
   };
 
   // ── Network nodes ──
@@ -2052,7 +2312,7 @@ bg.addColorStop(1, 'rgba(15, 58, 30, 0.7)');
           fc.beginPath();
           fc.moveTo(nodes[i].x*W, nodes[i].y*H);
           fc.lineTo(nodes[j].x*W, nodes[j].y*H);
-          fc.strokeStyle = `rgba(111,212,154,${alpha})`;
+          fc.strokeStyle = `rgba(165,222,72,${alpha})`;
           fc.lineWidth = (nodes[i].type==='hub'||nodes[j].type==='hub') ? 1.2 : 0.6;
           fc.stroke();
         }
@@ -2084,19 +2344,19 @@ bg.addColorStop(1, 'rgba(15, 58, 30, 0.7)');
       if (n.type === 'hub') {
         const pulse = 0.5 + 0.5*Math.sin(n.pulse);
         fc.beginPath(); fc.arc(nx, ny, n.r + 14 + pulse*8, 0, Math.PI*2);
-        fc.fillStyle = `rgba(111,212,154,${0.07*pulse})`; fc.fill();
+        fc.fillStyle = `rgba(165,222,72,${0.07*pulse})`; fc.fill();
         fc.beginPath(); fc.arc(nx, ny, n.r + 5, 0, Math.PI*2);
-        fc.fillStyle = 'rgba(111,212,154,0.25)'; fc.fill();
+        fc.fillStyle = 'rgba(165,222,72,0.25)'; fc.fill();
       }
 
       fc.beginPath(); fc.arc(nx, ny, n.r + hi*4, 0, Math.PI*2);
       fc.fillStyle = n.type==='hub'
-        ? `rgba(111,212,154,${0.85+hi*0.15})`
+        ? `rgba(165,222,72,${0.85+hi*0.15})`
         : `rgba(255,255,255,${0.45+hi*0.45})`;
       fc.fill();
 
       if (n.label && hi > 0.15) {
-        fc.font = `600 ${10+hi*3}px DM Sans,sans-serif`;
+        fc.font = `600 ${10+hi*3}px PP Fragment Sans,sans-serif`;
         fc.fillStyle = `rgba(255,255,255,${0.5+hi*0.5})`;
         fc.textAlign = 'center';
         fc.fillText(n.label, nx, ny - n.r - 9);
@@ -2105,77 +2365,356 @@ bg.addColorStop(1, 'rgba(15, 58, 30, 0.7)');
 
     // Mouse glow
     const grd = fc.createRadialGradient(farmMouse.x*W, farmMouse.y*H, 0, farmMouse.x*W, farmMouse.y*H, 90);
-    grd.addColorStop(0, 'rgba(111,212,154,0.1)');
+    grd.addColorStop(0, 'rgba(165,222,72,0.1)');
     grd.addColorStop(1, 'rgba(0,0,0,0)');
     fc.fillStyle = grd; fc.fillRect(0, 0, W, H);
   }
 
-  function drawFields() {
-    // Sky
+  function drawInsight() {
+    // ── Smooth progress follows mouse.x only in sky/top area (y < 0.32) ──
+    // Dragging over fields does nothing — only the sky zone controls the sun
+    if (insightMouseMoved && farmMouse.y < 0.32) {
+      insightProgress += (farmMouse.x - insightProgress) * 0.035;
+    }
+
+    // ── Trigger advisory card when mouse is past midpoint ──
+    const ADVISORY_THRESHOLD = 0.88;
+    if (insightProgress > ADVISORY_THRESHOLD && !insightAdvisoryVisible) {
+      insightAdvisoryVisible = true;
+      insightOverlay.classList.add('visible');
+      // Start 2-second timer → crops go green
+      if (!insightActivated && !insightAdvisoryTimer) {
+        insightAdvisoryTimer = setTimeout(() => {
+          insightActivated = true;
+          insightAdvisoryTimer = null;
+          if (frameStatus) frameStatus.textContent = 'Health improved. Yield protected.';
+        }, 1000);
+      }
+    } else if (insightProgress < ADVISORY_THRESHOLD - 0.1 && insightAdvisoryVisible && !insightActivated) {
+      // Mouse pulled back left before 2s — reset
+      insightAdvisoryVisible = false;
+      insightOverlay.classList.remove('visible');
+      if (insightAdvisoryTimer) { clearTimeout(insightAdvisoryTimer); insightAdvisoryTimer = null; }
+    }
+
+    // ── Smoothly lerp crop health 0→1 after activation ──
+    const healthTarget = insightActivated ? 1 : 0;
+    cropHealthProgress += (healthTarget - cropHealthProgress) * 0.022;
+
+    // ── Sky: dull/hazy initially, brightens as health improves ──
     const sky = fc.createLinearGradient(0, 0, 0, H*0.35);
-    sky.addColorStop(0, '#07200E'); sky.addColorStop(1, '#174A26');
+    const skyDark = `rgba(10,26,8,${1 - cropHealthProgress*0.3})`;
+    const skyMid  = `rgba(18,48,20,${0.9 + cropHealthProgress*0.1})`;
+    sky.addColorStop(0, skyDark); sky.addColorStop(1, skyMid);
     fc.fillStyle = sky; fc.fillRect(0, 0, W, H);
 
     // Ground
-    fc.fillStyle = '#0E2E17';
+    const gr = Math.round(14 + cropHealthProgress * 18);
+    fc.fillStyle = `rgb(10,${gr},12)`;
     fc.fillRect(0, H*0.32, W, H);
 
-    // Sun follows mouse horizontally
-    const sunX = W * (0.2 + farmMouse.x * 0.6);
-    const sunY = H * 0.14;
-    const sg = fc.createRadialGradient(sunX, sunY, 0, sunX, sunY, 65);
-    sg.addColorStop(0, 'rgba(255,215,80,0.7)');
-    sg.addColorStop(0.3, 'rgba(255,195,40,0.25)');
+    // ── Sun: starts extreme left, moves right but stops before phone (~78%) ──
+    const sunX = W * (0.07 + Math.min(insightProgress, 0.95) * 0.85);
+    const sunY = H * 0.13;
+    const sunHarsh = 1 - cropHealthProgress * 0.45;  // 1=harsh, 0.55=soft
+    const sg = fc.createRadialGradient(sunX, sunY, 0, sunX, sunY, 70);
+    sg.addColorStop(0, `rgba(255,${Math.round(180 + cropHealthProgress*50)},60,${sunHarsh * 0.85})`);
+    sg.addColorStop(0.35, `rgba(255,160,30,${sunHarsh * 0.22})`);
     sg.addColorStop(1, 'rgba(0,0,0,0)');
     fc.fillStyle = sg;
-    fc.beginPath(); fc.arc(sunX, sunY, 65, 0, Math.PI*2); fc.fill();
-    fc.beginPath(); fc.arc(sunX, sunY, 18, 0, Math.PI*2);
-    fc.fillStyle = 'rgba(255,230,100,0.9)'; fc.fill();
+    fc.beginPath(); fc.arc(sunX, sunY, 70, 0, Math.PI*2); fc.fill();
+    fc.beginPath(); fc.arc(sunX, sunY, 19, 0, Math.PI*2);
+    fc.fillStyle = `rgba(255,${Math.round(200 + cropHealthProgress*40)},90,${0.75 + cropHealthProgress*0.2})`;
+    fc.fill();
 
-    // Horizon glow
-    const hg = fc.createLinearGradient(0, H*0.22, 0, H*0.36);
-    hg.addColorStop(0, 'rgba(255,180,50,0.12)'); hg.addColorStop(1, 'rgba(0,0,0,0)');
-    fc.fillStyle = hg; fc.fillRect(0, H*0.22, W, H*0.14);
+    // Horizon glow: orange when stressed, green when healthy
+    const hg = fc.createLinearGradient(0, H*0.22, 0, H*0.37);
+    const hgR = Math.round(255 - cropHealthProgress*155);
+    const hgG = Math.round(140 + cropHealthProgress*90);
+    const hgB = Math.round(30 + cropHealthProgress*90);
+    hg.addColorStop(0, `rgba(${hgR},${hgG},${hgB},0.12)`);
+    hg.addColorStop(1, 'rgba(0,0,0,0)');
+    fc.fillStyle = hg; fc.fillRect(0, H*0.22, W, H*0.15);
 
-    // Draw crops — sway toward mouse
+    // ── Crops: all start withered/orange, go green as health rises ──
     crops.forEach(c => {
-      const cx = c.x*W, cy = c.y*H;
-      const wind = (farmMouse.x - 0.5) * 14;
-      const sway = Math.sin(t*1.6 + c.phase)*3 + wind;
-      const cH = c.h*H;
-      // Stalk
+      const cx = c.x * W, cy = c.y * H;
+      const wind = (farmMouse.x - 0.5) * 10;
+      // Droop when withered (droops downward), stands upright when healthy
+      const droop = (1 - cropHealthProgress) * 6;
+      const sway = Math.sin(t * 1.6 + c.phase) * 3 + wind;
+      const cH = c.h * H;
+
+      // Color interpolation: orange-brown (withered) → bright green (healthy)
+      const sR = Math.round(210 - cropHealthProgress * 80);
+      const sG = Math.round(100 + cropHealthProgress * 120);
+      const sB = Math.round(40  + cropHealthProgress * 80);
+      const sA = (0.6 + cropHealthProgress * 0.15).toFixed(2);
+      const hR = Math.round(240 - cropHealthProgress * 60);
+      const hG = Math.round(140 + cropHealthProgress * 115);
+      const hBb= Math.round(50  + cropHealthProgress * 110);
+
       fc.beginPath();
       fc.moveTo(cx, cy);
-      fc.quadraticCurveTo(cx + sway*0.4, cy - cH*0.5, cx + sway, cy - cH);
-      fc.strokeStyle = c.healthy ? 'rgba(130,220,120,0.65)' : 'rgba(210,130,50,0.55)';
+      fc.quadraticCurveTo(cx + sway * 0.4, cy - cH * 0.5 + droop, cx + sway, cy - cH + droop * 0.5);
+      fc.strokeStyle = `rgba(${sR},${sG},${sB},${sA})`;
       fc.lineWidth = 1.5; fc.stroke();
-      // Head
-      fc.beginPath(); fc.arc(cx + sway, cy - cH, 2.5, 0, Math.PI*2);
-      fc.fillStyle = c.healthy ? 'rgba(190,255,160,0.8)' : 'rgba(255,180,70,0.7)';
+
+      fc.beginPath(); fc.arc(cx + sway, cy - cH + droop * 0.5, 2.5, 0, Math.PI * 2);
+      fc.fillStyle = `rgba(${hR},${hG},${hBb},0.85)`;
       fc.fill();
+
+      // Recovery pulse glow when turning green
+      if (cropHealthProgress > 0.3) {
+        const pulse = 0.5 + 0.5 * Math.sin(t * 3 + c.phase);
+        fc.beginPath(); fc.arc(cx + sway, cy - cH, 5 + pulse * 4, 0, Math.PI * 2);
+        fc.fillStyle = `rgba(165,222,72,${(cropHealthProgress - 0.3) * 0.12 * pulse})`;
+        fc.fill();
+      }
     });
 
-    // Birds
-    for (let b = 0; b < 4; b++) {
-      const bx = ((t*0.025 + b*0.28) % 1.15 - 0.08)*W;
-      const by = H*(0.08 + b*0.03 + Math.sin(t + b)*0.01);
-      const wing = Math.sin(t*5 + b*1.3)*4;
+    // Birds — appear only when healthy
+    if (cropHealthProgress > 0.5) {
+      const birdAlpha = (cropHealthProgress - 0.5) * 0.5;
+      for (let b = 0; b < 4; b++) {
+        const bx = ((t * 0.025 + b * 0.28) % 1.15 - 0.08) * W;
+        const by = H * (0.08 + b * 0.03 + Math.sin(t + b) * 0.01);
+        const wing = Math.sin(t * 5 + b * 1.3) * 4;
+        fc.beginPath();
+        fc.moveTo(bx-6, by); fc.quadraticCurveTo(bx-3, by-wing, bx, by);
+        fc.quadraticCurveTo(bx+3, by-wing, bx+6, by);
+        fc.strokeStyle = `rgba(255,255,255,${birdAlpha})`; fc.lineWidth=1.2; fc.stroke();
+      }
+    }
+
+    // ── Guide: solar beam with flowing energy dots from sun → phone ──
+    if (!insightActivated) {
+      const guideAlpha = Math.max(0, 1 - insightProgress * 1.45);
+      if (guideAlpha > 0.02) {
+        const beamStartX = sunX + 26;
+        const beamEndX   = W * 0.83;   // stops just before phone
+        const beamY      = sunY;
+        const beamLen    = beamEndX - beamStartX;
+
+        if (beamLen > 30) {
+          fc.save();
+
+          // Glowing beam line — dashed, sun-coloured
+          fc.setLineDash([3, 9]);
+          fc.beginPath();
+          fc.moveTo(beamStartX, beamY);
+          fc.lineTo(beamEndX, beamY);
+          fc.strokeStyle = `rgba(255,215,60,${guideAlpha * 0.3})`;
+          fc.lineWidth = 1.2; fc.stroke();
+          fc.setLineDash([]);
+
+          // Flowing energy dots sweep along the beam
+          for (let d = 0; d < 6; d++) {
+            const phase = ((t * 0.38 + d / 6) % 1);
+            const dx    = beamStartX + phase * beamLen;
+            const dSize = 1.8 + Math.sin(phase * Math.PI) * 3.2;
+            const dAlpha = guideAlpha * Math.sin(phase * Math.PI) * 0.95;
+            if (dAlpha < 0.02) continue;
+
+            // Outer glow blob
+            const dg = fc.createRadialGradient(dx, beamY, 0, dx, beamY, dSize * 3.5);
+            dg.addColorStop(0, `rgba(255,230,70,${dAlpha * 0.55})`);
+            dg.addColorStop(1, 'rgba(0,0,0,0)');
+            fc.fillStyle = dg;
+            fc.fillRect(dx - dSize*4, beamY - dSize*4, dSize*8, dSize*8);
+
+            // Bright core dot
+            fc.beginPath(); fc.arc(dx, beamY, dSize, 0, Math.PI*2);
+            fc.fillStyle = `rgba(255,240,100,${dAlpha})`; fc.fill();
+          }
+
+          // Double arrowhead at beam end — pulses
+          // const ap = 0.65 + 0.35 * Math.sin(t * 2.8);
+          // const as = 8;
+          // [[0, 1], [-as * 1.1, 0.38]].forEach(([offset, opMult]) => {
+          //   const ax = beamEndX + offset;
+          //   fc.beginPath();
+          //   fc.moveTo(ax - as, beamY - as * 0.55);
+          //   fc.lineTo(ax + as * 0.6, beamY);
+          //   fc.lineTo(ax - as, beamY + as * 0.55);
+          //   fc.strokeStyle = `rgba(255,220,60,${guideAlpha * ap * opMult})`;
+          //   fc.lineWidth = 2; fc.lineJoin = 'round'; fc.stroke();
+          // });
+
+          fc.restore();
+        }
+
+        // "drag right" nudge label just below sun when user hasn't moved yet
+        if (!insightMouseMoved) {
+          fc.textAlign = 'center';
+          fc.font = `600 9.5px PP Fragment Sans,sans-serif`;
+          fc.fillStyle = `rgba(255,230,100,${guideAlpha * 0.7})`;
+          fc.fillText('drag  →', sunX + 36, sunY + 32);
+        }
+      }
+    }
+
+    // ── FarmerChat Gateway (right edge) ──
+    // Helper: rounded rect path
+    function rrect(x, y, w, h, r) {
       fc.beginPath();
-      fc.moveTo(bx-6, by); fc.quadraticCurveTo(bx-3, by-wing, bx, by);
-      fc.quadraticCurveTo(bx+3, by-wing, bx+6, by);
-      fc.strokeStyle = 'rgba(255,255,255,0.25)'; fc.lineWidth=1.2; fc.stroke();
+      fc.moveTo(x+r, y);
+      fc.lineTo(x+w-r, y); fc.quadraticCurveTo(x+w, y, x+w, y+r);
+      fc.lineTo(x+w, y+h-r); fc.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+      fc.lineTo(x+r, y+h); fc.quadraticCurveTo(x, y+h, x, y+h-r);
+      fc.lineTo(x, y+r); fc.quadraticCurveTo(x, y, x+r, y);
+      fc.closePath();
+    }
+
+    // Gate brightness rises with insightProgress
+    const gateAlpha = Math.min(1, Math.max(0, insightProgress * 1.4));
+    const gateFull  = Math.min(1, Math.max(0, (insightProgress - 0.75) * 4)); // 0→1 as sun nears
+
+    // Phone dimensions — anchored to right edge
+    const phoneW = Math.max(18, W * 0.07);
+    const phoneH = phoneW * 1.52;
+    const phoneX = W * 0.88 - phoneW / 2;
+    const phoneY = H * 0.05;
+
+    // Outer halo glow
+    if (gateAlpha > 0.05) {
+      const halo = fc.createRadialGradient(
+        phoneX + phoneW/2, phoneY + phoneH/2, 0,
+        phoneX + phoneW/2, phoneY + phoneH/2, phoneH * 1.1
+      );
+      halo.addColorStop(0, `rgba(37,211,102,${gateAlpha * 0.18})`);
+      halo.addColorStop(0.5, `rgba(165,222,72,${gateAlpha * 0.07})`);
+      halo.addColorStop(1, 'rgba(0,0,0,0)');
+      fc.fillStyle = halo;
+      fc.fillRect(phoneX - phoneH, phoneY - phoneH*0.5, phoneH*3, phoneH*2.5);
+    }
+
+    // Phone body
+    rrect(phoneX, phoneY, phoneW, phoneH, 7);
+    fc.fillStyle = `rgba(4,18,8,${0.75 + gateAlpha * 0.2})`;
+    fc.fill();
+    fc.strokeStyle = `rgba(37,211,102,${0.2 + gateAlpha * 0.7})`;
+    fc.lineWidth = 1.5 + gateFull; fc.stroke();
+
+    // Screen area
+    const sPad = 4;
+    rrect(phoneX + sPad, phoneY + sPad*2.5, phoneW - sPad*2, phoneH - sPad*5, 4);
+    fc.fillStyle = `rgba(6,28,14,${0.7 + gateAlpha * 0.3})`;
+    fc.fill();
+
+    // Top notch
+    fc.beginPath();
+    fc.arc(phoneX + phoneW/2, phoneY + 5, 3.5, 0, Math.PI*2);
+    fc.fillStyle = `rgba(37,211,102,${0.15 + gateAlpha * 0.35})`; fc.fill();
+
+    // WhatsApp-style circle icon on screen
+    const icX = phoneX + phoneW / 2;
+    const icY = phoneY + phoneH * 0.35;
+    const icR = phoneW * 0.28;
+
+    if (gateAlpha > 0.15) {
+      const icA = Math.min(1, (gateAlpha - 0.15) / 0.6);
+      // Green circle
+      fc.beginPath(); fc.arc(icX, icY, icR, 0, Math.PI*2);
+      fc.fillStyle = `rgba(37,211,102,${icA * 0.9})`; fc.fill();
+      // Chat bubble shape inside
+      fc.beginPath();
+      fc.moveTo(icX - icR*0.45, icY - icR*0.28);
+      fc.lineTo(icX + icR*0.45, icY - icR*0.28);
+      fc.quadraticCurveTo(icX + icR*0.55, icY - icR*0.28, icX + icR*0.55, icY - icR*0.05);
+      fc.lineTo(icX + icR*0.55, icY + icR*0.18);
+      fc.quadraticCurveTo(icX + icR*0.55, icY + icR*0.38, icX + icR*0.35, icY + icR*0.38);
+      fc.lineTo(icX - icR*0.05, icY + icR*0.38);
+      fc.lineTo(icX - icR*0.28, icY + icR*0.58);
+      fc.lineTo(icX - icR*0.28, icY + icR*0.38);
+      fc.lineTo(icX - icR*0.45, icY + icR*0.38);
+      fc.quadraticCurveTo(icX - icR*0.55, icY + icR*0.38, icX - icR*0.55, icY + icR*0.18);
+      fc.lineTo(icX - icR*0.55, icY - icR*0.05);
+      fc.quadraticCurveTo(icX - icR*0.55, icY - icR*0.28, icX - icR*0.45, icY - icR*0.28);
+      fc.closePath();
+      fc.fillStyle = `rgba(255,255,255,${icA * 0.92})`; fc.fill();
+    }
+
+    // "Advisory Sent ✓" / idle label on screen
+    fc.textAlign = 'center';
+    if (cropHealthProgress > 0.05) {
+      const sentA = Math.min(1, cropHealthProgress * 4);
+      fc.font = `bold ${Math.max(7, phoneW * 0.17)}px PP Fragment Sans,sans-serif`;
+      fc.fillStyle = `rgba(165,222,72,${sentA})`;
+      fc.fillText('✓ Sent', icX, phoneY + phoneH * 0.64);
+    } else if (gateAlpha > 0.4) {
+      fc.font = `${Math.max(7, phoneW * 0.15)}px PP Fragment Sans,sans-serif`;
+      fc.fillStyle = `rgba(255,255,255,${(gateAlpha - 0.4) * 0.5})`;
+      fc.fillText('Waiting...', icX, phoneY + phoneH * 0.64);
+    }
+
+    // "FarmerChat" label below phone
+    // if (gateAlpha > 0.1) {
+      const lblA = Math.min(1,0.5);
+      fc.font = `700 ${Math.max(8, phoneW * 0.22)}px PP Fragment Sans,sans-serif`;
+      fc.fillStyle = `rgba(165,222,72,${lblA})`;
+      fc.fillText('FarmerChat', icX, phoneY + phoneH + 16);
+      fc.font = `400 ${Math.max(6, phoneW * 0.15)}px PP Fragment Sans,sans-serif`;
+      fc.fillStyle = `rgba(255,255,255,${lblA * 0.45})`;
+      fc.fillText('by Digital Green', icX, phoneY + phoneH + 28);
+    // }
+
+    // Signal arcs radiating leftward as sun approaches
+    if (insightProgress > 0.55) {
+      const sigStrength = Math.min(1, (insightProgress - 0.55) / 0.33);
+      const originX = phoneX;
+      const originY = phoneY + phoneH * 0.35;
+      for (let s = 1; s <= 4; s++) {
+        const phase = (t * 0.9 - s * 0.5) % 1;           // 0→1 sweep outward
+        const maxR  = W * 0.55;
+        const r     = phase * maxR;
+        const a     = sigStrength * (1 - phase) * (1 - s * 0.18) * 0.55;
+        if (a < 0.01) continue;
+        fc.beginPath();
+        fc.arc(originX, originY, r, Math.PI * 0.55, Math.PI * 1.45);
+        fc.strokeStyle = `rgba(37,211,102,${a})`;
+        fc.lineWidth = 1.2; fc.stroke();
+      }
+    }
+
+    // Advisory beam: a dashed line shooting from phone to crops when activated
+    if (cropHealthProgress > 0 && cropHealthProgress < 0.95) {
+      const beamProg = Math.min(1, cropHealthProgress * 3);
+      const bStartX = phoneX;
+      const bEndX   = W * (1 - beamProg * 0.82);
+      const bY      = H * 0.35;
+      fc.beginPath();
+      fc.moveTo(bStartX, bY);
+      fc.lineTo(bEndX, bY);
+      fc.setLineDash([6, 5]);
+      fc.strokeStyle = `rgba(165,222,72,${0.5 * (1 - cropHealthProgress)})`;
+      fc.lineWidth = 1.5; fc.stroke();
+      fc.setLineDash([]);
     }
   }
 
-  function drawRain() {
-    // Stormy sky
-    fc.fillStyle = '#050e08'; fc.fillRect(0, 0, W, H);
+  function drawClimate() {
+    // When activated rain calms, soft warm glow appears
+    const rainIntensity = climateActivated ? 0.3 : 1.0;
+    const rainAlphaMult = climateActivated ? 0.35 : 1.0;
+
+    // Sky
+    const skyColor = climateActivated ? '#091a10' : '#050e08';
+    fc.fillStyle = skyColor; fc.fillRect(0, 0, W, H);
 
     // Ground
     fc.fillStyle = '#0a1e0e'; fc.fillRect(0, H*0.75, W, H*0.25);
 
-    // Lightning
-    if (Math.sin(t*0.35) > 0.96) {
+    // Warm advisory glow when activated
+    if (climateActivated) {
+      const wg = fc.createRadialGradient(W*0.5, H*0.5, 0, W*0.5, H*0.5, W*0.5);
+      wg.addColorStop(0, 'rgba(100,200,150,0.08)');
+      wg.addColorStop(1, 'rgba(0,0,0,0)');
+      fc.fillStyle = wg; fc.fillRect(0, 0, W, H);
+    }
+
+    // Lightning — only when not activated
+    if (!climateActivated && Math.sin(t*0.35) > 0.96) {
       fc.fillStyle = 'rgba(220,240,255,0.07)'; fc.fillRect(0, 0, W, H);
       const bx = W*(0.25 + Math.random()*0.5);
       fc.beginPath(); fc.moveTo(bx, 0);
@@ -2184,28 +2723,40 @@ bg.addColorStop(1, 'rgba(15, 58, 30, 0.7)');
       fc.strokeStyle='rgba(255,255,200,0.2)'; fc.lineWidth=6; fc.stroke();
     }
 
-    // Rain
+    // Rain — slows when activated
     raindrops.forEach(d => {
-      d.y += d.speed + (farmMouse.y - 0.5)*0.002;
+      d.y += (d.speed * rainIntensity) + (farmMouse.y - 0.5)*0.001;
       if (d.y > 1) { d.y = -d.len; d.x = Math.random(); }
-      const angle = 0.1 + (farmMouse.x - 0.5)*0.3;
+      const angle = climateActivated ? 0.05 : 0.1 + (farmMouse.x - 0.5)*0.3;
       const rx = d.x*W + (d.y*H)*Math.tan(angle);
       fc.beginPath();
       fc.moveTo(rx, d.y*H);
-      fc.lineTo(rx - d.len*H*Math.tan(angle), (d.y-d.len)*H);
-      fc.strokeStyle = `rgba(160,220,255,${d.a})`; fc.lineWidth=1; fc.stroke();
+      fc.lineTo(rx - d.len*H*Math.tan(angle)*rainIntensity, (d.y-d.len)*H);
+      fc.strokeStyle = `rgba(160,220,255,${d.a * rainAlphaMult})`; fc.lineWidth=1; fc.stroke();
     });
+
+    // Covered-crop rows when activated
+    if (climateActivated) {
+      for (let i = 0; i < 6; i++) {
+        const rx3 = (0.08 + i*0.15)*W;
+        const ry3 = H*0.72;
+        fc.beginPath();
+        fc.ellipse(rx3, ry3, 28, 8, 0, Math.PI, Math.PI*2);
+        fc.strokeStyle = 'rgba(100,200,130,0.3)'; fc.lineWidth = 1.5; fc.stroke();
+        fc.fillStyle = 'rgba(100,200,130,0.05)'; fc.fill();
+      }
+    }
 
     // Water surface ripples
     const groundY = H*0.75;
     for (let i = 0; i < 8; i++) {
       const rx2 = (0.07 + i*0.12)*W;
       const phase2 = (t*2.5 + i*0.9) % (Math.PI*2);
-      const rw = 4 + Math.sin(phase2)*10;
+      const rw = (4 + Math.sin(phase2)*10) * rainIntensity;
       if (rw > 0) {
         fc.beginPath();
         fc.ellipse(rx2, groundY+4, rw, rw*0.3, 0, 0, Math.PI*2);
-        fc.strokeStyle = `rgba(100,200,160,${0.18*(1-Math.sin(phase2)*0.4)})`; fc.lineWidth=1; fc.stroke();
+        fc.strokeStyle = `rgba(100,200,160,${0.18*(1-Math.sin(phase2)*0.4)*rainAlphaMult})`; fc.lineWidth=1; fc.stroke();
       }
     }
 
@@ -2215,9 +2766,9 @@ bg.addColorStop(1, 'rgba(15, 58, 30, 0.7)');
       fc.strokeStyle = `rgba(130,210,255,${rp.a*0.6})`; fc.lineWidth=1.5; fc.stroke();
     });
 
-    // Cursor puddle glow
+    // Cursor glow
     const pg = fc.createRadialGradient(farmMouse.x*W, farmMouse.y*H, 0, farmMouse.x*W, farmMouse.y*H, 50);
-    pg.addColorStop(0,'rgba(80,180,255,0.12)'); pg.addColorStop(1,'rgba(0,0,0,0)');
+    pg.addColorStop(0,'rgba(80,180,255,0.1)'); pg.addColorStop(1,'rgba(0,0,0,0)');
     fc.fillStyle=pg; fc.fillRect(0,0,W,H);
   }
 
@@ -2231,8 +2782,8 @@ bg.addColorStop(1, 'rgba(15, 58, 30, 0.7)');
     clickRipples.forEach(r => { r.r += 0.02; r.a *= 0.93; });
 
     if (currentMode === 'network') drawNetwork();
-    else if (currentMode === 'fields') drawFields();
-    else if (currentMode === 'rain') drawRain();
+    else if (currentMode === 'insight') drawInsight();
+    else if (currentMode === 'climate') drawClimate();
 
     requestAnimationFrame(loop);
   }
