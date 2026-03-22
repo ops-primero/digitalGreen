@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FarmerChat — AI Advisory for Farmers · Digital Green Trust</title>
+<style>
+  @font-face { font-family:"PP Fragment Serif"; src:url("PPFragment-SerifRegular.otf") format("opentype"); font-weight:400; font-style:normal; font-display:swap; }
+  @font-face { font-family:"PP Fragment Serif"; src:url("PPFragment-SerifExtraBold.otf") format("opentype"); font-weight:800; font-style:normal; font-display:swap; }
+  @font-face { font-family:"PP Fragment Sans"; src:url("PPFragment-SansRegular.otf") format("opentype"); font-weight:400; font-style:normal; font-display:swap; }
+  @font-face { font-family:"PP Fragment Sans"; src:url("PPFragment-SansExtraBold.otf") format("opentype"); font-weight:800; font-style:normal; font-display:swap; }
+</style>
+<style>
+/* ─────────────────────────────────────
+   TOKENS
+───────────────────────────────────── */
+:root {
+  --green-deep: #30572A;
+  --green-mid:  #1CA069;
+  --green-vivid:#A5DE48;
+  --green-light:#EAF8CC;
+  --green-pale: #f4f7f2;
+  --ink:        #101410;
+  --ink-muted:  #3a4a38;
+  --ink-faint:  #6b7f69;
+  --border:     rgba(28,160,105,0.14);
+  --border-dark:rgba(28,160,105,0.28);
+  --font-serif: "PP Fragment Serif", Georgia, serif;
+  --font-sans:  "PP Fragment Sans", system-ui, sans-serif;
+  --ease:       cubic-bezier(.4,0,.2,1);
+  --shadow-sm:  0 2px 12px rgba(48,87,42,.08);
+  --shadow-md:  0 8px 40px rgba(48,87,42,.12);
+  --shadow-lg:  0 24px 80px rgba(48,87,42,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{font-family:var(--font-sans);background:#fff;color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+img{display:block;max-width:100%;}
+
+/* ─────────────────────────────────────
+   NAV
+───────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 6%;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  transition:padding .3s var(--ease),box-shadow .3s;
+}
+nav.scrolled{padding:.65rem 6%;box-shadow:0 2px 20px rgba(48,87,42,.07);}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo img{height:26px;}
+.nav-links{display:flex;list-style:none;gap:0;}
+.nav-links a{
+  display:block;padding:.5rem 1rem;
+  font-size:.875rem;font-weight:500;color:var(--ink-muted);
+  text-decoration:none;border-radius:8px;transition:all .2s;
+}
+.nav-links a:hover,.nav-links a.active{background:var(--green-light);color:var(--green-deep);}
+.nav-cta{background:var(--green-mid)!important;color:#fff!important;border-radius:8px!important;padding:.5rem 1.25rem!important;}
+.nav-cta:hover{background:var(--green-deep)!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s;}
+.mobile-nav{
+  display:none;position:fixed;top:66px;left:0;right:0;z-index:199;
+  background:#fff;border-bottom:1px solid var(--border);
+  flex-direction:column;gap:.25rem;padding:1rem 6%;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+.mobile-nav.open{display:flex;}
+.mobile-nav a{padding:.75rem 1rem;border-radius:8px;color:var(--ink-muted);text-decoration:none;font-size:.925rem;}
+.mobile-nav a:hover{background:var(--green-light);}
+
+/* ─────────────────────────────────────
+   REVEAL
+───────────────────────────────────── */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .65s var(--ease),transform .65s var(--ease);}
+.rv.visible{opacity:1;transform:translateY(0);}
+.rv-d1{transition-delay:.1s;}
+.rv-d2{transition-delay:.18s;}
+.rv-d3{transition-delay:.26s;}
+.rv-d4{transition-delay:.34s;}
+.rv-d5{transition-delay:.42s;}
+
+/* ─────────────────────────────────────
+   SHARED ATOMS
+───────────────────────────────────── */
+.tag{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 14px;border-radius:100px;margin-bottom:1.25rem;width:fit-content;
+}
+.tag-green{background:rgba(165,222,72,.14);color:var(--green-deep);border:1px solid rgba(165,222,72,.4);}
+.tag-white{background:rgba(255,255,255,.12);color:#A5DE48;border:1px solid rgba(165,222,72,.3);}
+.tag-dot::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.5);}}
+
+.section-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green-mid);margin-bottom:.75rem;}
+.section-h{font-family:var(--font-serif);font-size:clamp(1.9rem,3.2vw,2.75rem);font-weight:300;line-height:1.18;color:var(--ink);}
+.section-h em{font-style:italic;color:var(--green-mid);}
+.section-h-white{color:#fff;}
+.section-h-white em{color:#A5DE48;}
+.section-sub{font-size:1rem;line-height:1.82;color:var(--ink-muted);max-width:560px;}
+.section-sub-white{color:rgba(255,255,255,.7);}
+
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:.9rem 2rem;border-radius:10px;
+  font-family:var(--font-sans);font-weight:700;font-size:.82rem;
+  letter-spacing:.06em;text-transform:uppercase;
+  text-decoration:none;border:none;cursor:pointer;transition:all .25s var(--ease);
+}
+.btn-green{background:var(--green-vivid);color:var(--green-deep);}
+.btn-green:hover{background:var(--green-mid);color:#fff;transform:translateY(-3px);box-shadow:0 10px 32px rgba(28,160,105,.4);}
+.btn-outline{background:transparent;color:var(--green-mid);border:1.5px solid var(--green-mid);}
+.btn-outline:hover{background:var(--green-light);transform:translateY(-2px);}
+.btn-outline-white{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);}
+.btn-outline-white:hover{background:rgba(255,255,255,.1);border-color:#fff;}
+.btn svg{width:16px;height:16px;flex-shrink:0;}
+
+/* ═══════════════════════════════════════
+   § 1  HERO
+═══════════════════════════════════════ */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;
+  padding-top:72px;
+  position:relative;overflow:hidden;
+  background:var(--green-deep);
+}
+/* background photo */
+.hero-bg{
+  position:absolute;inset:0;
+}
+.hero-bg img{
+  width:100%;height:100%;object-fit:cover;object-position:center 40%;
+  filter:brightness(.32) saturate(.8);
+  transform:scale(1.05);
+  animation:heroBgDrift 28s ease-in-out infinite alternate;
+}
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(to bottom, rgba(48,87,42,.55) 0%, rgba(8,24,8,.75) 100%),
+    linear-gradient(135deg, rgba(48,87,42,.6) 0%, transparent 60%);
+}
+@keyframes heroBgDrift{
+  from{transform:scale(1.05) translateX(0px) translateY(0px);}
+  to  {transform:scale(1.1)  translateX(-14px) translateY(-8px);}
+}
+/* animated gradient blobs */
+.blob{position:absolute;border-radius:50%;pointer-events:none;z-index:0;}
+.blob-1{
+  width:min(80vw,700px);height:min(80vw,700px);
+  top:-28%;left:-18%;
+  background:radial-gradient(circle,rgba(28,160,105,.22) 0%,transparent 65%);
+  animation:blobDrift1 20s ease-in-out infinite alternate;
+}
+.blob-2{
+  width:min(55vw,500px);height:min(55vw,500px);
+  top:8%;right:-14%;
+  background:radial-gradient(circle,rgba(165,222,72,.09) 0%,transparent 65%);
+  animation:blobDrift2 16s ease-in-out infinite alternate;
+}
+.blob-3{
+  width:min(45vw,420px);height:min(45vw,420px);
+  bottom:22%;left:28%;
+  background:radial-gradient(circle,rgba(12,40,12,.75) 0%,transparent 60%);
+  animation:blobDrift3 24s ease-in-out infinite alternate;
+}
+@keyframes blobDrift1{from{transform:translate(0,0) scale(1);}to{transform:translate(40px,-30px) scale(1.08);}}
+@keyframes blobDrift2{from{transform:translate(0,0) scale(1);}to{transform:translate(-30px,50px) scale(1.12);}}
+@keyframes blobDrift3{from{transform:translate(0,0) scale(1);}to{transform:translate(20px,-25px) scale(.94);}}
+/* subtle grain */
+.hero-grain{
+  position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+/* centred content block */
+.hero-center{
+  position:relative;z-index:3;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  padding:4.5rem 8% 3rem;
+  flex:1;justify-content:center;
+  width:100%;
+}
+.hero h1{
+  font-family:var(--font-serif);
+  font-size:clamp(3rem,6.5vw,5.5rem);
+  font-weight:300;line-height:1.05;color:#fff;
+  margin-bottom:1.5rem;letter-spacing:-.02em;
+  animation:heroUp .8s .05s var(--ease) both;
+}
+.hero h1 em{font-style:italic;color:#A5DE48;text-shadow:0 0 60px rgba(165,222,72,.28);}
+.hero-sub{
+  font-size:1.1rem;color:rgba(255,255,255,.6);line-height:1.78;
+  max-width:400px;margin-bottom:2.5rem;
+  animation:heroUp .8s .15s var(--ease) both;
+}
+@keyframes heroUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;animation:heroUp .8s .25s var(--ease) both;}
+/* app badge */
+.hero-app{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;justify-content:center;margin-top:2rem;animation:heroUp .8s .38s var(--ease) both;}
+.hero-app-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);}
+.gplay-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.08);
+  border:1.5px solid rgba(255,255,255,.18);
+  border-radius:12px;padding:.6rem 1.1rem;
+  text-decoration:none;transition:all .25s var(--ease);
+  backdrop-filter:blur(8px);
+}
+.gplay-badge:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.42);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.25);}
+.gplay-icon{width:22px;height:22px;flex-shrink:0;}
+.gplay-text{display:flex;flex-direction:column;gap:1px;}
+.gplay-sub{font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);line-height:1;}
+.gplay-main{font-size:.95rem;font-weight:600;color:#fff;line-height:1.2;}
+.hero-app-rating{display:flex;align-items:center;gap:5px;}
+.star-row{color:#FBBC04;font-size:.8rem;letter-spacing:-1px;}
+.rating-val{font-size:.82rem;font-weight:700;color:#fff;}
+.rating-label{font-size:.72rem;color:rgba(255,255,255,.4);}
+/* trust pills */
+.hero-trust{
+  display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;justify-content:center;
+  margin-top:1.5rem;animation:heroUp .8s .5s var(--ease) both;
+}
+.trust-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
+  border-radius:100px;padding:5px 12px;
+  font-size:.68rem;color:rgba(255,255,255,.45);
+}
+.trust-pill strong{color:rgba(165,222,72,.88);font-weight:700;}
+/* scroll cue */
+.hero-scroll{
+  position:relative;z-index:4;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding-bottom:2.5rem;
+}
+.hero-scroll span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.25);}
+.scroll-line{width:1px;height:32px;background:linear-gradient(to bottom,rgba(165,222,72,.7),transparent);animation:scrollPulse 2s ease-in-out infinite;}
+@keyframes scrollPulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+/* ── Decision strip ── */
+.decision-strip{
+  background: var(--green-deep);
+  padding: 1rem 0;
+  width:100%;position:relative;z-index:3;
+  overflow:hidden;
+}
+.decision-strip::before,.decision-strip::after{
+  content:'';position:absolute;top:0;bottom:0;width:180px;z-index:2;pointer-events:none;
+}
+.decision-strip::before{left:0;background:linear-gradient(to right,var(--green-deep) 15%,transparent);}
+.decision-strip::after{right:0;background:linear-gradient(to left,var(--green-deep) 15%,transparent);}
+.decision-label{
+  text-align:center;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);padding:.75rem 0 .5rem;
+  padding-bottom: 2rem;
+}
+.decision-track{
+  display:flex;gap:1rem;width:max-content;
+  animation:deckScroll 55s linear infinite;
+  padding-bottom: 3rem;
+}
+.decision-track:hover{animation-play-state:paused;}
+@keyframes deckScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.d-card{
+  width:288px;flex-shrink:0;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;padding:1.1rem 1.15rem;
+  transition:all .3s var(--ease);cursor:default;
+  position:relative;overflow:hidden;
+}
+.d-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--green-vivid),var(--green-mid));
+  opacity:0;transition:opacity .3s;
+}
+.d-card:hover{background:rgba(255,255,255,.1);border-color:rgba(165,222,72,.28);transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,.28);}
+.d-card:hover::before{opacity:1;}
+.d-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;}
+.d-farmer{display:flex;align-items:center;gap:8px;}
+.d-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0;color:#fff;}
+.d-name{font-size:.74rem;font-weight:600;color:rgba(255,255,255,.85);line-height:1.2;}
+.d-loc{font-size:.58rem;color:rgba(255,255,255,.38);}
+.d-lang{font-size:.56rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:20px;background:rgba(165,222,72,.11);color:#A5DE48;border:1px solid rgba(165,222,72,.2);flex-shrink:0;}
+.d-q{
+  font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.55;font-style:italic;
+  padding:.6rem .75rem;background:rgba(255,255,255,.05);border-radius:8px;margin-bottom:.6rem;
+}
+.d-a{
+  font-size:.75rem;color:rgba(255,255,255,.65);line-height:1.55;
+  padding:.6rem .75rem;
+  background:rgba(28,160,105,.14);border-radius:8px;
+  border:1px solid rgba(28,160,105,.2);margin-bottom:.7rem;
+}
+.d-a-lbl{font-size:.55rem;color:#A5DE48;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;display:block;}
+.d-footer{display:flex;align-items:center;justify-content:space-between;}
+.d-outcome{display:inline-flex;align-items:center;gap:5px;font-size:.67rem;color:rgba(165,222,72,.85);font-weight:600;}
+.d-outcome::before{content:'✓';width:15px;height:15px;border-radius:50%;background:rgba(165,222,72,.14);display:inline-flex;align-items:center;justify-content:center;font-size:.54rem;}
+.d-ago{font-size:.58rem;color:rgba(255,255,255,.22);}
+
+/* ═══════════════════════════════════════
+   § 2  BUILT FOR FARMERS
+═══════════════════════════════════════ */
+.built{
+  padding:7rem 8%;
+  background:#fff;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:6rem;align-items:center;
+}
+.built-visual{
+  position:relative;border-radius:24px;overflow:hidden;
+  box-shadow:var(--shadow-lg);
+}
+.built-visual img{width:100%;height:420px;object-fit:cover;object-position:center 30%;}
+.built-visual-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(48,87,42,.75) 0%,transparent 55%);
+  display:flex;align-items:flex-end;padding:2rem;
+}
+.built-visual-stat{
+  background:rgba(255,255,255,.14);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.2);border-radius:12px;
+  padding:.875rem 1.25rem;display:flex;gap:1rem;
+}
+.bvs-num{font-family:var(--font-serif);font-size:1.6rem;font-weight:600;color:#A5DE48;line-height:1;}
+.bvs-label{font-size:.72rem;color:rgba(255,255,255,.7);line-height:1.5;}
+.built-checklist{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin:1.75rem 0 2.25rem;}
+.built-checklist li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:.95rem;color:var(--ink-muted);line-height:1.55;
+}
+.built-checklist li::before{
+  content:'';width:22px;height:22px;border-radius:6px;flex-shrink:0;
+  background:var(--green-light);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231CA069' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-size:14px;background-position:center;background-repeat:no-repeat;
+  margin-top:2px;
+}
+.built-note{
+  font-size:.82rem;color:var(--ink-faint);
+  padding:.875rem 1rem;background:var(--green-pale);
+  border-left:3px solid var(--green-mid);border-radius:0 8px 8px 0;
+  line-height:1.6;
+}
+
+/* ═══════════════════════════════════════
+   § 3  THE PROBLEM
+═══════════════════════════════════════ */
+.problem{
+  padding:0rem 8%;
+  background:var(--green-deep);
+  position:relative;overflow:hidden;
+}
+.problem-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;
+}
+.problem-list{
+  display:flex;flex-direction:column;gap:1rem;
+  margin:2rem 0 2.25rem;
+}
+.problem-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:0.6rem 1.25rem;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);border-radius:12px;
+  transition:all .25s var(--ease);cursor:default;
+}
+.problem-item:hover{background:rgba(255,255,255,.1);border-color:rgba(165,222,72,.25);transform:translateX(5px);}
+.problem-item-icon{
+  width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:rgba(165,222,72,.12);
+  display:flex;align-items:center;justify-content:center;font-size:17px;
+}
+.problem-item-text{font-size:.9rem;color:rgba(255,255,255,.8);line-height:1.55;}
+.problem-result{
+  padding:0.6rem 1.75rem;
+  background:rgba(165,222,72,.08);
+  border:1px solid rgba(165,222,72,.2);
+  border-radius:14px;margin-top:.5rem;
+}
+.problem-result-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#A5DE48;margin-bottom:.5rem;}
+.problem-result-text{font-size:.95rem;color:rgba(255,255,255,.75);line-height:1.6;}
+/* Right column: illustration card */
+.problem-visual{
+  display:flex;flex-direction:column;gap:1rem;
+}
+
+  /* phone mockup */
+  .fd-phone-wrap{display:flex;justify-content:center;align-items:center;}
+  .fd-phone{
+    width:70%;
+    border-radius:48px;
+    padding:14px;
+    position:relative;
+  }
+.pv-card{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;padding:1.5rem;
+  position:relative;overflow:hidden;
+}
+.pv-card::after{
+  content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(to bottom,var(--green-vivid),var(--green-mid));
+  border-radius:3px 0 0 3px;
+}
+.pv-card-num{
+  font-family:var(--font-serif);
+  font-size:2.8rem;font-weight:600;color:#A5DE48;line-height:1;margin-bottom:.4rem;
+}
+.pv-card-label{font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.5;}
+.pv-card-sub{font-size:.72rem;color:rgba(165,222,72,.65);margin-top:.25rem;font-weight:600;}
+
+/* ═══════════════════════════════════════
+   § 4  HOW IT WORKS
+═══════════════════════════════════════ */
+.how{padding:7rem 8%;background:var(--green-pale);}
+.how-header{text-align:center;margin-bottom:4.5rem;}
+.how-header .section-h{max-width:none;}
+
+.steps-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1.5rem;position:relative;align-items:start;
+}
+
+.step{
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:0 .5rem;position:relative;z-index:1;
+}
+
+/* ── phone shell ── */
+.step-phone{
+  width:150px;margin:0 auto 1.75rem;
+  position:relative;
+}
+.step-phone-frame{
+  background:#111827;
+  border-radius:26px;
+  border:2px solid rgba(0,0,0,.18);
+  overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 20px 50px rgba(0,0,0,.18),
+    0 4px 12px rgba(0,0,0,.12);
+  aspect-ratio:9/19;
+  display:flex;flex-direction:column;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+  font-size:7px; /* base for all in-phone text */
+}
+.step:hover .step-phone-frame{
+  transform:translateY(-8px);
+  box-shadow:
+    0 0 0 2px rgba(165,222,72,.35),
+    0 32px 64px rgba(0,0,0,.22),
+    0 4px 12px rgba(0,0,0,.12);
+}
+/* notch */
+.spn{height:16px;background:#111827;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.spn-pill{width:38px;height:8px;background:#000;border-radius:20px;}
+/* screen area */
+.sps{flex:1;overflow:hidden;display:flex;flex-direction:column;}
+/* home bar */
+.sph{height:12px;background:#111827;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sph-bar{width:34px;height:2.5px;background:rgba(255,255,255,.14);border-radius:2px;}
+
+/* step number badge */
+.step-badge{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:var(--green-vivid);color:var(--green-deep);
+  font-size:.6rem;font-weight:800;letter-spacing:.05em;
+  padding:4px 11px;border-radius:100px;
+  border:2px solid var(--green-pale);
+  box-shadow:0 3px 12px rgba(165,222,72,.4);
+  white-space:nowrap;z-index:3;
+}
+
+/* ── screen 1: ASK (WA-style input) ── */
+.sp-wp-head{background:#075E54;padding:5px 8px;display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.sp-wa{width:16px;height:16px;border-radius:50%;background:var(--green-vivid);display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;}
+.sp-wn{font-size:1.5em;font-weight:700;color:#fff;flex:1;}
+.sp-ws{font-size:1.1em;color:rgba(255,255,255,.65);}
+.sp-chat-bg{
+  flex:1;background:#E5DDD5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' opacity='.04'%3E%3Ccircle cx='15' cy='15' r='10' stroke='%23000' fill='none'/%3E%3C/svg%3E");
+  padding:7px 6px;display:flex;flex-direction:column;gap:5px;
+}
+.sp-bub{max-width:82%;padding:4px 7px;border-radius:7px;font-size:1.3em;line-height:1.45;}
+.sp-bub.out{align-self:flex-end;background:#DCF8C6;color:#000;border-bottom-right-radius:2px;}
+.sp-bub.in{align-self:flex-start;background:#fff;color:#000;border-bottom-left-radius:2px;}
+.sp-bub-lbl{font-size:.9em;color:#1CA069;font-weight:700;margin-bottom:2px;display:block;}
+.sp-bub-time{font-size:.9em;color:rgba(0,0,0,.35);text-align:right;margin-top:1px;}
+.sp-type{display:flex;gap:2px;align-items:center;padding:4px 6px;background:#fff;border-radius:7px;border-bottom-left-radius:2px;align-self:flex-start;}
+.sp-td{width:4px;height:4px;border-radius:50%;background:rgba(0,0,0,.3);animation:typeDotSm 1.4s infinite ease-in-out;}
+.sp-td:nth-child(2){animation-delay:.16s;}.sp-td:nth-child(3){animation-delay:.32s;}
+@keyframes typeDotSm{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-4px);}}
+.sp-input-bar{padding:4px 6px;background:#f0f0f0;display:flex;align-items:center;gap:4px;flex-shrink:0;}
+.sp-input-field{flex:1;background:#fff;border-radius:12px;padding:4px 7px;font-size:1.2em;color:rgba(0,0,0,.4);}
+.sp-mic-btn{width:18px;height:18px;border-radius:50%;background:#075E54;display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;}
+
+/* ── screen 2: PROCESSING ── */
+.sp-proc{flex:1;background:#0d1f3c;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px;gap:6px;}
+.sp-proc-ring{
+  width:40px;height:40px;border-radius:50%;
+  border:3px solid rgba(165,222,72,.15);
+  border-top-color:#A5DE48;
+  animation:spin 1.2s linear infinite;
+  flex-shrink:0;
+}
+.sp-proc-label{font-size:1.4em;color:rgba(255,255,255,.7);font-weight:600;text-align:center;}
+.sp-proc-chips{display:flex;flex-direction:column;gap:3px;width:100%;}
+.sp-chip{
+  font-size:1.1em;color:rgba(165,222,72,.8);
+  background:rgba(165,222,72,.08);
+  border:1px solid rgba(165,222,72,.15);
+  border-radius:20px;padding:2px 6px;
+  display:flex;align-items:center;gap:3px;
+  animation:chipFadeIn .4s ease both;
+}
+.sp-chip:nth-child(1){animation-delay:.2s;}
+.sp-chip:nth-child(2){animation-delay:.5s;}
+.sp-chip:nth-child(3){animation-delay:.8s;}
+@keyframes chipFadeIn{from{opacity:0;transform:translateX(-4px);}to{opacity:1;transform:translateX(0);}}
+.sp-proc-bar{width:80%;height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.sp-proc-fill{height:100%;width:65%;background:linear-gradient(90deg,var(--green-mid),var(--green-vivid));border-radius:3px;animation:barPulse 2s ease-in-out infinite;}
+@keyframes barPulse{0%,100%{width:35%;}50%{width:85%;}}
+
+/* ── screen 3: ADVICE ── */
+/* reuses .sp-wp-head, .sp-chat-bg, .sp-bub */
+.sp-lang-row{
+  display:flex;align-items:center;gap:4px;
+  background:rgba(28,160,105,.12);border-radius:20px;
+  padding:2px 6px;align-self:flex-start;
+  font-size:1.1em;color:#1CA069;font-weight:600;border:1px solid rgba(28,160,105,.2);
+}
+
+/* ── screen 4: ACTION ── */
+.sp-action{flex:1;background:#fff;display:flex;flex-direction:column;padding:8px 7px;gap:5px;}
+.sp-action-hd{font-size:1.5em;font-weight:700;color:var(--ink);border-bottom:1px solid rgba(0,0,0,.06);padding-bottom:4px;}
+.sp-action-list{display:flex;flex-direction:column;gap:4px;flex:1;}
+.sp-action-item{
+  display:flex;align-items:flex-start;gap:5px;
+  font-size:1.2em;color:var(--ink);line-height:1.4;
+  padding:3px 0;
+}
+.sp-action-cb{
+  width:10px;height:10px;border-radius:3px;flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;font-size:.9em;
+}
+.sp-action-cb.done{background:var(--green-mid);color:#fff;}
+.sp-action-cb.todo{border:1.5px solid rgba(0,0,0,.2);}
+.sp-action-outcome{
+  font-size:1.2em;font-weight:700;color:var(--green-mid);
+  background:var(--green-light);border-radius:6px;
+  padding:4px 6px;text-align:center;
+}
+
+/* step labels */
+.step-title{font-family:var(--font-serif);font-size:1rem;font-weight:400;color:var(--ink);margin-bottom:.4rem;}
+.step-main{font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:.3rem;}
+.step-desc{font-size:.78rem;color:var(--ink-faint);line-height:1.62;}
+
+/* ═══════════════════════════════════════
+   § 5  KEY FEATURES  (interactive split)
+═══════════════════════════════════════ */
+.features{
+  padding:7rem 8%;
+  background:#fff;
+}
+.features-header{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:end;margin-bottom:4rem;
+}
+/* Split layout */
+.features-split{
+  display:grid;
+  grid-template-columns:1fr 480px;
+  gap:3.5rem;
+  align-items:start;
+}
+/* Tab list (left) */
+.feat-tabs{
+  display:flex;flex-direction:column;gap:.75rem;
+}
+.feat-tab{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:1.25rem 1.5rem;border-radius:16px;cursor:pointer;
+  border:1.5px solid transparent;
+  transition:all .28s var(--ease);
+  background:var(--green-pale);
+  position:relative;
+}
+.feat-tab::before{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:4px;height:0;border-radius:0 3px 3px 0;
+  background:var(--green-mid);transition:height .28s var(--ease);
+}
+.feat-tab:hover{background:var(--green-light);border-color:var(--border);}
+.feat-tab.active{
+  background:var(--green-light);
+  border-color:rgba(28,160,105,.35);
+  box-shadow:0 4px 24px rgba(28,160,105,.1);
+}
+.feat-tab.active::before{height:60%;}
+.feat-tab-icon{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  background:var(--green-light);color:var(--green-mid);
+  display:flex;align-items:center;justify-content:center;
+  border:1.5px solid var(--border);
+  transition:background .28s,border-color .28s,color .28s;
+}
+.feat-tab-icon svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .28s;}
+.feat-tab.active .feat-tab-icon{
+  background:var(--green-mid);color:#fff;border-color:var(--green-mid);
+}
+.feat-tab-body{flex:1;}
+.feat-tab-title{
+  font-family:var(--font-serif);font-size:1rem;font-weight:400;
+  color:var(--ink);margin-bottom:.25rem;
+}
+.feat-tab-desc{font-size:.82rem;color:var(--ink-faint);line-height:1.6;}
+
+/* Phone showcase (right) */
+.feat-showcase{
+  position:sticky;top:88px;
+  display:flex;flex-direction:column;align-items:center;
+  gap:1.25rem;
+}
+.feat-showcase-label{
+  font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-faint);
+}
+.feat-phone{
+  width:240px;
+  background:#111827;
+  border-radius:38px;
+  border:2.5px solid rgba(255,255,255,.08);
+  box-shadow:0 0 0 1px rgba(0,0,0,.6), 0 32px 80px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.06);
+  overflow:hidden;
+  position:relative;
+}
+.feat-phone::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:90px;height:26px;background:#111827;border-radius:0 0 18px 18px;z-index:10;
+}
+.feat-phone-screen{
+  aspect-ratio:9/19;
+  display:none;flex-direction:column;
+  background:#0d1117;
+  font-size:8px;overflow:hidden;
+  padding-top:26px;
+  animation:screenFadeIn .35s var(--ease) both;
+}
+.feat-phone-screen.active{display:flex;}
+@keyframes screenFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── Screen 1: Image Diagnosis ── */
+.scr-diag{background:linear-gradient(180deg,#0f1923 0%,#0d1117 100%);}
+.scr-diag .ph-topbar{background:#1a2332;padding:6px 10px;display:flex;align-items:center;justify-content:space-between;}
+.scr-diag .ph-topbar-title{color:#e2e8f0;font-weight:700;font-size:8px;}
+.scr-diag .ph-status{color:#64748b;font-size:6px;}
+.scr-diag .ph-img-upload{
+  margin:10px 10px 8px;border-radius:10px;overflow:hidden;
+  background:#1e293b;border:1px dashed rgba(165,222,72,.4);
+  height:70px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;
+}
+.scr-diag .ph-img-upload span{font-size:18px;}
+.scr-diag .ph-img-upload p{color:#64748b;font-size:6px;}
+.scr-diag .ph-result-card{
+  margin:0 10px;background:#14291a;border:1px solid rgba(165,222,72,.25);
+  border-radius:10px;padding:8px;
+}
+.scr-diag .ph-result-tag{
+  display:inline-flex;align-items:center;gap:3px;
+  background:rgba(239,68,68,.15);color:#f87171;
+  font-size:5.5px;font-weight:700;padding:2px 6px;border-radius:20px;margin-bottom:5px;
+}
+.scr-diag .ph-result-title{color:#e2e8f0;font-weight:700;font-size:7.5px;margin-bottom:3px;}
+.scr-diag .ph-result-desc{color:#94a3b8;font-size:6px;line-height:1.5;margin-bottom:6px;}
+.scr-diag .ph-fix-label{color:#a5de48;font-size:5.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+.scr-diag .ph-fix-item{
+  display:flex;align-items:flex-start;gap:4px;color:#cbd5e1;font-size:6px;margin-bottom:3px;
+}
+.scr-diag .ph-fix-dot{
+  width:5px;height:5px;border-radius:50%;background:var(--green-vivid);
+  flex-shrink:0;margin-top:1px;
+}
+.scr-diag .ph-conf{
+  display:flex;align-items:center;gap:5px;margin:6px 10px 0;
+  background:#1e293b;border-radius:8px;padding:5px 8px;
+}
+.scr-diag .ph-conf-bar{flex:1;height:4px;background:#1e293b;border-radius:2px;overflow:hidden;}
+.scr-diag .ph-conf-fill{height:100%;width:92%;background:linear-gradient(90deg,#a5de48,#1ca069);border-radius:2px;}
+.scr-diag .ph-conf-label{color:#94a3b8;font-size:6px;white-space:nowrap;}
+
+/* ── Screen 2: Voice + Text ── */
+.scr-voice{background:#0d1117;}
+.scr-voice .ph-topbar{background:#1a1a2e;padding:6px 10px;display:flex;align-items:center;gap:5px;}
+.scr-voice .ph-avatar{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#1ca069,#a5de48);display:flex;align-items:center;justify-content:center;font-size:9px;}
+.scr-voice .ph-topbar-info{flex:1;}
+.scr-voice .ph-topbar-name{color:#e2e8f0;font-weight:700;font-size:7px;}
+.scr-voice .ph-topbar-status{color:#22c55e;font-size:5.5px;}
+.scr-voice .ph-msgs{flex:1;padding:8px 8px 4px;display:flex;flex-direction:column;gap:5px;}
+.scr-voice .ph-msg-in,.scr-voice .ph-msg-out{
+  max-width:80%;padding:5px 7px;border-radius:10px;font-size:6.5px;line-height:1.5;
+}
+.scr-voice .ph-msg-in{background:#1e293b;color:#cbd5e1;align-self:flex-start;border-radius:2px 10px 10px 10px;}
+.scr-voice .ph-msg-out{background:#1ca069;color:#fff;align-self:flex-end;border-radius:10px 2px 10px 10px;}
+.scr-voice .ph-voice-bar{
+  margin:0 8px;background:#1e293b;border-radius:30px;
+  padding:6px 10px;display:flex;align-items:center;gap:6px;
+}
+.scr-voice .ph-mic{color:#a5de48;font-size:12px;}
+.scr-voice .ph-waves{flex:1;display:flex;align-items:center;gap:1.5px;height:14px;}
+.scr-voice .ph-wave{
+  width:2px;background:#1ca069;border-radius:1px;
+  animation:waveAnim 1.1s ease-in-out infinite;
+}
+.scr-voice .ph-wave:nth-child(1){height:3px;animation-delay:0s}
+.scr-voice .ph-wave:nth-child(2){height:7px;animation-delay:.1s}
+.scr-voice .ph-wave:nth-child(3){height:11px;animation-delay:.2s}
+.scr-voice .ph-wave:nth-child(4){height:14px;animation-delay:.3s}
+.scr-voice .ph-wave:nth-child(5){height:9px;animation-delay:.4s}
+.scr-voice .ph-wave:nth-child(6){height:5px;animation-delay:.5s}
+.scr-voice .ph-wave:nth-child(7){height:10px;animation-delay:.15s}
+.scr-voice .ph-wave:nth-child(8){height:7px;animation-delay:.25s}
+.scr-voice .ph-wave:nth-child(9){height:3px;animation-delay:.35s}
+@keyframes waveAnim{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+.scr-voice .ph-voice-label{color:#64748b;font-size:5.5px;white-space:nowrap;}
+.scr-voice .ph-input-row{
+  display:flex;align-items:center;gap:4px;margin:5px 8px 8px;
+}
+.scr-voice .ph-input{
+  flex:1;background:#1e293b;border-radius:20px;
+  padding:5px 8px;color:#94a3b8;font-size:6px;
+}
+.scr-voice .ph-send{width:22px;height:22px;border-radius:50%;background:#1ca069;display:flex;align-items:center;justify-content:center;font-size:11px;}
+
+/* ── Screen 3: Local Language ── */
+.scr-lang{background:#0d1117;}
+.scr-lang .ph-topbar{background:#1a1a2e;padding:6px 10px;display:flex;align-items:center;justify-content:space-between;}
+.scr-lang .ph-topbar-title{color:#e2e8f0;font-weight:700;font-size:8px;}
+.scr-lang .ph-lang-list{padding:8px 10px;display:flex;flex-direction:column;gap:4px;}
+.scr-lang .ph-lang-section{color:#64748b;font-size:5.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin:4px 0 3px;}
+.scr-lang .ph-lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.scr-lang .ph-lang-btn{
+  background:#1e293b;border-radius:8px;padding:5px 6px;
+  display:flex;align-items:center;gap:4px;cursor:pointer;
+  border:1px solid transparent;
+}
+.scr-lang .ph-lang-btn.sel{background:#14291a;border-color:rgba(165,222,72,.35);}
+.scr-lang .ph-lang-flag{font-size:10px;}
+.scr-lang .ph-lang-name{color:#cbd5e1;font-size:6px;}
+.scr-lang .ph-lang-native{color:#64748b;font-size:5.5px;}
+.scr-lang .ph-chat-preview{
+  margin:6px 10px 0;background:#1e293b;border-radius:10px;padding:7px;
+}
+.scr-lang .ph-chat-msg{
+  background:#1a2332;border-radius:8px;padding:5px 6px;
+  color:#e2e8f0;font-size:6.5px;line-height:1.6;
+}
+.scr-lang .ph-chat-tag{
+  display:inline-block;background:rgba(165,222,72,.15);
+  color:#a5de48;font-size:5px;padding:1px 5px;border-radius:10px;margin-bottom:3px;
+}
+
+/* ── Screen 4: On-Demand Advisories ── */
+.scr-adv{background:#0d1117;}
+.scr-adv .ph-topbar{background:#1a1a2e;padding:6px 10px;display:flex;align-items:center;justify-content:space-between;}
+.scr-adv .ph-topbar-title{color:#e2e8f0;font-weight:700;font-size:8px;}
+.scr-adv .ph-notif-dot{width:7px;height:7px;border-radius:50%;background:#ef4444;}
+.scr-adv .ph-adv-list{padding:6px 10px;display:flex;flex-direction:column;gap:5px;}
+.scr-adv .ph-adv-date{color:#64748b;font-size:5.5px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:1px;}
+.scr-adv .ph-adv-card{
+  background:#1e293b;border-radius:10px;padding:7px;
+  border-left:3px solid var(--green-vivid);
+  display:flex;align-items:flex-start;gap:6px;
+}
+.scr-adv .ph-adv-card.warn{border-left-color:#f59e0b;}
+.scr-adv .ph-adv-card.alert{border-left-color:#ef4444;}
+.scr-adv .ph-adv-icon{font-size:14px;flex-shrink:0;}
+.scr-adv .ph-adv-body{flex:1;}
+.scr-adv .ph-adv-title{color:#e2e8f0;font-weight:700;font-size:6.5px;margin-bottom:2px;}
+.scr-adv .ph-adv-text{color:#94a3b8;font-size:5.8px;line-height:1.5;}
+.scr-adv .ph-adv-time{color:#64748b;font-size:5px;margin-top:2px;}
+
+/* ── Screen 5: Farmer Videos ── */
+.scr-vid{background:#0d1117;}
+.scr-vid .ph-topbar{background:#1a1a2e;padding:6px 10px;display:flex;align-items:center;justify-content:space-between;}
+.scr-vid .ph-topbar-title{color:#e2e8f0;font-weight:700;font-size:8px;}
+.scr-vid .ph-featured{
+  margin:8px 10px;background:#1e293b;border-radius:12px;
+  overflow:hidden;
+}
+.scr-vid .ph-vid-thumb{
+  height:60px;background:linear-gradient(135deg,#14291a,#1a3a20);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.scr-vid .ph-vid-play{
+  width:24px;height:24px;border-radius:50%;
+  background:rgba(165,222,72,.9);
+  display:flex;align-items:center;justify-content:center;font-size:11px;
+}
+.scr-vid .ph-vid-dur{
+  position:absolute;bottom:4px;right:6px;
+  background:rgba(0,0,0,.7);color:#fff;font-size:5.5px;padding:1px 4px;border-radius:3px;
+}
+.scr-vid .ph-vid-info{padding:6px 7px;}
+.scr-vid .ph-vid-title{color:#e2e8f0;font-weight:700;font-size:6.5px;margin-bottom:2px;}
+.scr-vid .ph-vid-meta{color:#64748b;font-size:5.5px;}
+.scr-vid .ph-vid-grid{padding:4px 10px;display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.scr-vid .ph-vid-mini{background:#1e293b;border-radius:8px;overflow:hidden;}
+.scr-vid .ph-vid-mini-thumb{
+  height:36px;background:linear-gradient(135deg,#1a2e1a,#152215);
+  display:flex;align-items:center;justify-content:center;font-size:12px;
+}
+.scr-vid .ph-vid-mini-title{color:#94a3b8;font-size:5.5px;padding:3px 4px;line-height:1.4;}
+
+/* responsive features */
+@media(max-width:960px){
+  .features-split{grid-template-columns:1fr;}
+  .feat-showcase{position:static;align-items:center;}
+  .feat-phone{width:200px;}
+}
+
+/* ═══════════════════════════════════════
+   § 6  KNOWLEDGE NETWORK
+═══════════════════════════════════════ */
+.network{
+  padding:6rem 8%;
+  background:var(--green-deep);
+  position:relative;overflow:hidden;
+}
+.network::after{
+  content:'';position:absolute;bottom:-80px;right:-80px;
+  width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(28,160,105,.15) 0%,transparent 65%);
+  pointer-events:none;
+}
+.network-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:6rem;align-items:center;
+}
+.network-cols{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1.25rem;margin-top:2.25rem;
+}
+.network-col-card{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:1.5rem;
+  transition:all .25s var(--ease);
+}
+.network-col-card:hover{background:rgba(255,255,255,.11);border-color:rgba(165,222,72,.25);}
+.ncc-label{
+  font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:#A5DE48;margin-bottom:.75rem;
+}
+.ncc-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
+.ncc-list li{
+  font-size:.83rem;color:rgba(255,255,255,.7);line-height:1.5;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.ncc-list li::before{content:'—';color:rgba(165,222,72,.5);flex-shrink:0;}
+/* right: visual globe / network graphic */
+.network-visual{position:relative;display:flex;align-items:center;justify-content:center;}
+.nv-circle{
+  width:340px;height:340px;border-radius:50%;
+  border:1px solid rgba(165,222,72,.15);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;animation:spin 40s linear infinite;
+}
+.nv-circle-inner{
+  width:240px;height:240px;border-radius:50%;
+  border:1px solid rgba(165,222,72,.25);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;animation:spin 25s linear infinite reverse;
+}
+.nv-core{
+  width:140px;height:140px;border-radius:50%;
+  background:radial-gradient(circle at 40% 40%,rgba(28,160,105,.35),rgba(48,87,42,.9));
+  border:1px solid rgba(165,222,72,.3);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:4px;animation:none;
+}
+.nv-core-icon{font-size:2rem;}
+.nv-core-label{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#A5DE48;}
+/* orbit dots */
+.orbit-dot{
+  position:absolute;width:10px;height:10px;border-radius:50%;
+  background:var(--green-vivid);
+  box-shadow:0 0 8px rgba(165,222,72,.6);
+}
+.nv-circle .orbit-dot:nth-child(1){top:-5px;left:50%;transform:translateX(-50%);}
+.nv-circle .orbit-dot:nth-child(2){bottom:-5px;left:50%;transform:translateX(-50%);}
+.nv-circle .orbit-dot:nth-child(3){left:-5px;top:50%;transform:translateY(-50%);}
+.nv-circle .orbit-dot:nth-child(4){right:-5px;top:50%;transform:translateY(-50%);}
+.nv-circle-inner .orbit-dot:nth-child(1){top:-4px;left:50%;transform:translateX(-50%);width:8px;height:8px;background:rgba(165,222,72,.6);}
+.nv-circle-inner .orbit-dot:nth-child(2){bottom:-4px;right:25%;width:8px;height:8px;background:rgba(165,222,72,.6);}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+/* orbit labels */
+.orbit-label{
+  position:absolute;
+  font-size:.57rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:rgba(255,255,255,.65);
+  background:rgba(32,58,34,.95);padding:4px 10px;border-radius:20px;
+  border:1px solid rgba(165,222,72,.25);
+  max-width:110px;text-align:center;line-height:1.5;
+  z-index:5;
+}
+/* diagonal corner positions */
+.ol-1{top:-28px;right:-10px;}
+.ol-2{bottom:-28px;right:-10px;}
+.ol-3{bottom:-28px;left:-10px;}
+.ol-4{top:-28px;left:-10px;}
+
+/* ═══════════════════════════════════════
+   § 7  IMPACT
+═══════════════════════════════════════ */
+.impact{padding:7rem 8%;background:var(--green-pale);}
+.impact-header{text-align:center;margin-bottom:2rem;}
+.impact-header .section-h{max-width:none;}
+
+/* Top stats */
+.impact-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1.5rem;
+}
+.istat{
+  background:#fff;border-radius:16px;
+  padding:2rem 1.5rem;text-align:center;
+  border:1.5px solid var(--border);
+  transition:all .3s var(--ease);cursor:default;
+}
+.istat:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);border-color:var(--border-dark);}
+.istat-num{font-family:var(--font-serif);font-size:2.2rem;font-weight:600;color:var(--green-mid);line-height:1;}
+.istat-label{font-size:.8rem;color:var(--ink-muted);line-height:1.5;margin-top:.5rem;}
+.istat-sub{font-size:.7rem;color:var(--green-mid);font-weight:600;margin-top:.35rem;}
+
+/* 3 data panels */
+.impact-panels{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:5rem;}
+.ipanel{
+  background:#fff;border-radius:20px;
+  padding:2.25rem;border:1.5px solid var(--border);
+}
+.ipanel-title{
+  font-family:var(--font-serif);font-size:1.1rem;font-weight:400;
+  color:var(--ink);margin-bottom:1.75rem;
+  padding-bottom:1rem;border-bottom:1px solid var(--border);
+}
+.ibar-list{display:flex;flex-direction:column;gap:1.1rem;}
+.ibar-item{}
+.ibar-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;}
+.ibar-label{font-size:.82rem;color:var(--ink-muted);}
+.ibar-pct{font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--green-mid);}
+.ibar-track{height:7px;background:var(--green-light);border-radius:10px;overflow:hidden;}
+.ibar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--green-mid),var(--green-vivid));transform-origin:left;transition:transform 1.2s var(--ease);}
+.ibar-fill{transform:scaleX(0);}
+.ibar-fill.animate{transform:scaleX(1);}
+
+/* reach section inside impact */
+.impact-reach-title{
+  text-align:center;margin-bottom:3rem;
+  font-family:var(--font-serif);font-size:1.6rem;font-weight:300;color:var(--ink);
+}
+.impact-reach-title em{font-style:italic;color:var(--green-mid);}
+.reach-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;}
+.reach-item{
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  padding:1.25rem .75rem;border-radius:14px;
+  border:1.5px solid var(--border);background:#fff;
+  text-align:center;transition:all .25s var(--ease);
+  font-size:.8rem;color:var(--ink-muted);line-height:1.5;
+}
+.reach-item:hover{background:var(--green-light);border-color:var(--border-dark);}
+.reach-item-icon{font-size:1.5rem;}
+
+/* § 9 Built to Reach */
+.reach-section{
+  padding:6rem 8%;background:#fff;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+}
+.reach-list{
+  display:flex;flex-direction:column;gap:.9rem;
+  margin-top:2rem;
+}
+.reach-list-item{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:.92rem;color:var(--ink-muted);line-height:1.55;
+}
+.reach-list-item::before{
+  content:'';
+  width:20px;height:20px;border-radius:50%;flex-shrink:0;margin-top:1px;
+  background:var(--green-light);border:2px solid var(--green-mid);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpolyline points='2,6 5,9 10,3' fill='none' stroke='%231CA069' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size:60%;background-repeat:no-repeat;background-position:center;
+}
+.reach-img-wrap{
+  border-radius:20px;overflow:hidden;
+  position:relative;aspect-ratio:4/3;
+}
+.reach-img-wrap img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.reach-img-wrap::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(28,160,105,.15) 0%,transparent 60%);
+  pointer-events:none;
+}
+
+/* outcomes section (§ 8) */
+.outcomes{padding:5rem 8%;background:#e2f1d8;}
+.outcomes-header{text-align:center;margin-bottom:3rem;}
+.outcomes-header .section-h{max-width:none;}
+
+/* compact infographic */
+.infogram{
+  display:grid;
+  grid-template-columns:1fr 48px 1fr 48px 1fr;
+  align-items:stretch;
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  max-width:1040px;margin:0 auto;
+}
+.ig-col{padding:2rem 1.75rem;display:flex;flex-direction:column;gap:1.1rem;}
+.ig-col:nth-child(3){background:var(--green-pale);border-left:1px solid var(--border);border-right:1px solid var(--border);}
+.ig-col:nth-child(5){background:var(--green-deep);}
+.ig-head{
+  display:flex;flex-direction:column;gap:4px;
+  padding-bottom:.9rem;border-bottom:1px solid var(--border);
+}
+.ig-col:nth-child(5) .ig-head{border-bottom-color:rgba(255,255,255,.12);}
+.ig-tag{
+  font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:20px;align-self:flex-start;
+}
+.ig-tag-problem{background:rgba(28,160,105,.1);color:var(--green-mid);}
+.ig-tag-exp{background:rgba(28,160,105,.12);color:var(--green-mid);}
+.ig-tag-outcome{background:rgba(165,222,72,.15);color:#A5DE48;}
+.ig-title{font-size:.88rem;font-weight:600;color:var(--ink);}
+.ig-col:nth-child(5) .ig-title{color:#fff;}
+.ig-row{display:flex;align-items:center;gap:10px;}
+.ig-pct{
+  font-family:var(--font-serif);font-size:1.35rem;font-weight:600;
+  color:var(--green-mid);line-height:1;min-width:44px;
+}
+.ig-col:nth-child(3) .ig-pct{color:var(--green-mid);}
+.ig-col:nth-child(3) .ig-row.ig-low .ig-pct{color:#e05b3f;}
+.ig-col:nth-child(5) .ig-pct{color:#A5DE48;}
+.ig-lbl{font-size:.8rem;color:var(--ink-muted);line-height:1.4;}
+.ig-col:nth-child(5) .ig-lbl{color:rgba(255,255,255,.7);}
+
+/* arrow connector columns */
+.ig-arrow{
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;position:relative;
+}
+
+.ig-arrow-icon{
+  color:var(--green-mid);
+  font-size:1.6rem;font-weight:300;
+  position:relative;z-index:1;flex-shrink:0;
+  line-height:1;
+}
+
+/* ═══════════════════════════════════════
+   § 8  SCALING / ROADMAP
+═══════════════════════════════════════ */
+.scaling{
+  padding:7rem 8%;
+  background:var(--green-deep);
+  position:relative;overflow:hidden;
+}
+.scaling::before{
+  content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(165,222,72,.07) 0%,transparent 60%);
+  pointer-events:none;
+}
+.scaling-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:6rem;align-items:start;
+}
+.scaling-pillars{display:flex;flex-direction:column;gap:1rem;margin-top:2rem;}
+.scaling-pillar{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:1.1rem 1.25rem;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;transition:all .25s var(--ease);
+}
+.scaling-pillar:hover{background:rgba(255,255,255,.1);border-color:rgba(165,222,72,.25);transform:translateX(5px);}
+.sp-icon{
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;
+  background:rgba(165,222,72,.12);display:flex;align-items:center;justify-content:center;font-size:17px;
+}
+.sp-text{font-size:.88rem;color:rgba(255,255,255,.78);line-height:1.55;}
+.scaling-vision{
+  padding:2rem;background:rgba(165,222,72,.08);
+  border:1px solid rgba(165,222,72,.2);border-radius:16px;
+  margin-top:1.25rem;
+}
+.sv-label{font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#A5DE48;margin-bottom:.625rem;}
+.sv-text{font-size:.92rem;color:rgba(255,255,255,.72);line-height:1.72;}
+/* right: roadmap timeline */
+.scaling-roadmap{display:flex;flex-direction:column;gap:0;position:relative;padding-left:2.5rem;}
+.scaling-roadmap::before{
+  content:'';position:absolute;left:14px;top:20px;bottom:20px;
+  width:2px;background:linear-gradient(to bottom,var(--green-vivid),rgba(165,222,72,.2));
+  border-radius:2px;
+}
+.rm-item{
+  position:relative;padding:1.5rem 0 1.5rem 1.5rem;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.rm-item:last-child{border-bottom:none;}
+.rm-item::before{
+  content:'';position:absolute;left:-2rem;top:1.85rem;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--green-vivid);border:3px solid var(--green-deep);
+  box-shadow:0 0 0 3px rgba(165,222,72,.25);
+}
+.rm-phase{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#A5DE48;margin-bottom:.4rem;}
+.rm-title{font-size:.95rem;font-weight:600;color:#fff;margin-bottom:.35rem;}
+.rm-desc{font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.55;}
+
+/* ═══════════════════════════════════════
+   § 9  PARTNER FORM
+═══════════════════════════════════════ */
+.partner{
+  padding:6rem 8%;
+  position:relative;
+  background:
+    url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1600&q=85&auto=format&fit=crop&crop=center') center/cover no-repeat;
+  text-align:center;
+}
+.partner::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(5,18,5,.6) 0%,rgba(5,25,8,.75) 100%);
+  pointer-events:none;
+}
+.partner-inner{
+  position:relative;z-index:1;
+  max-width:580px;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;gap:2rem;
+}
+.partner-heading{margin-bottom:.25rem;}
+.partner-heading .section-eyebrow{color:#A5DE48;}
+.partner-heading h2{
+  font-family:var(--font-serif);font-size:clamp(1.8rem,3.5vw,2.4rem);
+  font-weight:300;color:#fff;margin-top:.5rem;line-height:1.3;
+}
+.partner-heading h2 em{font-style:italic;color:#A5DE48;}
+
+/* FORM */
+.partner-form-wrap{
+  width:100%;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-radius:18px;
+  padding:1.75rem;
+  border:1px solid rgba(255,255,255,.4);
+  box-shadow:0 24px 64px rgba(0,0,0,.4);
+  text-align:left;
+}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.form-full{grid-column:1/-1;}
+.form-group{display:flex;flex-direction:column;gap:.3rem;}
+.form-label{font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-muted);}
+.form-control{
+  padding:.5rem .75rem;border-radius:8px;
+  border:1.5px solid var(--border);background:#fff;
+  font-size:.875rem;color:var(--ink);font-family:var(--font-sans);
+  outline:none;transition:border-color .2s,box-shadow .2s;
+  -webkit-appearance:none;
+}
+.form-control::placeholder{color:var(--ink-faint);}
+.form-control:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(28,160,105,.1);}
+select.form-control{cursor:pointer;}
+textarea.form-control{resize:none;min-height:80px;}
+.form-submit{
+  margin-top:1rem;width:100%;
+  padding:.75rem;border-radius:10px;
+  background:var(--green-mid);color:#fff;
+  font-family:var(--font-sans);font-weight:700;font-size:.85rem;
+  letter-spacing:.05em;text-transform:uppercase;
+  border:none;cursor:pointer;transition:all .25s var(--ease);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.form-submit:hover{background:var(--green-deep);transform:translateY(-2px);box-shadow:0 8px 24px rgba(28,160,105,.3);}
+.form-submit svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2.5;}
+.form-privacy{font-size:.68rem;color:var(--ink-faint);text-align:center;margin-top:.75rem;}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer{
+  background:#0c1c0a;color:rgba(255,255,255,.55);
+  padding:4rem 8% 2rem;
+}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:3rem;padding-bottom:3rem;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.footer-brand p{font-size:.875rem;line-height:1.75;margin-top:1rem;max-width:260px;}
+.footer-col h4{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin-bottom:1.25rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+.footer-col ul li a{color:rgba(255,255,255,.45);text-decoration:none;font-size:.875rem;transition:color .2s;}
+.footer-col ul li a:hover{color:var(--green-vivid);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;font-size:.78rem;}
+.footer-social{display:flex;gap:8px;}
+.social-btn{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);display:flex;align-items:center;justify-content:center;font-size:.85rem;text-decoration:none;transition:all .2s;border:1px solid rgba(255,255,255,.07);}
+.social-btn:hover{background:var(--green-mid);color:#fff;border-color:var(--green-mid);}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:1100px){
+  .built,.problem-inner,.network-inner,.scaling-inner,.reach-section{grid-template-columns:1fr;gap:3.5rem;}
+  .partner-inner{max-width:100%;}
+  .built-visual{max-height:360px;}
+  .hero-center{padding:3.5rem 5% 2rem;}
+  .hero h1{font-size:clamp(2.8rem,7vw,3.8rem);}
+  .impact-stats{grid-template-columns:repeat(2,1fr);}
+  .impact-panels{grid-template-columns:1fr;}
+  .infogram{grid-template-columns:1fr;}.ig-arrow{padding:.5rem;transform:rotate(90deg);}
+  .steps-grid{grid-template-columns:repeat(2,1fr);gap:3rem 2rem;}
+  .step-phone{width:130px;}
+  .features-grid{grid-template-columns:1fr 1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
+  .network-cols{grid-template-columns:1fr;}
+  .reach-grid{grid-template-columns:repeat(3,1fr);}
+  .network-visual{display:none;}
+}
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .features-header{grid-template-columns:1fr;}
+  .features-grid{grid-template-columns:1fr;}
+  .steps-grid{grid-template-columns:1fr;}
+  .impact-stats{grid-template-columns:repeat(2,1fr);}
+  .reach-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-grid{grid-template-columns:1fr;}
+  .footer-bottom{flex-direction:column;gap:1rem;text-align:center;}
+  .form-grid{grid-template-columns:1fr;}
+  .scaling-roadmap{padding-left:1.5rem;}
+  .partner-form-wrap{padding:2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="icon.png" alt="Digital Green Trust">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">Who We Are</a></li>
+    <li><a href="farmerchat.html" class="active">FarmerChat</a></li>
+    <li><a href="index.html#impact">Impact</a></li>
+    <li><a href="index.html#stories">Insights</a></li>
+    <li><a href="#partner" class="nav-cta">Partner With Us</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="index.html#about" onclick="toggleMenu()">About</a>
+  <a href="farmerchat.html" onclick="toggleMenu()">FarmerChat</a>
+  <a href="index.html#impact" onclick="toggleMenu()">Impact</a>
+  <a href="#partner" onclick="toggleMenu()">Partner With Us</a>
+</div>
+
+
+<!-- ══════════════════════════════════
+     § 1  HERO
+══════════════════════════════════ -->
+<section class="hero" id="top">
+
+  <!-- Background photo -->
+  <div class="hero-bg">
+    <img src="https://images.pexels.com/photos/2132250/pexels-photo-2132250.jpeg" alt="" loading="eager" fetchpriority="high">
+  </div>
+
+  <!-- Animated background blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="hero-grain"></div>
+
+  <!-- Centred headline + CTAs -->
+  <div class="hero-center">
+    <div class="tag tag-white tag-dot" style="animation:heroUp .6s var(--ease) both">FarmerChat · Digital Green Trust</div>
+    <h1>
+      Helping Farmers<br>
+      Make <em>Better</em><br>
+      Decisions
+    </h1>
+    <p class="hero-sub">Clear, timely advice for every step of the farming journey.</p>
+
+    <div class="hero-actions">
+      <a href="#partner" class="btn btn-green">
+        Partner With Us
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#how" class="btn btn-outline-white">See How It Works</a>
+    </div>
+
+    <!-- Google Play badge -->
+    <div class="hero-app">
+      <div class="hero-app-label">Available on</div>
+      <a href="https://play.google.com/store/apps/details?id=org.digitalgreen.farmer.chat" target="_blank" rel="noopener" class="gplay-badge">
+        <svg class="gplay-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.18 23.76c.37.2.8.22 1.19.04l12.18-6.84-2.64-2.64-10.73 9.44z" fill="#EA4335"/>
+          <path d="M20.82 10.26l-2.91-1.64-2.96 2.96 2.96 2.96 2.94-1.65a1.67 1.67 0 0 0 0-2.63z" fill="#FBBC04"/>
+          <path d="M1.89.48A1.67 1.67 0 0 0 1.5 1.5v21a1.67 1.67 0 0 0 .39 1.02l.06.06 11.76-11.76v-.28L1.95.42l-.06.06z" fill="#4285F4"/>
+          <path d="M17.55 15.42l-4.07-4.07v-.28l4.07-4.07 2.64 1.48a1.67 1.67 0 0 1 0 2.91l-2.64 1.48-.09.09 .09-.09z" fill="#34A853"/>
+          <path d="M3.18.24L15.36 7.08l-2.64 2.64L1.89.48A1.67 1.67 0 0 1 3.18.24z" fill="#4285F4"/>
+        </svg>
+        <div class="gplay-text">
+          <span class="gplay-sub">GET IT ON</span>
+          <span class="gplay-main">Google Play</span>
+        </div>
+      </a>
+      <div class="hero-app-rating">
+        <span class="star-row">★★★★★</span>
+        <span class="rating-val">4.7</span>
+        <span class="rating-label">· 50K+ downloads</span>
+      </div>
+    </div>
+
+    <!-- Social proof pills -->
+    <div class="hero-trust">
+      <span class="trust-pill"><strong>600K+</strong> farmers helped</span>
+      <span class="trust-pill"><strong>45%</strong> women users</span>
+      <span class="trust-pill"><strong>26</strong> languages</span>
+      <span class="trust-pill"><strong>60%</strong> act on advice</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     § 2  BUILT FOR FARMERS
+══════════════════════════════════ -->
+<section class="built" id="about">
+  <!-- Visual -->
+  <div class="built-visual rv">
+    <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=900&q=80&auto=format&fit=crop&crop=faces,center" alt="Farmer using smartphone">
+  </div>
+
+  <!-- Text -->
+  <div>
+    <div class="section-eyebrow rv">Built for Farmers. Powered by AI.</div>
+    <h2 class="section-h rv">An intelligent assistant for <em>field-level decisions</em></h2>
+    <p class="section-sub rv" style="margin-top:1rem">FarmerChat is designed to support farmers with timely, local, and practical advice that makes a measurable difference in every season.</p>
+    <ul class="built-checklist rv rv-d1">
+      <li>Grow more with optimised crop management guidance</li>
+      <li>Reduce risk through early pest and disease detection</li>
+      <li>Increase income by acting on market and price alerts</li>
+      <li>Adapt to changing weather and climate conditions</li>
+    </ul>
+    <div class="built-note rv rv-d2">Available in multiple languages and built for <strong>low-connectivity environments</strong> — so no farmer is left behind, regardless of location or device.</div>
+    <div style="margin-top:2rem;display:flex;gap:12px;flex-wrap:wrap" class="rv rv-d3">
+      <a href="#partner" class="btn btn-green">Get Started</a>
+      <a href="#features" class="btn btn-outline">Explore Features</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     § 3  THE PROBLEM
+══════════════════════════════════ -->
+<section class="problem" id="problem">
+  <div class="problem-inner">
+    <!-- Text -->
+    <div>
+      <div class="tag tag-white rv">The Problem</div>
+      <h2 class="section-h section-h-white rv">Farming Decisions Should<br>Not Be <em>Guesswork</em></h2>
+      <div class="problem-list rv rv-d1">
+        <div class="problem-item">
+          <div class="problem-item-icon">⏳</div>
+          <div class="problem-item-text">Limited access to <strong>timely information</strong> when it matters most</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-item-icon">🗣️</div>
+          <div class="problem-item-text"><strong>Language and literacy barriers</strong> block access to expert advice</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-item-icon">📵</div>
+          <div class="problem-item-text"><strong>Delayed or absent expert support</strong> during critical crop stages</div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-item-icon">📋</div>
+          <div class="problem-item-text"><strong>Unreliable or generic advice</strong> not suited to local conditions</div>
+        </div>
+      </div>
+      <div class="problem-result rv rv-d2">
+        <div class="problem-result-label">The Result</div>
+        <div class="problem-result-text">Missed opportunities, lower yields, and higher risk — season after season.</div>
+      </div>
+    </div>
+  
+      <!-- Phone mockup -->
+    <div class="fd-phone-wrap rv rv-d2">
+      <div class="fd-phone">
+        <img src="video.gif" style="width:100%;height:100%;object-fit:cover;"></img>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     § 4  HOW IT WORKS
+══════════════════════════════════ -->
+<section class="how" id="how">
+  <div class="how-header rv">
+    <div class="section-eyebrow">How It Works</div>
+    <h2 class="section-h">From <em>question</em> to confident action — in seconds</h2>
+  </div>
+  <div class="steps-grid">
+
+    <!-- ── Step 1: Ask ── -->
+    <div class="step rv">
+      <div class="step-phone">
+        <span class="step-badge">Step 1</span>
+        <div class="step-phone-frame">
+          <div class="spn"><div class="spn-pill"></div></div>
+          <div class="sps">
+            <!-- WA header -->
+            <div class="sp-wp-head">
+              <div class="sp-wa">🌱</div>
+              <div class="sp-wn">FarmerChat</div>
+              <div class="sp-ws">● Online</div>
+            </div>
+            <!-- chat -->
+            <div class="sp-chat-bg" style="flex:1">
+              <div class="sp-bub out">
+                मेरे टमाटर की पत्तियों पर पीले धब्बे हैं
+                <div class="sp-bub-time">9:12 ✓✓</div>
+              </div>
+              <div class="sp-type">
+                <div class="sp-td"></div><div class="sp-td"></div><div class="sp-td"></div>
+              </div>
+            </div>
+            <!-- input bar -->
+            <div class="sp-input-bar">
+              <div class="sp-input-field">Type or speak…</div>
+              <div class="sp-mic-btn">🎤</div>
+            </div>
+          </div>
+          <div class="sph"><div class="sph-bar"></div></div>
+        </div>
+      </div>
+      <div class="step-title">Ask a question</div>
+      <div class="step-main">Type, speak, or upload a photo</div>
+      <div class="step-desc">Farmers interact in their own language — text, voice note, or a photo of the problem.</div>
+    </div>
+
+    <!-- ── Step 2: AI Processes ── -->
+    <div class="step rv rv-d1">
+      <div class="step-phone">
+        <span class="step-badge">Step 2</span>
+        <div class="step-phone-frame">
+          <div class="spn"><div class="spn-pill"></div></div>
+          <div class="sps">
+            <div class="sp-proc">
+              <div class="sp-proc-ring"></div>
+              <div class="sp-proc-label">Analysing query…</div>
+              <div class="sp-proc-chips">
+                <span class="sp-chip">📍 Local weather</span>
+                <span class="sp-chip">📚 Expert database</span>
+                <span class="sp-chip">🌾 Crop research</span>
+              </div>
+              <div class="sp-proc-bar"><div class="sp-proc-fill"></div></div>
+            </div>
+          </div>
+          <div class="sph"><div class="sph-bar"></div></div>
+        </div>
+      </div>
+      <div class="step-title">AI processes the input</div>
+      <div class="step-main">Combines local data, research & expert knowledge</div>
+      <div class="step-desc">FarmerChat cross-references agronomic databases, local weather, and expert-validated knowledge.</div>
+    </div>
+
+    <!-- ── Step 3: Get Advice ── -->
+    <div class="step rv rv-d2">
+      <div class="step-phone">
+        <span class="step-badge">Step 3</span>
+        <div class="step-phone-frame">
+          <div class="spn"><div class="spn-pill"></div></div>
+          <div class="sps">
+            <div class="sp-wp-head">
+              <div class="sp-wa">🌱</div>
+              <div class="sp-wn">FarmerChat</div>
+              <div class="sp-ws">● Online</div>
+            </div>
+            <div class="sp-chat-bg" style="flex:1">
+              <div class="sp-bub out">
+                मेरे टमाटर पर पीले धब्बे हैं
+                <div class="sp-bub-time">9:12 ✓✓</div>
+              </div>
+              <div class="sp-bub in">
+                <span class="sp-bub-lbl">FarmerChat AI</span>
+                अर्ली ब्लाइट है। Mancozeb 2.5g/L स्प्रे करें। शाम को छिड़काव करें।
+              </div>
+              <div class="sp-lang-row">🇮🇳 Hindi · 🔊 Voice</div>
+            </div>
+          </div>
+          <div class="sph"><div class="sph-bar"></div></div>
+        </div>
+      </div>
+      <div class="step-title">Get instant advice</div>
+      <div class="step-main">In local language — text, voice, or video</div>
+      <div class="step-desc">Responses arrive in the farmer's language in a format they can understand, including audio for low-literacy users.</div>
+    </div>
+
+    <!-- ── Step 4: Take Action ── -->
+    <div class="step rv rv-d3">
+      <div class="step-phone">
+        <span class="step-badge">Step 4</span>
+        <div class="step-phone-frame">
+          <div class="spn"><div class="spn-pill"></div></div>
+          <div class="sps">
+            <div class="sp-action">
+              <div class="sp-action-hd">Today's Actions</div>
+              <div class="sp-action-list">
+                <div class="sp-action-item">
+                  <div class="sp-action-cb done">✓</div>
+                  Buy Mancozeb (2.5g/L)
+                </div>
+                <div class="sp-action-item">
+                  <div class="sp-action-cb done">✓</div>
+                  Spray at 5pm (evening)
+                </div>
+                <div class="sp-action-item">
+                  <div class="sp-action-cb todo"></div>
+                  Monitor for 3 days
+                </div>
+                <div class="sp-action-item">
+                  <div class="sp-action-cb todo"></div>
+                  Repeat if needed
+                </div>
+              </div>
+              <div class="sp-action-outcome">✓ Yield protected</div>
+            </div>
+          </div>
+          <div class="sph"><div class="sph-bar"></div></div>
+        </div>
+      </div>
+      <div class="step-title">Take action on the farm</div>
+      <div class="step-main">Apply recommendations with confidence</div>
+      <div class="step-desc">Step-by-step guidance farmers can act on immediately — resulting in better yields and reduced risk.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     § 5  KEY FEATURES
+══════════════════════════════════ -->
+<section class="features" id="features">
+  <div class="features-header">
+    <div>
+      <div class="section-eyebrow rv">Key Features</div>
+      <h2 class="section-h rv">Designed for Real<br><em>Farming Conditions</em></h2>
+    </div>
+  </div>
+
+  <div class="features-split">
+
+    <!-- Left: clickable feature tabs -->
+    <div class="feat-tabs">
+
+      <div class="feat-tab active" data-feat="diag">
+        <div class="feat-tab-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 3h6l1 9H8L9 3Z"/><path d="M6.5 12c0 3.038 2.462 5.5 5.5 5.5s5.5-2.462 5.5-5.5"/><path d="M12 17.5V21"/><path d="M9 21h6"/><circle cx="12" cy="8.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div class="feat-tab-body">
+          <div class="feat-tab-title">Image Diagnosis</div>
+          <div class="feat-tab-desc">Upload crop photos and get instant AI-powered issue detection with clear, actionable solutions.</div>
+        </div>
+      </div>
+
+      <div class="feat-tab" data-feat="voice">
+        <div class="feat-tab-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="9" y1="21" x2="15" y2="21"/></svg>
+        </div>
+        <div class="feat-tab-body">
+          <div class="feat-tab-title">Voice + Text Interaction</div>
+          <div class="feat-tab-desc">Speak, type, or send a photo. Removes literacy barriers so every farmer can participate.</div>
+        </div>
+      </div>
+
+      <div class="feat-tab" data-feat="lang">
+        <div class="feat-tab-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="feat-tab-body">
+          <div class="feat-tab-title">Local Language Support</div>
+          <div class="feat-tab-desc">Available in 16+ languages. Farmers receive answers in their mother tongue — clearly understood.</div>
+        </div>
+      </div>
+
+      <div class="feat-tab" data-feat="adv">
+        <div class="feat-tab-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><path d="M11 13v2"/><path d="M11 17v1"/><path d="M15 13v2"/><path d="M15 17v1"/></svg>
+        </div>
+        <div class="feat-tab-body">
+          <div class="feat-tab-title">On-Demand Advisories</div>
+          <div class="feat-tab-desc">Proactive push notifications on weather events, pest forecasts, and market prices.</div>
+        </div>
+      </div>
+
+      <div class="feat-tab" data-feat="vid">
+        <div class="feat-tab-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m22 8-6 4 6 4V8Z"/></svg>
+        </div>
+        <div class="feat-tab-body">
+          <div class="feat-tab-title">Farmer Video Responses</div>
+          <div class="feat-tab-desc">Learn from real farmers through short videos — the most trusted form of peer learning.</div>
+        </div>
+      </div>
+
+    </div><!-- /feat-tabs -->
+
+    <!-- Right: phone showcase -->
+    <div class="feat-showcase">
+      <div class="feat-phone">
+
+        <!-- Screen 1: Image Diagnosis -->
+        <div class="feat-phone-screen scr-diag active" id="scr-diag">
+          <div class="ph-topbar">
+            <div class="ph-topbar-title">🔬 Crop Diagnosis</div>
+            <div class="ph-status">AI Ready</div>
+          </div>
+          <div class="ph-img-upload">
+            <span>📷</span>
+            <p>Photo analysed</p>
+          </div>
+          <div class="ph-result-card">
+            <div class="ph-result-tag">⚠ Detected</div>
+            <div class="ph-result-title">Late Blight — Tomato</div>
+            <div class="ph-result-desc">Fungal infection spreading through leaf tissue. Humid conditions are accelerating spread.</div>
+            <div class="ph-fix-label">Recommended Actions</div>
+            <div class="ph-fix-item"><div class="ph-fix-dot"></div>Apply Mancozeb 75% WP spray</div>
+            <div class="ph-fix-item"><div class="ph-fix-dot"></div>Remove infected leaves immediately</div>
+            <div class="ph-fix-item"><div class="ph-fix-dot"></div>Reduce overhead irrigation</div>
+          </div>
+          <div class="ph-conf">
+            <div class="ph-conf-label">Confidence</div>
+            <div class="ph-conf-bar"><div class="ph-conf-fill"></div></div>
+            <div class="ph-conf-label">92%</div>
+          </div>
+        </div>
+
+        <!-- Screen 2: Voice + Text -->
+        <div class="feat-phone-screen scr-voice" id="scr-voice">
+          <div class="ph-topbar">
+            <div class="ph-avatar">🌱</div>
+            <div class="ph-topbar-info">
+              <div class="ph-topbar-name">FarmerChat AI</div>
+              <div class="ph-topbar-status">● Online</div>
+            </div>
+          </div>
+          <div class="ph-msgs">
+            <div class="ph-msg-in">मेरी फसल की पत्तियाँ पीली हो रही हैं</div>
+            <div class="ph-msg-out">कब से देख रहे हैं यह समस्या?</div>
+            <div class="ph-msg-in">3 दिन से, बारिश के बाद शुरू हुई</div>
+            <div class="ph-msg-out">यह नाइट्रोजन की कमी हो सकती है। यूरिया 46% का छिड़काव करें।</div>
+          </div>
+          <div class="ph-voice-bar">
+            <div class="ph-mic">🎙</div>
+            <div class="ph-waves">
+              <div class="ph-wave"></div><div class="ph-wave"></div>
+              <div class="ph-wave"></div><div class="ph-wave"></div>
+              <div class="ph-wave"></div><div class="ph-wave"></div>
+              <div class="ph-wave"></div><div class="ph-wave"></div>
+              <div class="ph-wave"></div>
+            </div>
+            <div class="ph-voice-label">Speaking…</div>
+          </div>
+          <div class="ph-input-row">
+            <div class="ph-input">Type a message…</div>
+            <div class="ph-send">➤</div>
+          </div>
+        </div>
+
+        <!-- Screen 3: Local Language -->
+        <div class="feat-phone-screen scr-lang" id="scr-lang">
+          <div class="ph-topbar">
+            <div class="ph-topbar-title">🌍 Choose Language</div>
+          </div>
+          <div class="ph-lang-list">
+            <div class="ph-lang-section">South Asia</div>
+            <div class="ph-lang-grid">
+              <div class="ph-lang-btn sel">
+                <div class="ph-lang-flag">🇮🇳</div>
+                <div><div class="ph-lang-name">Hindi</div><div class="ph-lang-native">हिन्दी</div></div>
+              </div>
+              <div class="ph-lang-btn">
+                <div class="ph-lang-flag">🇮🇳</div>
+                <div><div class="ph-lang-name">Telugu</div><div class="ph-lang-native">తెలుగు</div></div>
+              </div>
+              <div class="ph-lang-btn">
+                <div class="ph-lang-flag">🇧🇩</div>
+                <div><div class="ph-lang-name">Bengali</div><div class="ph-lang-native">বাংলা</div></div>
+              </div>
+              <div class="ph-lang-btn">
+                <div class="ph-lang-flag">🇮🇳</div>
+                <div><div class="ph-lang-name">Marathi</div><div class="ph-lang-native">मराठी</div></div>
+              </div>
+            </div>
+            <div class="ph-lang-section">East Africa</div>
+            <div class="ph-lang-grid">
+              <div class="ph-lang-btn">
+                <div class="ph-lang-flag">🇰🇪</div>
+                <div><div class="ph-lang-name">Swahili</div><div class="ph-lang-native">Kiswahili</div></div>
+              </div>
+              <div class="ph-lang-btn">
+                <div class="ph-lang-flag">🇪🇹</div>
+                <div><div class="ph-lang-name">Amharic</div><div class="ph-lang-native">አማርኛ</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="ph-chat-preview">
+            <div class="ph-chat-tag">✓ Hindi selected</div>
+            <div class="ph-chat-msg">नमस्ते! आपकी फसल के बारे में क्या जानना चाहते हैं?</div>
+          </div>
+        </div>
+
+        <!-- Screen 4: On-Demand Advisories -->
+        <div class="feat-phone-screen scr-adv" id="scr-adv">
+          <div class="ph-topbar">
+            <div class="ph-topbar-title">🔔 Advisories</div>
+            <div class="ph-notif-dot"></div>
+          </div>
+          <div class="ph-adv-list">
+            <div class="ph-adv-date">Today · 3 new</div>
+            <div class="ph-adv-card alert">
+              <div class="ph-adv-icon">🌧️</div>
+              <div class="ph-adv-body">
+                <div class="ph-adv-title">Heavy Rain Warning</div>
+                <div class="ph-adv-text">80mm rainfall expected Tue–Wed. Harvest wheat before Monday to avoid losses.</div>
+                <div class="ph-adv-time">8:30 AM · Weather Dept</div>
+              </div>
+            </div>
+            <div class="ph-adv-card warn">
+              <div class="ph-adv-icon">🐛</div>
+              <div class="ph-adv-body">
+                <div class="ph-adv-title">Pest Alert: Fall Armyworm</div>
+                <div class="ph-adv-text">High risk detected in your district. Inspect maize fields and apply neem spray.</div>
+                <div class="ph-adv-time">Yesterday · IPM Centre</div>
+              </div>
+            </div>
+            <div class="ph-adv-card">
+              <div class="ph-adv-icon">📈</div>
+              <div class="ph-adv-body">
+                <div class="ph-adv-title">Market Price Update</div>
+                <div class="ph-adv-text">Tomato prices ₹18/kg at Nashik mandi — 12% above last week. Good time to sell.</div>
+                <div class="ph-adv-time">2 hrs ago · AgriMarket</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 5: Farmer Videos -->
+        <div class="feat-phone-screen scr-vid" id="scr-vid">
+          <div class="ph-topbar">
+            <div class="ph-topbar-title">📹 Farmer Videos</div>
+          </div>
+          <div class="ph-featured">
+            <div class="ph-vid-thumb">
+              <div class="ph-vid-play">▶</div>
+              <div class="ph-vid-dur">3:24</div>
+            </div>
+            <div class="ph-vid-info">
+              <div class="ph-vid-title">How I doubled my wheat yield with drip irrigation</div>
+              <div class="ph-vid-meta">Ramu Bhai · Rajasthan · 12K views</div>
+            </div>
+          </div>
+          <div class="ph-vid-grid">
+            <div class="ph-vid-mini">
+              <div class="ph-vid-mini-thumb">🌾</div>
+              <div class="ph-vid-mini-title">Organic pest control for rice</div>
+            </div>
+            <div class="ph-vid-mini">
+              <div class="ph-vid-mini-thumb">🌿</div>
+              <div class="ph-vid-mini-title">Soil health tips — Bihar</div>
+            </div>
+            <div class="ph-vid-mini">
+              <div class="ph-vid-mini-thumb">🥦</div>
+              <div class="ph-vid-mini-title">Vegetable intercropping method</div>
+            </div>
+            <div class="ph-vid-mini">
+              <div class="ph-vid-mini-thumb">💧</div>
+              <div class="ph-vid-mini-title">Water conservation techniques</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /feat-phone -->
+    </div><!-- /feat-showcase -->
+
+  </div><!-- /features-split -->
+</section>
+
+
+<!-- ══════════════════════════════════
+     § 6  KNOWLEDGE NETWORK
+══════════════════════════════════ -->
+<section class="network" id="network">
+  <div class="network-inner">
+    <!-- Text -->
+    <div>
+      <div class="tag tag-white rv">Knowledge Network</div>
+      <h2 class="section-h section-h-white rv">A Global Knowledge Network<br>in <em>Farmers' Pockets</em></h2>
+      <p class="section-sub section-sub-white rv" style="margin-top:1rem">FarmerChat connects farmers to a wide network of reliable agricultural knowledge, bringing together verified research, local extension systems, community-driven insights, and strong partnerships with governments and ecosystem players. This ensures that every piece of advice farmers receive is practical, trustworthy, and rooted in both scientific expertise and real-world farming experience.</p>
+    </div>
+
+    <!-- Orbit visual -->
+    <div class="network-visual rv rv-d2">
+      <div style="position:relative;width:340px;height:340px;">
+        <div class="nv-circle" style="position:absolute;inset:0;">
+          <div class="orbit-dot"></div>
+          <div class="orbit-dot"></div>
+          <div class="orbit-dot"></div>
+          <div class="orbit-dot"></div>
+          <div class="nv-circle-inner">
+            <div class="orbit-dot"></div>
+            <div class="orbit-dot"></div>
+            <div class="nv-core">
+              <div class="nv-core-icon">🌱</div>
+              <div class="nv-core-label">FarmerChat</div>
+            </div>
+          </div>
+        </div>
+        <span class="orbit-label ol-1">Verified agricultural research</span>
+        <span class="orbit-label ol-2">Community-driven knowledge</span>
+        <span class="orbit-label ol-3">Local extension systems</span>
+        <span class="orbit-label ol-4">Government & ecosystem partnerships</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FarmerChat Conversations strip -->
+<div class="decision-strip">
+  <div class="decision-label">Every response is shaped by real farmer inputs, expert validation, and regional data</div>
+  <div class="decision-track" id="decisionTrack">
+
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer">
+          <div class="d-avatar" style="background:#c0392b">S</div>
+          <div><div class="d-name">Sunita Devi</div><div class="d-loc">📍 Sitamarhi, Bihar</div></div>
+        </div>
+        <span class="d-lang">Hindi</span>
+      </div>
+      <div class="d-q">"मेरे टमाटर की पत्तियों पर पीले धब्बे हैं — क्या करूँ?"</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>अर्ली ब्लाइट है। Mancozeb 2.5g/L में मिलाकर शाम को स्प्रे करें। 3–5 दिन में सुधार होगा।</div>
+      <div class="d-footer"><span class="d-outcome">Harvest protected</span><span class="d-ago">2 hrs ago</span></div>
+    </div>
+
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer">
+          <div class="d-avatar" style="background:#1a7a4a">J</div>
+          <div><div class="d-name">James Ochieng</div><div class="d-loc">📍 Kakamega, Kenya</div></div>
+        </div>
+        <span class="d-lang">English</span>
+      </div>
+      <div class="d-q">"My maize leaves are yellowing from the base. Irrigation is fine."</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>Likely nitrogen deficiency. Apply CAN at 50 kg/acre after the next rainfall for best uptake.</div>
+      <div class="d-footer"><span class="d-outcome">Yield improved 40%</span><span class="d-ago">5 hrs ago</span></div>
+    </div>
+
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer">
+          <div class="d-avatar" style="background:#7b5ea7">L</div>
+          <div><div class="d-name">Lakshmi Bai</div><div class="d-loc">📍 Tumkur, Karnataka</div></div>
+        </div>
+        <span class="d-lang">Kannada</span>
+      </div>
+      <div class="d-q">"ಈ ವರ್ಷ ಮಳೆ ತಡವಾಗಿದೆ — ರಾಗಿ ಯಾವಾಗ ಬಿತ್ತಬಹುದು?"</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>ಜೂನ್ 18–22 ಮಳೆ ನಿರೀಕ್ಷೆ. GPU-28 ತಳಿ ಆರಿಸಿ — ಬರ ನಿರೋಧಕ ಮತ್ತು ಬೇಗ ಫಸಲು.</div>
+      <div class="d-footer"><span class="d-outcome">Season planned</span><span class="d-ago">1 day ago</span></div>
+    </div>
+
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer">
+          <div class="d-avatar" style="background:#b8620a">E</div>
+          <div><div class="d-name">Emeka Obi</div><div class="d-loc">📍 Oyo State, Nigeria</div></div>
+        </div>
+        <span class="d-lang">English</span>
+      </div>
+      <div class="d-q">"Should I spray for fall armyworm now, or wait for rain?"</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>Spray now — FAW confirmed in your region. Use chlorpyrifos, morning application. Do not wait for rain.</div>
+      <div class="d-footer"><span class="d-outcome">Crop protected</span><span class="d-ago">3 hrs ago</span></div>
+    </div>
+
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer">
+          <div class="d-avatar" style="background:#1a5fa8">P</div>
+          <div><div class="d-name">Priya Mondal</div><div class="d-loc">📍 Bardhaman, W. Bengal</div></div>
+        </div>
+        <span class="d-lang">Bengali</span>
+      </div>
+      <div class="d-q">"আমার ধানের গোড়ায় পচন ধরছে, পাতা বাদামী হয়ে যাচ্ছে।"</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>Sheath Blight রোগ। Propiconazole স্প্রে করুন এবং জমিতে জল কমান।</div>
+      <div class="d-footer"><span class="d-outcome">Loss averted</span><span class="d-ago">6 hrs ago</span></div>
+    </div>
+
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer">
+          <div class="d-avatar" style="background:#2e7d52">A</div>
+          <div><div class="d-name">Amara Tesfaye</div><div class="d-loc">📍 Tigray, Ethiopia</div></div>
+        </div>
+        <span class="d-lang">Amharic</span>
+      </div>
+      <div class="d-q">"የምቾሌ ቅጠሎቼ ቢጫ ቀለም ይዘዋል — ምን ላድርግ?"</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>ናይትሮጅን ጉድለት ነው። ዩሪያ 25kg/ሄ. ይጨምሩ። ከ5 ቀን ውስጥ ለውጥ ያያሉ።</div>
+      <div class="d-footer"><span class="d-outcome">Recovery in 5 days</span><span class="d-ago">4 hrs ago</span></div>
+    </div>
+
+    <!-- Duplicate set for seamless loop -->
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer"><div class="d-avatar" style="background:#c0392b">S</div><div><div class="d-name">Sunita Devi</div><div class="d-loc">📍 Sitamarhi, Bihar</div></div></div>
+        <span class="d-lang">Hindi</span>
+      </div>
+      <div class="d-q">"मेरे टमाटर की पत्तियों पर पीले धब्बे हैं — क्या करूँ?"</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>अर्ली ब्लाइट है। Mancozeb 2.5g/L में मिलाकर शाम को स्प्रे करें। 3–5 दिन में सुधार होगा।</div>
+      <div class="d-footer"><span class="d-outcome">Harvest protected</span><span class="d-ago">2 hrs ago</span></div>
+    </div>
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer"><div class="d-avatar" style="background:#1a7a4a">J</div><div><div class="d-name">James Ochieng</div><div class="d-loc">📍 Kakamega, Kenya</div></div></div>
+        <span class="d-lang">English</span>
+      </div>
+      <div class="d-q">"My maize leaves are yellowing from the base. Irrigation is fine."</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>Likely nitrogen deficiency. Apply CAN at 50 kg/acre after the next rainfall for best uptake.</div>
+      <div class="d-footer"><span class="d-outcome">Yield improved 40%</span><span class="d-ago">5 hrs ago</span></div>
+    </div>
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer"><div class="d-avatar" style="background:#7b5ea7">L</div><div><div class="d-name">Lakshmi Bai</div><div class="d-loc">📍 Tumkur, Karnataka</div></div></div>
+        <span class="d-lang">Kannada</span>
+      </div>
+      <div class="d-q">"ಈ ವರ್ಷ ಮಳೆ ತಡವಾಗಿದೆ — ರಾಗಿ ಯಾವಾಗ ಬಿತ್ತಬಹುದು?"</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>ಜೂನ್ 18–22 ಮಳೆ ನಿರೀಕ್ಷೆ. GPU-28 ತಳಿ ಆರಿಸಿ — ಬರ ನಿರೋಧಕ ಮತ್ತು ಬೇಗ ಫಸಲು.</div>
+      <div class="d-footer"><span class="d-outcome">Season planned</span><span class="d-ago">1 day ago</span></div>
+    </div>
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer"><div class="d-avatar" style="background:#b8620a">E</div><div><div class="d-name">Emeka Obi</div><div class="d-loc">📍 Oyo State, Nigeria</div></div></div>
+        <span class="d-lang">English</span>
+      </div>
+      <div class="d-q">"Should I spray for fall armyworm now, or wait for rain?"</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>Spray now — FAW confirmed in your region. Use chlorpyrifos, morning application. Do not wait for rain.</div>
+      <div class="d-footer"><span class="d-outcome">Crop protected</span><span class="d-ago">3 hrs ago</span></div>
+    </div>
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer"><div class="d-avatar" style="background:#1a5fa8">P</div><div><div class="d-name">Priya Mondal</div><div class="d-loc">📍 Bardhaman, W. Bengal</div></div></div>
+        <span class="d-lang">Bengali</span>
+      </div>
+      <div class="d-q">"আমার ধানের গোড়ায় পচন ধরছে, পাতা বাদামী হয়ে যাচ্ছে।"</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>Sheath Blight রোগ। Propiconazole স্প্রে করুন এবং জমিতে জল কমান।</div>
+      <div class="d-footer"><span class="d-outcome">Loss averted</span><span class="d-ago">6 hrs ago</span></div>
+    </div>
+    <div class="d-card">
+      <div class="d-header">
+        <div class="d-farmer"><div class="d-avatar" style="background:#2e7d52">A</div><div><div class="d-name">Amara Tesfaye</div><div class="d-loc">📍 Tigray, Ethiopia</div></div></div>
+        <span class="d-lang">Amharic</span>
+      </div>
+      <div class="d-q">"የምቾሌ ቅጠሎቼ ቢጫ ቀለም ይዘዋል — ምን ላድርግ?"</div>
+      <div class="d-a"><span class="d-a-lbl">FarmerChat AI</span>ናይትሮጅን ጉድለት ነው። ዩሪያ 25kg/ሄ. ይጨምሩ። ከ5 ቀን ውስጥ ለውጥ ያያሉ።</div>
+      <div class="d-footer"><span class="d-outcome">Recovery in 5 days</span><span class="d-ago">4 hrs ago</span></div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     § 7  IMPACT
+══════════════════════════════════ -->
+<section class="impact" id="impact">
+  <div class="impact-header rv">
+    <div class="section-eyebrow">Real Results. Measurable Impact.</div>
+    <h2 class="section-h">600,000+ Farmers. <em>Real Change.</em></h2>
+  </div>
+
+  <!-- Top 4 stats -->
+  <div class="impact-stats">
+    <div class="istat rv">
+      <div class="istat-num">600K+</div>
+      <div class="istat-label">Farmers in India</div>
+      <div class="istat-sub">Across 9 states</div>
+    </div>
+    <div class="istat rv rv-d1">
+      <div class="istat-num">45%</div>
+      <div class="istat-label">Women Users</div>
+      <div class="istat-sub">Driving inclusive access</div>
+    </div>
+    <div class="istat rv rv-d2">
+      <div class="istat-num">60%</div>
+      <div class="istat-label">Take Action</div>
+      <div class="istat-sub">Based on advice received</div>
+    </div>
+    <div class="istat rv rv-d3">
+      <div class="istat-num">69%</div>
+      <div class="istat-label">Monthly Engagement</div>
+      <div class="istat-sub">Strong, consistent usage</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     § 8  OUTCOMES
+══════════════════════════════════ -->
+<section class="outcomes" id="outcomes">
+  <div class="outcomes-header rv">
+    <div class="section-eyebrow">From Usage to Real Farming Outcomes</div>
+    <h2 class="section-h">How Farmers Use It — <em>and What Changes</em></h2>
+  </div>
+
+  <div class="infogram rv">
+
+    <!-- Col 1: Why they come -->
+    <div class="ig-col" style="border-right: 1px solid var(--border);">
+      <div class="ig-head">
+        <span class="ig-tag ig-tag-problem">Why they come</span>
+        <div class="ig-title">Real Problems, Real Usage</div>
+      </div>
+      <div class="ig-row">
+        <div class="ig-pct">82%</div>
+        <div class="ig-lbl">Use it for pest management</div>
+      </div>
+      <div class="ig-row">
+        <div class="ig-pct">46%</div>
+        <div class="ig-lbl">For fertilizer decisions</div>
+      </div>
+      <div class="ig-row">
+        <div class="ig-pct">36%</div>
+        <div class="ig-lbl">For weather-related guidance</div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="ig-arrow"><div class="ig-arrow-icon">→</div></div>
+
+    <!-- Col 2: Experience -->
+    <div class="ig-col">
+      <div class="ig-head">
+        <span class="ig-tag ig-tag-exp">On the platform</span>
+        <div class="ig-title">Simple, Accessible, Reliable</div>
+      </div>
+      <div class="ig-row">
+        <div class="ig-pct">85%</div>
+        <div class="ig-lbl">Find it easy to understand</div>
+      </div>
+      <div class="ig-row">
+        <div class="ig-pct">89%</div>
+        <div class="ig-lbl">Report smooth onboarding</div>
+      </div>
+      <div class="ig-row ig-low">
+        <div class="ig-pct">8%</div>
+        <div class="ig-lbl">Face challenges while using it</div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="ig-arrow"><div class="ig-arrow-icon">→</div></div>
+
+    <!-- Col 3: Outcomes -->
+    <div class="ig-col">
+      <div class="ig-head">
+        <span class="ig-tag ig-tag-outcome">What changes</span>
+        <div class="ig-title">From Advice to Action</div>
+      </div>
+      <div class="ig-row">
+        <div class="ig-pct">70%</div>
+        <div class="ig-lbl">Adopt new practices within 30 days</div>
+      </div>
+      <div class="ig-row">
+        <div class="ig-pct">83%</div>
+        <div class="ig-lbl">Feel more confident in decisions</div>
+      </div>
+      <div class="ig-row">
+        <div class="ig-pct">87%</div>
+        <div class="ig-lbl">Say it's their best source of advice</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     § 9  BUILT TO REACH
+══════════════════════════════════ -->
+<section class="reach-section" id="reach">
+  <!-- Left: text -->
+  <div>
+    <div class="section-eyebrow rv">Built to Reach Every Farmer</div>
+    <h2 class="section-h rv">Reaching farmers <em>where they are</em></h2>
+    <p class="section-sub rv" style="margin-top:1rem">FarmerChat is built on a foundation of trust, partnerships, and infrastructure designed to serve farmers at the last mile — no matter the region, language, or connectivity.</p>
+    <ul class="reach-list rv rv-d1">
+      <li class="reach-list-item">Integrated with public agricultural systems</li>
+      <li class="reach-list-item">Supported by field partners and communities</li>
+      <li class="reach-list-item">Accessible through telecom partnerships</li>
+      <li class="reach-list-item">Continuously improved with farmer feedback</li>
+      <li class="reach-list-item">Backed by global research collaborations</li>
+    </ul>
+  </div>
+  <!-- Right: image -->
+  <div class="reach-img-wrap rv rv-d2">
+    <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&q=80&auto=format&fit=crop" alt="Farmer in field using phone">
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     § 9  PARTNER FORM
+══════════════════════════════════ -->
+<section class="partner" id="partner">
+  <div class="partner-inner">
+    <div class="partner-heading rv">
+      <div class="section-eyebrow">Partner With Us</div>
+      <h2>Ready to bring FarmerChat<br>to <em>your farmers?</em></h2>
+    </div>
+    <div class="partner-form-wrap rv rv-d1">
+      <form id="partnerForm" onsubmit="handleSubmit(event)" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="fname">Name *</label>
+            <input class="form-control" type="text" id="fname" name="fname" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Work Email *</label>
+            <input class="form-control" type="email" id="email" name="email" placeholder="you@organisation.org" required>
+          </div>
+          <div class="form-group form-full">
+            <label class="form-label" for="org">Organisation *</label>
+            <input class="form-control" type="text" id="org" name="org" placeholder="Organisation name" required>
+          </div>
+          <div class="form-group form-full">
+            <label class="form-label" for="message">Message</label>
+            <textarea class="form-control" id="message" name="message" placeholder="What are you looking to achieve?"></textarea>
+          </div>
+        </div>
+        <button type="submit" class="form-submit">
+          Submit Enquiry
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <div class="form-privacy">By submitting you agree to our Privacy Policy.</div>
+      </form>
+      <div id="formSuccess" style="display:none;padding:2rem;text-align:center">
+        <div style="font-size:2rem;margin-bottom:.75rem">✅</div>
+        <div style="font-family:var(--font-serif);font-size:1.2rem;color:var(--ink);margin-bottom:.4rem">Thank you!</div>
+        <div style="font-size:.85rem;color:var(--ink-muted);line-height:1.6">We'll be in touch shortly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="iconWhite.png" alt="Digital Green Trust" style="height:26px;object-fit:contain;">
+      <p>Harnessing technology and community knowledge to build resilient, prosperous farming communities worldwide.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Organization</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Team</a></li>
+        <li><a href="#">Annual Reports</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>FarmerChat</h4>
+      <ul>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#impact">Impact Data</a></li>
+        <li><a href="#">Open Source (GitHub)</a></li>
+        <li><a href="#">Download App</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#partner">Partner With Us</a></li>
+        <li><a href="#">Media Enquiries</a></li>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">www.digitalgreen.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Digital Green Trust. Registered in India. FarmerChat is open-source under MIT License.</p>
+    <div class="footer-social">
+      <a href="#" class="social-btn">𝕏</a>
+      <a href="#" class="social-btn">in</a>
+      <a href="#" class="social-btn">f</a>
+      <a href="#" class="social-btn">▶</a>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+/* ── Nav ── */
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20));
+function toggleMenu() { document.getElementById('mobileNav').classList.toggle('open'); }
+
+/* ── Reveal on scroll ── */
+const rvEls = document.querySelectorAll('.rv');
+const rvObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); rvObs.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+rvEls.forEach(el => rvObs.observe(el));
+
+/* ── Progress bars ── */
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('.ibar-fill').forEach(bar => {
+      bar.classList.add('animate');
+      const w = parseFloat(bar.style.getPropertyValue('--w') || bar.style.cssText.match(/--w:([\d.]+)/)?.[1] || 0);
+      bar.style.transform = `scaleX(${w})`;
+    });
+    barObs.unobserve(e.target);
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.ipanel').forEach(p => barObs.observe(p));
+
+/* ── Form ── */
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = document.getElementById('partnerForm');
+  const success = document.getElementById('formSuccess');
+  form.style.display = 'none';
+  success.style.display = 'block';
+}
+
+/* ── Key Features tabs ── */
+(function(){
+  const tabs = document.querySelectorAll('.feat-tab');
+  const screens = document.querySelectorAll('.feat-phone-screen');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const id = tab.dataset.feat;
+      tabs.forEach(t => t.classList.remove('active'));
+      screens.forEach(s => s.classList.remove('active'));
+      tab.classList.add('active');
+      const scr = document.getElementById('scr-' + id);
+      if (scr) scr.classList.add('active');
+    });
+  });
+})();
+
+/* ── Smooth anchor scroll ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+</script>
+</body>
+</html>
