@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impact — Digital Green Trust</title>
+<style>
+  @font-face {
+    font-family: "PP Fragment Serif";
+    src: url("PPFragment-SerifRegular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "PP Fragment Serif";
+    src: url("PPFragment-SerifExtraBold.otf") format("opentype");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "PP Fragment Sans";
+    src: url("PPFragment-SansRegular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "PP Fragment Sans";
+    src: url("PPFragment-SansExtraBold.otf") format("opentype");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --green-deep: #30572A;
+    --green-mid: #1CA069;
+    --green-vivid: #A5DE48;
+    --green-light: #EAF8CC;
+    --green-pale: #f3f3f3;
+    --earth: #55BFDE;
+    --earth-light: #F5EDA4;
+    --cream: #FFFFFF;
+    --ink: #101410;
+    --ink-muted: #071F58;
+    --ink-faint: #5B7BA8;
+    --white: #FFFFFF;
+    --border: rgba(28,160,105,0.15);
+    --radius: 12px;
+    --radius-lg: 20px;
+    --font-display: "PP Fragment Serif", serif;
+    --font-body: "PP Fragment Sans", sans-serif;
+    --font-sans-bold: "PP Fragment Sans", sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 5%;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  nav.scrolled {
+    padding: 0.65rem 5%;
+    box-shadow: 0 2px 20px rgba(48,87,42,0.08);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-mark {
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .nav-logo-mark::after { content: none; }
+  .nav-links {
+    display: flex; gap: 0; list-style: none;
+  }
+  .nav-links a {
+    display: block; padding: 0.5rem 1.1rem;
+    text-decoration: none; font-size: 0.875rem; font-weight: 500;
+    color: var(--ink-muted);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { background: var(--green-light); color: var(--green-deep); }
+  .nav-links a.active { color: var(--green-deep); font-weight: 700; }
+  .nav-cta {
+    background: var(--green-mid); color: white !important;
+    border-radius: 8px !important; padding: 0.5rem 1.25rem !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--green-deep) !important; color: white !important; }
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px;
+  }
+  .nav-hamburger span {
+    width: 22px; height: 2px; background: var(--ink);
+    border-radius: 2px; transition: all 0.3s;
+  }
+
+  /* ── MOBILE MENU ── */
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 70px; left: 0; right: 0; z-index: 99;
+    background: white; border-bottom: 1px solid var(--border);
+    padding: 1rem 5%;
+    flex-direction: column; gap: 0.25rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    padding: 0.75rem 1rem; border-radius: 8px;
+    color: var(--ink-muted); text-decoration: none;
+    font-size: 0.925rem; font-weight: 500;
+    transition: background 0.2s;
+  }
+  .mobile-menu a:hover { background: var(--green-light); color: var(--green-deep); }
+
+  /* ── SHARED UTILITIES ── */
+  .section-eyebrow {
+    font-family: var(--font-sans-bold);
+    font-size: 0.72rem; font-weight: 800;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--green-mid);
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+  .section-eyebrow::before {
+    content: ''; width: 20px; height: 2px;
+    background: var(--green-vivid); border-radius: 2px;
+  }
+  .section-heading {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.18;
+    color: var(--green-deep);
+    margin-bottom: 1.25rem;
+  }
+  .section-heading em { font-style: italic; color: var(--green-mid); }
+  .section-body {
+    font-size: 1.05rem; line-height: 1.85;
+    color: #3a4a3a;
+    max-width: 640px;
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ═══════════════════════════════════════
+     SECTION 1 — HERO
+  ═══════════════════════════════════════ */
+  .impact-hero {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    padding: 120px 8% 6rem;
+    overflow: hidden;
+    background: var(--green-deep);
+  }
+  .impact-hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+  }
+  .impact-hero-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 40%;
+    filter: brightness(0.38) saturate(1.1);
+  }
+  .impact-hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(
+      180deg,
+      rgba(16,20,16,0.1) 0%,
+      rgba(48,87,42,0.55) 60%,
+      rgba(16,20,16,0.85) 100%
+    );
+  }
+  .impact-hero-inner {
+    position: relative; z-index: 3;
+    max-width: 860px; width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(165,222,72,0.6); }
+    50% { opacity: 0.7; transform: scale(1.5); box-shadow: 0 0 0 7px rgba(165,222,72,0); }
+  }
+  .impact-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 4.8rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: white;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.35);
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .impact-hero-title em { font-style: italic; color: var(--green-vivid); text-shadow: 0 0 40px rgba(165,222,72,0.4); }
+  .impact-hero-sub {
+    font-size: 1.1rem; line-height: 1.8;
+    color: rgba(255,255,255,0.72);
+    max-width: 560px; margin: 0 auto;
+    animation: fadeUp 0.7s 0.18s ease both;
+  }
+
+  /* ── STATS BAND ── */
+  /* ── STATS BAND ── */
+  .stats-band {
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    position: relative; z-index: 2;
+  }
+  .stats-band-track {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1200px; margin: 0 auto;
+  }
+  .sb-item {
+    padding: 3rem 2.5rem;
+    text-align: center;
+    cursor: default;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .sb-item:hover { background: var(--green-pale); }
+  .sb-item + .sb-item::before {
+    content: '';
+    position: absolute; left: 0; top: 20%; bottom: 20%;
+    width: 1px; background: var(--border);
+  }
+  .sb-num {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    color: var(--green-deep); line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .sb-num em { font-style: normal; color: var(--green-mid); }
+  .sb-label {
+    font-size: 0.8rem; color: var(--ink-faint);
+    font-weight: 500; line-height: 1.5; letter-spacing: 0.02em;
+  }
+  .sb-bar {
+    width: 32px; height: 3px;
+    background: var(--green-vivid);
+    border-radius: 2px;
+    margin: 0.75rem auto 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ═══════════════════════════════════════
+     SECTION 2 — FROM ACCESS TO ACTION
+  ═══════════════════════════════════════ */
+  .access-section {
+    padding: 7rem 8%;
+    background: var(--cream);
+    position: relative;
+  }
+  .access-inner {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: start;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .access-left { }
+  .access-bullets {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0.85rem;
+    margin-top: 2rem;
+  }
+  .access-bullets li {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 0.95rem; line-height: 1.6; color: #3a4a3a;
+  }
+  .access-bullets li::before {
+    content: '';
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green-vivid);
+    flex-shrink: 0; margin-top: 0.45em;
+  }
+
+  /* Results cards */
+  .access-right { }
+  .results-label {
+    font-family: var(--font-sans-bold);
+    font-size: 0.72rem; font-weight: 800;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--green-mid);
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .results-label::before {
+    content: ''; width: 20px; height: 2px;
+    background: var(--green-vivid); border-radius: 2px;
+  }
+  .results-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .result-card {
+    background: var(--green-pale);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 1.5rem;
+    position: relative; overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: default;
+  }
+  .result-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 36px rgba(28,160,105,0.12);
+  }
+  .result-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: linear-gradient(90deg, var(--green-mid), var(--green-vivid));
+    border-radius: 20px 20px 0 0;
+  }
+  .result-card.alt { background: var(--green-light); }
+  .result-card.alt::before { background: linear-gradient(90deg, var(--green-deep), var(--green-mid)); }
+  .rc-num {
+    font-family: var(--font-display);
+    font-size: 2.6rem; font-weight: 700;
+    color: var(--green-deep); line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .rc-num span { color: var(--green-mid); }
+  .rc-label {
+    font-size: 0.85rem; line-height: 1.5;
+    color: #3a4a3a; font-weight: 500;
+  }
+
+  /* ═══════════════════════════════════════
+     SECTION 3 — SCALING ADVISORY
+  ═══════════════════════════════════════ */
+  .scaling-section {
+    padding: 7rem 8%;
+    background: var(--green-deep);
+    position: relative; overflow: hidden;
+  }
+  .scaling-section::before {
+    content: '';
+    position: absolute; top: -120px; right: -80px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(165,222,72,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .scaling-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  .scaling-left .section-heading { color: white; }
+  .scaling-left .section-body { color: rgba(255,255,255,0.65); max-width: 100%; }
+  .scaling-left .section-body + .section-body { margin-top: 1.25rem; }
+  .scaling-left .section-eyebrow { color: var(--green-vivid); }
+  .scaling-left .section-eyebrow::before { background: var(--green-vivid); }
+
+  .scaling-right {
+    display: flex; flex-direction: column; gap: 1.25rem;
+  }
+  .scale-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(165,222,72,0.18);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 2rem;
+    display: flex; gap: 1.5rem; align-items: flex-start;
+    transition: background 0.25s, border-color 0.25s;
+    cursor: default;
+  }
+  .scale-card:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(165,222,72,0.35);
+  }
+  .scale-card-icon {
+    width: 48px; height: 48px; flex-shrink: 0;
+    border-radius: 12px;
+    background: rgba(165,222,72,0.12);
+    border: 1px solid rgba(165,222,72,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+  }
+  .scale-card-content { }
+  .scale-card-stat {
+    font-family: var(--font-display);
+    font-size: 2rem; font-weight: 700;
+    color: var(--green-vivid); line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+  .scale-card-desc {
+    font-size: 0.875rem; line-height: 1.6;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ═══════════════════════════════════════
+     SECTION 4 — BEHAVIOUR & DECISION IMPACT
+  ═══════════════════════════════════════ */
+  .behaviour-section {
+    padding: 7rem 8%;
+    background: var(--cream);
+    position: relative;
+  }
+  .behaviour-inner {
+    max-width: 1200px; margin: 0 auto;
+  }
+  .behaviour-header {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3rem; align-items: end;
+    margin-bottom: 4rem;
+  }
+  .behaviour-quote {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 400;
+    color: var(--green-deep);
+    line-height: 1.4;
+    font-style: italic;
+    padding-left: 1.5rem;
+    border-left: 3px solid var(--green-vivid);
+  }
+  .behaviour-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .behaviour-card {
+    background: var(--green-pale);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .behaviour-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(28,160,105,0.15);
+  }
+  .behaviour-card:nth-child(2) {
+    background: var(--green-deep);
+    border-color: rgba(165,222,72,0.2);
+  }
+  .behaviour-card:nth-child(2) .bc-label { color: rgba(255,255,255,0.6); }
+  .behaviour-card:nth-child(2) .bc-num { color: var(--green-vivid); }
+  .behaviour-card:nth-child(2) .bc-desc { color: rgba(255,255,255,0.5); }
+  .bc-num {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 700;
+    color: var(--green-deep);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .bc-label {
+    font-family: var(--font-sans-bold);
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--green-mid);
+    margin-bottom: 1rem;
+  }
+  .bc-desc {
+    font-size: 0.875rem; line-height: 1.6;
+    color: #3a4a3a;
+  }
+
+  /* ═══════════════════════════════════════
+     SECTION 5 — CTA
+  ═══════════════════════════════════════ */
+  .cta-section {
+    padding: 7rem 8%;
+    background: var(--green-light);
+    position: relative; overflow: hidden;
+    text-align: center;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231CA069' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .cta-inner {
+    position: relative; z-index: 1;
+    max-width: 640px; margin: 0 auto;
+  }
+  .cta-section .section-heading { color: var(--green-deep); text-align: center; margin: 0 auto 1.25rem; }
+  .cta-section .section-body { text-align: center; margin: 0 auto 2.5rem; color: #3a5a3a; }
+  .cta-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--green-deep); color: white;
+    padding: 0.95rem 2.2rem; border-radius: 12px;
+    font-family: var(--font-sans-bold); font-weight: 800; font-size: 0.875rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 9px;
+    transition: all 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0.1);
+    transform: translateX(-100%) skewX(-15deg);
+    transition: transform 0.4s;
+  }
+  .btn-primary:hover::after { transform: translateX(120%) skewX(-15deg); }
+  .btn-primary:hover {
+    background: var(--green-mid);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 36px rgba(28,160,105,0.4);
+  }
+  .btn-secondary {
+    background: transparent; color: var(--green-deep);
+    padding: 0.85rem 2rem; border-radius: 10px;
+    font-family: var(--font-sans-bold); font-weight: 800; font-size: 0.8rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    border: 1.5px solid var(--green-deep);
+    transition: all 0.25s;
+  }
+  .btn-secondary:hover { background: var(--green-deep); color: white; transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.6);
+    padding: 4rem 8% 2rem;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand p {
+    font-size: 0.875rem; line-height: 1.75; margin-top: 1rem;
+    max-width: 280px;
+  }
+  .footer-col h4 {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: white;
+    margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .footer-col a {
+    color: rgba(255,255,255,0.55); text-decoration: none;
+    font-size: 0.875rem; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: #A5DE48; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.5rem;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-bottom p { font-size: 0.8rem; }
+  .footer-social { display: flex; gap: 12px; }
+  .social-btn {
+    width: 34px; height: 34px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5); font-size: 0.8rem; font-weight: 700;
+    text-decoration: none; transition: all 0.2s; font-family: serif;
+  }
+  .social-btn:hover { border-color: #A5DE48; color: #A5DE48; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .impact-hero { padding: 110px 6% 5rem; }
+    .access-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .results-grid { grid-template-columns: 1fr 1fr; }
+    .scaling-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .behaviour-header { grid-template-columns: 1fr; gap: 1.5rem; }
+    .behaviour-cards { grid-template-columns: 1fr; gap: 1rem; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+  }
+  @media (max-width: 600px) {
+    .impact-hero { padding: 100px 5% 4rem; min-height: auto; }
+    .sb-item { padding: 1.75rem 2.5rem; }
+    .access-section, .scaling-section, .behaviour-section, .cta-section { padding: 4rem 5%; }
+    .results-grid { grid-template-columns: 1fr; }
+    .behaviour-cards { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    footer { padding: 3rem 5% 1.5rem; }
+    nav { padding: 0.875rem 5%; }
+    .cta-btns { flex-direction: column; align-items: center; }
+    .btn-primary, .btn-secondary { width: 100%; max-width: 280px; justify-content: center; }
+    .scaling-right { gap: 1rem; }
+    .scale-card { padding: 1.25rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">
+      <img src="icon.png" alt="Digital Green icon" style="height:26px;object-fit:contain;">
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">Who We Are</a></li>
+    <li><a href="index.html#farmerchat">How We Work</a></li>
+    <li><a href="farmerchat.html">FarmerChat</a></li>
+    <li><a href="impact.html" class="active">Impact</a></li>
+    <li><a href="index.html#stories">Insights</a></li>
+    <li><a href="index.html#stories">Careers</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Partner With Us</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#about" onclick="toggleMenu()">Who We Are</a>
+  <a href="index.html#farmerchat" onclick="toggleMenu()">How We Work</a>
+  <a href="farmerchat.html" onclick="toggleMenu()">FarmerChat</a>
+  <a href="impact.html" onclick="toggleMenu()">Impact</a>
+  <a href="index.html#stories" onclick="toggleMenu()">Insights</a>
+  <a href="index.html#contact" onclick="toggleMenu()">Partner With Us</a>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SECTION 1 — HERO
+════════════════════════════════════════ -->
+<section class="impact-hero">
+  <div class="impact-hero-bg">
+    <img src="https://images.pexels.com/photos/1595108/pexels-photo-1595108.jpeg" alt="Farmers in a field">
+  </div>
+  <div class="impact-hero-overlay"></div>
+
+  <div class="impact-hero-inner">
+
+    <h1 class="impact-hero-title">
+      Impact That Reaches<br><em>Every Farm</em>
+    </h1>
+
+    <p class="impact-hero-sub">
+      Driving measurable change in farmer incomes, productivity, and resilience through technology and partnerships.
+    </p>
+  </div>
+</section>
+
+<!-- ── STATS BAND ── -->
+<div class="stats-band">
+  <div class="stats-band-track">
+    <div class="sb-item reveal">
+      <div class="sb-num">5.5<em>M+</em></div>
+      <div class="sb-label">Farmers Reached</div>
+      <div class="sb-bar"></div>
+    </div>
+    <div class="sb-item reveal" style="transition-delay:0.08s">
+      <div class="sb-num">50<em>%</em></div>
+      <div class="sb-label">Women Farmers</div>
+      <div class="sb-bar"></div>
+    </div>
+    <div class="sb-item reveal" style="transition-delay:0.16s">
+      <div class="sb-num">100<em>K+</em></div>
+      <div class="sb-label">Frontline Workers Trained</div>
+      <div class="sb-bar"></div>
+    </div>
+    <div class="sb-item reveal" style="transition-delay:0.24s">
+      <div class="sb-num">9<em>+</em></div>
+      <div class="sb-label">States in India</div>
+      <div class="sb-bar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SECTION 2 — FROM ACCESS TO ACTION
+════════════════════════════════════════ -->
+<section class="access-section">
+  <div class="access-inner">
+    <div class="access-left reveal">
+      <div class="section-eyebrow">From Access to Action</div>
+      <h2 class="section-heading">Turning information<br>into <em>real-world change</em></h2>
+      <p class="section-body">
+        Our work focuses on enabling farmers to move from information to action. By providing timely, localized advisory and building strong support systems, we help farmers make better decisions that directly improve their livelihoods.
+      </p>
+      <p class="section-body" style="margin-top:1.25rem; font-weight:600; color:var(--green-deep);">This translates into:</p>
+      <ul class="access-bullets">
+        <li>Increased adoption of improved farming practices</li>
+        <li>Better decision-making confidence among smallholder farmers</li>
+        <li>Higher productivity and income potential at the household level</li>
+      </ul>
+    </div>
+
+    <div class="access-right reveal" style="transition-delay:0.15s">
+      <div class="results-label">Measurable Results</div>
+      <div class="results-grid">
+        <div class="result-card alt">
+          <div class="rc-num">24<span>%</span></div>
+          <div class="rc-label">Increase in farmer incomes</div>
+        </div>
+        <div class="result-card">
+          <div class="rc-num">17<span>%</span></div>
+          <div class="rc-label">Increase in crop yields</div>
+        </div>
+        <div class="result-card">
+          <div class="rc-num">60<span>%+</span></div>
+          <div class="rc-label">Adoption of climate-smart practices</div>
+        </div>
+        <div class="result-card alt">
+          <div class="rc-num">40<span>%</span></div>
+          <div class="rc-label">Increase in access to advisory</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 3 — SCALING ADVISORY
+════════════════════════════════════════ -->
+<section class="scaling-section">
+  <div class="scaling-inner">
+    <div class="scaling-left reveal">
+      <div class="section-eyebrow">Scaling Advisory with Technology</div>
+      <h2 class="section-heading" style="color:white;">Digital tools,<br><em>deeper reach</em></h2>
+      <p class="section-body">
+        By combining digital tools with on-ground systems, we have significantly improved both the reach and efficiency of agricultural advisory. Farmers now receive faster, more personalized decision support tailored to their specific needs and conditions.
+      </p>
+      <p class="section-body" style="margin-top:1.25rem;">
+        This model delivers advisory at a much lower cost per adoption, expanding reach across regions while reducing the burden on traditional extension systems — making high-quality guidance accessible, affordable, and scalable.
+      </p>
+    </div>
+
+    <div class="scaling-right reveal" style="transition-delay:0.15s">
+      <div class="scale-card">
+        <div class="scale-card-icon">🚀</div>
+        <div class="scale-card-content">
+          <div class="scale-card-stat">10×</div>
+          <div class="scale-card-desc">Increase in adoption rates compared to traditional extension models</div>
+        </div>
+      </div>
+      <div class="scale-card">
+        <div class="scale-card-icon">💬</div>
+        <div class="scale-card-content">
+          <div class="scale-card-stat">24/7</div>
+          <div class="scale-card-desc">Continuous access to agricultural guidance through digital platforms</div>
+        </div>
+      </div>
+      <div class="scale-card">
+        <div class="scale-card-icon">📉</div>
+        <div class="scale-card-content">
+          <div class="scale-card-stat">↓ Cost</div>
+          <div class="scale-card-desc">Significantly reduced cost per adoption while expanding geographic reach</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 4 — BEHAVIOUR & DECISION IMPACT
+════════════════════════════════════════ -->
+<section class="behaviour-section">
+  <div class="behaviour-inner">
+    <div class="behaviour-header reveal">
+      <div>
+        <div class="section-eyebrow">Behaviour &amp; Decision Impact</div>
+        <h2 class="section-heading">Farmers are <em>acting</em> on what they learn</h2>
+      </div>
+      <p class="behaviour-quote">
+        "Farmers are not just accessing information — they are acting on it."
+      </p>
+    </div>
+
+    <div class="behaviour-cards">
+      <div class="behaviour-card reveal">
+        <div class="bc-label">Practice Adoption</div>
+        <div class="bc-num">70%</div>
+        <div class="bc-desc">Adopt new farming practices within 30 days of receiving advisory</div>
+      </div>
+      <div class="behaviour-card reveal" style="transition-delay:0.12s">
+        <div class="bc-label">Decision Confidence</div>
+        <div class="bc-num">83%</div>
+        <div class="bc-desc">Feel more confident in their farm management decisions</div>
+      </div>
+      <div class="behaviour-card reveal" style="transition-delay:0.24s">
+        <div class="bc-label">Women Empowered</div>
+        <div class="bc-num">96%</div>
+        <div class="bc-desc">Of women farmers report increased confidence in agricultural decisions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SECTION 5 — CTA
+════════════════════════════════════════ -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <div class="section-eyebrow" style="justify-content:center;">Be Part of the Change</div>
+    <h2 class="section-heading">Join us in building<br>a <em>resilient future</em> for farmers</h2>
+    <p class="section-body">
+      Whether through partnership, funding, or collaboration — there are many ways to amplify impact for farming communities across India.
+    </p>
+    <div class="cta-btns">
+      <a href="index.html#contact" class="btn-primary">
+        Partner With Us
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="index.html#farmerchat" class="btn-secondary">
+        Explore Our Work
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="nav-logo-mark">
+          <img src="iconWhite.png" alt="Digital Green icon" style="height:26px;object-fit:contain;">
+        </div>
+      </div>
+      <p>Harnessing technology and community knowledge to build resilient, prosperous farming communities across India.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Organization</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Team</a></li>
+        <li><a href="#">Board of Trustees</a></li>
+        <li><a href="#">Annual Reports</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="#">FarmerChat</a></li>
+        <li><a href="#">Digital Extension</a></li>
+        <li><a href="#">Community Video</a></li>
+        <li><a href="#">Data Platforms</a></li>
+        <li><a href="#">Open Source</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Media Enquiries</a></li>
+        <li><a href="#">Partner Portal</a></li>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">www.digitalgreen.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Digital Green Trust. Registered in India.</p>
+    <div class="footer-social">
+      <a href="#" class="social-btn">𝕏</a>
+      <a href="#" class="social-btn">in</a>
+      <a href="#" class="social-btn">f</a>
+      <a href="#" class="social-btn">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── NAV scroll effect ──
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ── Hamburger menu ──
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── Scroll reveal ──
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(el => {
+    if (el.isIntersecting) {
+      el.target.classList.add('visible');
+      observer.unobserve(el.target);
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+// ── Animated counters ──
+function animateCounter(el, target, suffix, duration) {
+  let start = 0;
+  const step = Math.ceil(target / (duration / 16));
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = start + suffix;
+    if (start >= target) clearInterval(timer);
+  }, 16);
+}
+
+// Trigger counters on visibility
+const numEls = document.querySelectorAll('.bc-num, .rc-num, .scale-card-stat');
+const numObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const raw = el.textContent.trim();
+      const match = raw.match(/^([\d.]+)(.*)/);
+      if (match) {
+        const num = parseFloat(match[1]);
+        const suffix = match[2];
+        let current = 0;
+        const duration = 1200;
+        const steps = 60;
+        const inc = num / steps;
+        const isDecimal = match[1].includes('.');
+        const timer = setInterval(() => {
+          current = Math.min(current + inc, num);
+          el.textContent = (isDecimal ? current.toFixed(1) : Math.round(current)) + suffix;
+          if (current >= num) clearInterval(timer);
+        }, duration / steps);
+      }
+      numObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.4 });
+numEls.forEach(el => numObserver.observe(el));
+</script>
+</body>
+</html>

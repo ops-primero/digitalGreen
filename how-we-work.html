@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How We Work — Digital Green Trust</title>
+<style>
+  @font-face {
+    font-family: "PP Fragment Serif";
+    src: url("PPFragment-SerifRegular.otf") format("opentype");
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "PP Fragment Serif";
+    src: url("PPFragment-SerifExtraBold.otf") format("opentype");
+    font-weight: 800; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "PP Fragment Sans";
+    src: url("PPFragment-SansRegular.otf") format("opentype");
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "PP Fragment Sans";
+    src: url("PPFragment-SansExtraBold.otf") format("opentype");
+    font-weight: 800; font-style: normal; font-display: swap;
+  }
+
+  :root {
+    --green-deep: #30572A;
+    --green-mid: #1CA069;
+    --green-vivid: #A5DE48;
+    --green-light: #EAF8CC;
+    --green-pale: #f3f3f3;
+    --earth: #55BFDE;
+    --earth-light: #F5EDA4;
+    --cream: #FFFFFF;
+    --ink: #101410;
+    --ink-muted: #071F58;
+    --ink-faint: #5B7BA8;
+    --white: #FFFFFF;
+    --border: rgba(28,160,105,0.15);
+    --radius: 12px;
+    --radius-lg: 20px;
+    --font-display: "PP Fragment Serif", serif;
+    --font-body: "PP Fragment Sans", sans-serif;
+    --font-sans-bold: "PP Fragment Sans", sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ══ NAV ══ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 5%;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  nav.scrolled {
+    padding: 0.65rem 5%;
+    box-shadow: 0 2px 20px rgba(48,87,42,0.08);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-mark {
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .nav-logo-mark::after { content: none; }
+  .nav-logo-text {
+    font-family: var(--font-display);
+    font-size: 1.05rem; font-weight: 600;
+    color: var(--green-deep); line-height: 1.2;
+  }
+  .nav-logo-text span { display: block; font-size: 0.65rem; font-weight: 400; color: var(--ink-faint); letter-spacing: 0.08em; font-family: var(--font-body); }
+  .nav-links { display: flex; gap: 0; list-style: none; }
+  .nav-links a {
+    display: block; padding: 0.5rem 1.1rem;
+    text-decoration: none; font-size: 0.875rem; font-weight: 500;
+    color: var(--ink-muted); border-radius: 8px; transition: all 0.2s;
+  }
+  .nav-links a:hover { background: var(--green-light); color: var(--green-deep); }
+  .nav-links a.active { color: var(--green-deep); font-weight: 700; }
+  .nav-cta {
+    background: var(--green-mid); color: white !important;
+    border-radius: 8px !important; padding: 0.5rem 1.25rem !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--green-deep) !important; color: white !important; }
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px;
+  }
+  .nav-hamburger span {
+    width: 22px; height: 2px; background: var(--ink);
+    border-radius: 2px; transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 70px; left: 0; right: 0; z-index: 99;
+    background: white; border-bottom: 1px solid var(--border);
+    padding: 1rem 5%;
+    flex-direction: column; gap: 0.25rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    padding: 0.75rem 1rem; border-radius: 8px;
+    color: var(--ink-muted); text-decoration: none;
+    font-size: 0.925rem; font-weight: 500;
+    transition: background 0.2s;
+  }
+  .mobile-menu a:hover { background: var(--green-light); color: var(--green-deep); }
+
+  /* ══ PAGE HERO ══ */
+  .page-hero {
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+    background: var(--green-deep);
+    min-height: 52vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .page-hero-bg {
+    position: absolute; inset: 0;
+  }
+  .page-hero-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 40%;
+    filter: saturate(0.9) brightness(0.45);
+  }
+  .page-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(48,87,42,0.7) 0%, rgba(28,160,105,0.3) 100%);
+  }
+  .page-hero-body {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 5rem 6% 4rem;
+    max-width: 820px;
+  }
+  .page-hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(48,87,42,0.7);
+    border: 1px solid rgba(165,222,72,0.35);
+    color: #A5DE48;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 7px 18px; border-radius: 100px;
+    margin-bottom: 1.75rem;
+    backdrop-filter: blur(8px);
+  }
+  .page-hero-tag::before {
+    content: ''; width: 6px; height: 6px;
+    border-radius: 50%; background: #A5DE48;
+    animation: livePulse 1.8s infinite;
+  }
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(165,222,72,0.6); }
+    50% { opacity: 0.7; transform: scale(1.5); box-shadow: 0 0 0 7px rgba(165,222,72,0); }
+  }
+  .page-hero-body h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+    font-weight: 300; line-height: 1.12;
+    color: white;
+    margin-bottom: 1.25rem;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.25);
+  }
+  .page-hero-body h1 em { font-style: italic; color: #A5DE48; }
+  .page-hero-body p {
+    font-size: 1.1rem; line-height: 1.8;
+    color: rgba(255,255,255,0.72);
+    max-width: 600px; margin: 0 auto;
+  }
+
+  /* ══ SHARED SECTION PATTERNS ══ */
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-sans-bold); font-weight: 800;
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--green-mid); margin-bottom: 1rem;
+  }
+  .section-label::before {
+    content: ''; width: 20px; height: 2px;
+    background: var(--green-vivid); border-radius: 2px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+    font-weight: 400; line-height: 1.18;
+    color: var(--ink); margin-bottom: 1.25rem;
+  }
+  .section-title em { font-style: italic; color: var(--green-mid); }
+  .section-body {
+    font-size: 1.05rem; line-height: 1.85;
+    color: #3a4a3a; max-width: 680px;
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Buttons */
+  .btn-primary {
+    background: var(--green-vivid); color: var(--ink);
+    padding: 0.95rem 2.2rem; border-radius: 12px;
+    font-family: var(--font-sans-bold); font-weight: 800; font-size: 0.875rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 9px;
+    transition: all 0.25s; position: relative; overflow: hidden;
+  }
+  .btn-primary:hover { background: var(--green-mid); color: white; transform: translateY(-3px); box-shadow: 0 10px 36px rgba(28,160,105,0.45); }
+  .btn-secondary {
+    background: transparent; color: var(--green-mid);
+    padding: 0.85rem 2rem; border-radius: 10px;
+    font-family: var(--font-sans-bold); font-weight: 800; font-size: 0.8rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    border: 1.5px solid var(--green-mid); transition: all 0.25s;
+  }
+  .btn-secondary:hover { background: var(--green-light); transform: translateY(-2px); }
+
+  /* ══ SECTION 2: BUILT AROUND FARMERS ══ */
+  .about-model {
+    padding: 6rem 8%;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  .about-model-visual {
+    position: relative;
+  }
+  .model-card-stack {
+    display: grid; gap: 1rem;
+  }
+  .model-card {
+    background: var(--green-pale);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.75rem;
+    display: flex; align-items: flex-start; gap: 1rem;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .model-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 36px rgba(28,160,105,0.12);
+  }
+  .model-card-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--green-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .model-card h3 {
+    font-family: var(--font-display);
+    font-size: 1rem; font-weight: 600;
+    color: var(--green-deep); margin-bottom: 0.3rem;
+  }
+  .model-card p {
+    font-size: 0.875rem; line-height: 1.65;
+    color: #4a5a4a;
+  }
+  .accent-bar {
+    width: 56px; height: 4px;
+    background: var(--green-vivid);
+    border-radius: 2px; margin-bottom: 1.5rem;
+  }
+
+  /* ══ SECTION 3: STEPS ══ */
+  .steps-section {
+    padding: 6rem 8%;
+    background: var(--ink);
+    position: relative; overflow: hidden;
+  }
+  .steps-section::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(165,222,72,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .steps-header {
+    text-align: center; margin-bottom: 4rem;
+  }
+  .steps-header .section-label { color: var(--green-vivid); }
+  .steps-header .section-label::before { background: var(--green-vivid); }
+  .steps-header .section-title { color: white; }
+  .steps-header .section-body {
+    color: rgba(255,255,255,0.6); margin: 0 auto;
+  }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    position: relative; z-index: 1;
+  }
+  .step-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.75rem;
+    position: relative;
+    transition: background 0.25s, border-color 0.25s, transform 0.25s;
+    overflow: hidden;
+  }
+  .step-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green-vivid), var(--green-mid));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .step-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(165,222,72,0.25);
+    transform: translateY(-5px);
+  }
+  .step-card:hover::before { transform: scaleX(1); }
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 3rem; font-weight: 800;
+    color: rgba(165,222,72,0.15);
+    line-height: 1; margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+  .step-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem; font-weight: 600;
+    color: white; margin-bottom: 0.75rem; line-height: 1.3;
+  }
+  .step-card p {
+    font-size: 0.875rem; line-height: 1.7;
+    color: rgba(255,255,255,0.55); margin-bottom: 1rem;
+  }
+  .step-list {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .step-list li {
+    font-size: 0.82rem; color: rgba(255,255,255,0.5);
+    padding-left: 1rem; position: relative; line-height: 1.5;
+  }
+  .step-list li::before {
+    content: '›'; position: absolute; left: 0;
+    color: var(--green-vivid); font-size: 0.9rem;
+  }
+  .step-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(165,222,72,0.1);
+    border: 1px solid rgba(165,222,72,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; margin-bottom: 1rem;
+  }
+
+  /* ══ SECTION 4: HYBRID MODEL ══ */
+  .hybrid-section {
+    padding: 6rem 8%;
+    background: var(--green-pale);
+    position: relative; overflow: hidden;
+  }
+  .hybrid-inner {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  .hybrid-pillars {
+    display: grid; gap: 1.25rem;
+  }
+  .pillar {
+    display: flex; align-items: flex-start; gap: 1rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .pillar:hover {
+    transform: translateX(6px);
+    box-shadow: 0 8px 28px rgba(28,160,105,0.12);
+  }
+  .pillar-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .pillar-icon.green { background: var(--green-light); }
+  .pillar-icon.blue  { background: rgba(85,191,222,0.15); }
+  .pillar-icon.yellow{ background: rgba(245,237,164,0.6); }
+  .pillar h3 {
+    font-family: var(--font-display);
+    font-size: 1rem; font-weight: 600;
+    color: var(--green-deep); margin-bottom: 0.3rem;
+  }
+  .pillar p {
+    font-size: 0.875rem; line-height: 1.65; color: #4a5a4a;
+  }
+  .hybrid-quote {
+    background: var(--green-deep);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    position: relative; overflow: hidden;
+  }
+  .hybrid-quote::before {
+    content: '"';
+    font-family: var(--font-display);
+    font-size: 8rem; color: rgba(165,222,72,0.12);
+    position: absolute; top: -1rem; left: 1rem;
+    line-height: 1;
+  }
+  .hybrid-quote p {
+    font-family: var(--font-display);
+    font-size: 1.3rem; line-height: 1.6;
+    color: white; position: relative; z-index: 1;
+    margin-bottom: 1.5rem;
+  }
+  .hybrid-quote-sub {
+    font-size: 0.82rem; color: rgba(255,255,255,0.5);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    font-weight: 600; position: relative; z-index: 1;
+  }
+  .hybrid-quote-chips {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-top: 1.5rem; position: relative; z-index: 1;
+  }
+  .chip {
+    background: rgba(165,222,72,0.12);
+    border: 1px solid rgba(165,222,72,0.25);
+    color: #A5DE48;
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 100px;
+  }
+
+  /* ══ SECTION 5: MAP ══ */
+  .map-section {
+    padding: 6rem 8%;
+    background: var(--green-pale)
+  }
+  .map-inner {
+    display: grid; grid-template-columns: 1fr 1.1fr;
+    gap: 5rem; align-items: center;
+  }
+  .map-states-list {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .state-badge {
+    background: var(--green-light);
+    border: 1px solid rgba(28,160,105,0.25);
+    color: var(--green-deep);
+    font-size: 0.8rem; font-weight: 600;
+    padding: 6px 14px; border-radius: 100px;
+    transition: background 0.2s, transform 0.2s;
+    cursor: default;
+  }
+  .state-badge:hover {
+    background: var(--green-vivid);
+    color: var(--ink);
+    transform: translateY(-2px);
+  }
+  .map-container {
+    position: relative;
+  }
+  .map-svg-wrap {
+    width: 100%;
+    background: var(--green-pale);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+  }
+  .map-legend {
+    display: flex; gap: 1.25rem; margin-top: 1rem;
+    font-size: 0.8rem; color: #4a5a4a;
+  }
+  .map-legend span {
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .legend-dot {
+    width: 12px; height: 12px; border-radius: 3px;
+  }
+  .legend-dot.active { background: var(--green-mid); }
+  .legend-dot.inactive { background: #d0dcd0; }
+
+  /* India SVG styles */
+  .india-map path {
+    stroke: white; stroke-width: 1;
+    transition: fill 0.25s;
+  }
+  .india-map path.active-state { fill: var(--green-mid); cursor: pointer; }
+  .india-map path.active-state:hover { fill: var(--green-deep); }
+  .india-map path.inactive-state { fill: #d0dcd0; }
+  .india-map path.inactive-state:hover { fill: #b8ccb8; }
+
+  /* ══ SECTION 6: CTA ══ */
+  .cta-section {
+    padding: 6rem 8%;
+    background: var(--green-deep);
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; top: -120px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(165,222,72,0.1) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .cta-section .section-label { color: var(--green-vivid); }
+  .cta-section .section-label::before { background: var(--green-vivid); }
+  .cta-section .section-title { color: white; max-width: 600px; margin: 0 auto 1.25rem; }
+  .cta-section .section-body { color: rgba(255,255,255,0.65); margin: 0 auto 2.5rem; }
+  .cta-actions {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  }
+  .btn-cta-white {
+    background: white; color: var(--green-deep);
+    padding: 0.95rem 2.2rem; border-radius: 12px;
+    font-family: var(--font-sans-bold); font-weight: 800; font-size: 0.875rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 9px;
+    transition: all 0.25s;
+  }
+  .btn-cta-white:hover {
+    background: var(--green-vivid);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 36px rgba(0,0,0,0.2);
+  }
+  .btn-cta-outline {
+    background: transparent; color: white;
+    padding: 0.85rem 2rem; border-radius: 10px;
+    font-family: var(--font-sans-bold); font-weight: 800; font-size: 0.8rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    border: 1.5px solid rgba(255,255,255,0.4);
+    transition: all 0.25s;
+  }
+  .btn-cta-outline:hover { border-color: var(--green-vivid); color: var(--green-vivid); transform: translateY(-2px); }
+
+  /* ══ FOOTER ══ */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.6);
+    padding: 4rem 8% 2rem;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand p {
+    font-size: 0.875rem; line-height: 1.75; margin-top: 1rem;
+    max-width: 280px;
+  }
+  .footer-col h4 {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: white; margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .footer-col a {
+    color: rgba(255,255,255,0.55); text-decoration: none;
+    font-size: 0.875rem; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: #A5DE48; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.5rem;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-bottom p { font-size: 0.8rem; }
+  .footer-social { display: flex; gap: 12px; }
+  .social-btn {
+    width: 34px; height: 34px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5); font-size: 0.8rem; font-weight: 700;
+    text-decoration: none; transition: all 0.2s; font-family: serif;
+  }
+  .social-btn:hover { border-color: #A5DE48; color: #A5DE48; }
+
+  /* ══ MOBILE ══ */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .about-model { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 6%; }
+    .steps-grid { grid-template-columns: 1fr 1fr; gap: 1rem; padding: 0; }
+    .steps-section { padding: 4rem 6%; }
+    .hybrid-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hybrid-section { padding: 4rem 6%; }
+    .map-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .map-section { padding: 4rem 6%; }
+    .cta-section { padding: 4rem 6%; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .page-hero-body h1 { font-size: clamp(2rem, 7vw, 3rem); }
+    .page-hero { min-height: 44vh; }
+  }
+  @media (max-width: 600px) {
+    .steps-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .cta-actions { flex-direction: column; align-items: center; }
+    .btn-cta-white, .btn-cta-outline { width: 100%; max-width: 280px; justify-content: center; }
+    footer { padding: 3rem 5% 1.5rem; }
+    nav { padding: 0.875rem 5%; }
+    .model-card-stack { gap: 0.75rem; }
+    .map-states-list { gap: 0.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">
+      <img src="icon.png" alt="Digital Green icon" style="height:26px;object-fit:contain;">
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">Who We Are</a></li>
+    <li><a href="how-we-work.html" class="active">How We Work</a></li>
+    <li><a href="farmerchat.html">FarmerChat</a></li>
+    <li><a href="index.html#impact">Impact</a></li>
+    <li><a href="index.html#stories">Insights</a></li>
+    <li><a href="index.html#stories">Careers</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Partner With Us</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#about" onclick="toggleMenu()">Who We Are</a>
+  <a href="how-we-work.html" onclick="toggleMenu()">How We Work</a>
+  <a href="farmerchat.html" onclick="toggleMenu()">FarmerChat</a>
+  <a href="index.html#impact" onclick="toggleMenu()">Impact</a>
+  <a href="index.html#stories">Insights</a>
+  <a href="index.html#contact" onclick="toggleMenu()">Partner With Us</a>
+</div>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <img src="https://images.pexels.com/photos/2889885/pexels-photo-2889885.jpeg" alt="Farmer using mobile phone in field" loading="eager">
+  </div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-body reveal">
+    <div class="page-hero-tag">Our Approach</div>
+    <h1>How We <em>Work</em></h1>
+    <p>A structured, scalable model that combines technology, partnerships, and on-ground support to deliver real value to farmers</p>
+  </div>
+</section>
+
+<!-- SECTION 2: BUILT AROUND FARMERS -->
+<section class="about-model" id="model">
+  <div class="about-model-text reveal">
+    <div class="section-label">Our Philosophy</div>
+    <div class="accent-bar"></div>
+    <h2 class="section-title">Built Around Farmers,<br><em>Powered by Technology</em></h2>
+    <p class="section-body">
+      We build solutions that meet farmers where they are, combining technology, local knowledge, and strong partnerships to make agricultural support more accessible and effective. Bringing together digital platforms, on-ground systems, and community networks to deliver timely, relevant guidance that farmers can trust and act on.
+    </p>
+    <p class="section-body" style="margin-top:1rem;">
+      By focusing on local languages, real farm conditions, and inclusive design, we ensure that even the most underserved communities can access the information they need. At the same time, we work closely with governments, institutions, and field partners to strengthen existing agricultural systems and extend their reach.
+    </p>
+    <p class="section-body" style="margin-top:1rem;">
+      FarmerChat is a key part of this ecosystem, enabling real-time, hyperlocal advisory, while the larger approach continues to evolve through data, feedback, and collaboration to support farmers at scale.
+    </p>
+  </div>
+  <div class="about-model-visual reveal">
+    <div class="model-card-stack">
+      <div class="model-card">
+        <div class="model-card-icon">🌾</div>
+        <div>
+          <h3>Farmer-First Design</h3>
+          <p>Every solution is built around real farm conditions, local languages, and the needs of underserved communities.</p>
+        </div>
+      </div>
+      <div class="model-card">
+        <div class="model-card-icon">🤝</div>
+        <div>
+          <h3>Strong Partnerships</h3>
+          <p>We collaborate with governments, institutions, and field partners to strengthen existing agricultural systems.</p>
+        </div>
+      </div>
+      <div class="model-card">
+        <div class="model-card-icon">🤖</div>
+        <div>
+          <h3>AI-Powered Advisory</h3>
+          <p>FarmerChat delivers real-time, hyperlocal guidance in local languages at scale across India.</p>
+        </div>
+      </div>
+      <div class="model-card">
+        <div class="model-card-icon">🔄</div>
+        <div>
+          <h3>Continuous Improvement</h3>
+          <p>Data, feedback, and research drive ongoing evolution to keep solutions relevant and impactful.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: STEPS -->
+<section class="steps-section" id="steps">
+  <div class="steps-header reveal">
+    <div class="section-label">The System</div>
+    <h2 class="section-title">From Ecosystem to <em style="color:#A5DE48">Farmer Impact</em></h2>
+    <p class="section-body">A connected system that brings together institutions, technology, and farmers</p>
+  </div>
+  <div class="steps-grid">
+
+    <div class="step-card reveal">
+      <div class="step-icon">🏛️</div>
+      <div class="step-num">01</div>
+      <h3>Strong Partnerships</h3>
+      <p>We collaborate with key institutions to embed FarmerChat into existing agricultural systems.</p>
+      <ul class="step-list">
+        <li>Government departments</li>
+        <li>State rural livelihood missions</li>
+        <li>Resource institutions</li>
+        <li>Farmer Producer Organizations</li>
+      </ul>
+    </div>
+
+    <div class="step-card reveal">
+      <div class="step-icon">📚</div>
+      <div class="step-num">02</div>
+      <h3>Training &amp; Enablement</h3>
+      <p>We train extension workers and field partners to deliver advisory with context and clarity.</p>
+      <ul class="step-list">
+        <li>Use FarmerChat effectively</li>
+        <li>Support farmers on the ground</li>
+        <li>Consistent last-mile delivery</li>
+      </ul>
+    </div>
+
+    <div class="step-card reveal">
+      <div class="step-icon">👩‍🌾</div>
+      <div class="step-num">03</div>
+      <h3>Farmer Onboarding</h3>
+      <p>Farmers are introduced to FarmerChat through trusted on-ground channels.</p>
+      <ul class="step-list">
+        <li>Extension agents</li>
+        <li>Field visits and demonstrations</li>
+        <li>Community-level engagement</li>
+      </ul>
+    </div>
+
+    <div class="step-card reveal">
+      <div class="step-icon">📱</div>
+      <div class="step-num">04</div>
+      <h3>Everyday Usage by Farmers</h3>
+      <p>Farmers use FarmerChat for real-time guidance in their local language.</p>
+      <ul class="step-list">
+        <li>Weather-based advisories</li>
+        <li>Market price checks</li>
+        <li>Image-based crop diagnosis</li>
+        <li>Nudges for better practices</li>
+      </ul>
+    </div>
+
+    <div class="step-card reveal">
+      <div class="step-icon">🔁</div>
+      <div class="step-num">05</div>
+      <h3>Continuous Feedback Loop</h3>
+      <p>We continuously improve the system through insights, research, and expert validation.</p>
+      <ul class="step-list">
+        <li>User feedback &amp; behaviour insights</li>
+        <li>Research and field studies</li>
+        <li>Expert validation</li>
+      </ul>
+    </div>
+
+    <div class="step-card reveal">
+      <div class="step-icon">🛒</div>
+      <div class="step-num">06</div>
+      <h3>Ecosystem &amp; Market Linkages</h3>
+      <p>Field partners help farmers connect to markets, buyers, and agricultural services.</p>
+      <ul class="step-list">
+        <li>Connect to buyers &amp; service providers</li>
+        <li>Participate in agricultural ecosystems</li>
+        <li>Strengthen access to opportunities</li>
+      </ul>
+    </div>
+
+    <div class="step-card reveal" style="grid-column: 1 / -1; max-width: 480px; margin: 0 auto; width: 100%;">
+      <div class="step-icon">🌱</div>
+      <div class="step-num">07</div>
+      <h3>Real Outcomes on Ground</h3>
+      <p>With better access to information, farmers make informed decisions and build resilience.</p>
+      <ul class="step-list">
+        <li>Informed farming decisions</li>
+        <li>Improved productivity</li>
+        <li>Increased income</li>
+        <li>Resilience to climate risks</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 4: HYBRID MODEL -->
+<section class="hybrid-section" id="hybrid">
+  <div class="hybrid-inner">
+    <div class="reveal">
+      <div class="section-label">Our Model</div>
+      <div class="accent-bar"></div>
+      <h2 class="section-title">Technology Backed by<br><em>Human Support</em></h2>
+      <p class="section-body" style="margin-bottom:2rem;">
+        FarmerChat is not just a digital tool. It is supported by a strong on-ground ecosystem that ensures both reach and effectiveness.
+      </p>
+      <div class="hybrid-pillars">
+        <div class="pillar">
+          <div class="pillar-icon green">💻</div>
+          <div>
+            <h3>Digital Platforms for Scale</h3>
+            <p>FarmerChat reaches millions of farmers across India through WhatsApp and other accessible digital channels.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon blue">🧑‍💼</div>
+          <div>
+            <h3>Field Teams for Trust &amp; Adoption</h3>
+            <p>On-ground extension workers build farmer relationships, drive adoption, and deliver context-sensitive support.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon yellow">🗣️</div>
+          <div>
+            <h3>Local Content for Relevance</h3>
+            <p>All advisory is delivered in local languages, tuned to regional crop calendars and real farm conditions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="hybrid-quote">
+        <p>"This hybrid model ensures both reach and effectiveness — the scale of technology with the trust of human connection."</p>
+        <div class="hybrid-quote-sub">Digital Green Trust Approach</div>
+        <div class="hybrid-quote-chips">
+          <span class="chip">Reach</span>
+          <span class="chip">Trust</span>
+          <span class="chip">Relevance</span>
+          <span class="chip">Scale</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: MAP -->
+<section class="map-section" id="reach">
+  <div class="map-inner">
+    <div class="reveal">
+      <div class="section-label">Our Presence</div>
+      <div class="accent-bar"></div>
+      <h2 class="section-title">Driving Change<br><em>Across India</em></h2>
+      <p class="section-body">
+        Our work is deeply rooted across multiple states in India, where we collaborate with governments, local institutions, and on-ground partners to strengthen agricultural systems and improve access to timely, trusted advisory.
+      </p>
+      <p class="section-body" style="margin-top:1rem;">
+        We are currently working across these states, building strong partnerships and delivering localized solutions tailored to each region's unique agricultural needs.
+      </p>
+      <div class="map-states-list">
+        <span class="state-badge">Andhra Pradesh</span>
+        <span class="state-badge">Telangana</span>
+        <span class="state-badge">Bihar</span>
+        <span class="state-badge">Karnataka</span>
+        <span class="state-badge">Maharashtra</span>
+        <span class="state-badge">Madhya Pradesh</span>
+        <span class="state-badge">Odisha</span>
+        <span class="state-badge">Jharkhand</span>
+        <span class="state-badge">Uttar Pradesh</span>
+      </div>
+    </div>
+    <!-- India Map -->
+    <div class="reveal">
+      <img src="maps.gif" style="width: 90%;" />
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: CTA -->
+<section class="cta-section" id="partner">
+  <div class="reveal" style="position:relative;z-index:1;">
+    <div class="section-label" style="justify-content:center;">Get Involved</div>
+    <h2 class="section-title">Partner With Us to<br><em style="color:#A5DE48">Scale Farmer Impact</em></h2>
+    <p class="section-body">
+      Join us in building a more resilient, inclusive, and technology-enabled future for farming communities across India.
+    </p>
+    <div class="cta-actions">
+      <a href="index.html#contact" class="btn-cta-white">
+        Work With Us
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="farmerchat.html" class="btn-cta-outline">
+        Learn More About FarmerChat
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="nav-logo-mark">
+          <img src="iconWhite.png" alt="Digital Green icon" style="height:26px;object-fit:contain;">
+        </div>
+      </div>
+      <p>Harnessing technology and community knowledge to build resilient, prosperous farming communities across India.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Organization</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Team</a></li>
+        <li><a href="#">Board of Trustees</a></li>
+        <li><a href="#">Annual Reports</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="#">FarmerChat</a></li>
+        <li><a href="#">Digital Extension</a></li>
+        <li><a href="#">Community Video</a></li>
+        <li><a href="#">Data Platforms</a></li>
+        <li><a href="#">Open Source</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Media Enquiries</a></li>
+        <li><a href="#">Partner Portal</a></li>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">www.digitalgreen.org</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Digital Green Trust. Registered in India.</p>
+    <div class="footer-social">
+      <a href="#" class="social-btn">𝕏</a>
+      <a href="#" class="social-btn">in</a>
+      <a href="#" class="social-btn">f</a>
+      <a href="#" class="social-btn">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Navbar scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Mobile menu
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+// Stagger step cards
+const stepCards = document.querySelectorAll('.step-card');
+const stepObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const idx = Array.from(stepCards).indexOf(entry.target);
+      setTimeout(() => entry.target.style.opacity = '1', idx * 100);
+      setTimeout(() => entry.target.style.transform = 'translateY(0)', idx * 100);
+      stepObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+stepCards.forEach(c => {
+  c.style.opacity = '0';
+  c.style.transform = 'translateY(24px)';
+  c.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  stepObserver.observe(c);
+});
+</script>
+
+</body>
+</html>
