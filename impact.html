@@ -64,7 +64,7 @@
     overflow-x: hidden;
   }
 
-  /* ── NAV ── */
+  /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
@@ -83,11 +83,18 @@
     text-decoration: none;
   }
   .nav-logo-mark {
+    /* width: 36px; height: 36px; */
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     position: relative; overflow: hidden;
   }
   .nav-logo-mark::after { content: none; }
+  .nav-logo-text {
+    font-family: var(--font-display);
+    font-size: 1.05rem; font-weight: 600;
+    color: var(--green-deep); line-height: 1.2;
+  }
+  .nav-logo-text span { display: block; font-size: 0.65rem; font-weight: 400; color: var(--ink-faint); letter-spacing: 0.08em; font-family: var(--font-body); }
   .nav-links {
     display: flex; gap: 0; list-style: none;
   }
@@ -99,7 +106,6 @@
     transition: all 0.2s;
   }
   .nav-links a:hover { background: var(--green-light); color: var(--green-deep); }
-  .nav-links a.active { color: var(--green-deep); font-weight: 700; }
   .nav-cta {
     background: var(--green-mid); color: white !important;
     border-radius: 8px !important; padding: 0.5rem 1.25rem !important;
@@ -115,7 +121,7 @@
     border-radius: 2px; transition: all 0.3s;
   }
 
-  /* ── MOBILE MENU ── */
+  /* Mobile menu */
   .mobile-menu {
     display: none;
     position: fixed; top: 70px; left: 0; right: 0; z-index: 99;
@@ -544,7 +550,7 @@
   }
   .btn-secondary:hover { background: var(--green-deep); color: white; transform: translateY(-2px); }
 
-  /* ── FOOTER ── */
+    /* FOOTER */
   footer {
     background: var(--ink); color: rgba(255,255,255,0.6);
     padding: 4rem 8% 2rem;
@@ -622,13 +628,13 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html#about">Who We Are</a></li>
-    <li><a href="index.html#farmerchat">How We Work</a></li>
+    <li><a href="who-we-are.html">Who We Are</a></li>
+    <li><a href="how-we-work.html">How We Work</a></li>
     <li><a href="farmerchat.html">FarmerChat</a></li>
-    <li><a href="impact.html" class="active">Impact</a></li>
-    <li><a href="index.html#stories">Insights</a></li>
-    <li><a href="index.html#stories">Careers</a></li>
-    <li><a href="index.html#contact" class="nav-cta">Partner With Us</a></li>
+    <li><a href="impact.html">Impact</a></li>
+    <li><a href="#stories">Insights</a></li>
+    <li><a href="#stories">Careers</a></li>
+    <li><a href="#contact" class="nav-cta">Partner With Us</a></li>
   </ul>
   <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
@@ -636,12 +642,44 @@
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html#about" onclick="toggleMenu()">Who We Are</a>
-  <a href="index.html#farmerchat" onclick="toggleMenu()">How We Work</a>
-  <a href="farmerchat.html" onclick="toggleMenu()">FarmerChat</a>
-  <a href="impact.html" onclick="toggleMenu()">Impact</a>
-  <a href="index.html#stories" onclick="toggleMenu()">Insights</a>
-  <a href="index.html#contact" onclick="toggleMenu()">Partner With Us</a>
+  <a href="#about" onclick="toggleMenu()">Who We Are</a>
+  <a href="how-we-work.html" onclick="toggleMenu()">How We Work</a>
+  <a href="#farmerchat" onclick="toggleMenu()">FarmerChat</a>
+  <a href="#impact" onclick="toggleMenu()">Impact</a>
+  <a href="#stories" onclick="toggleMenu()">Insights</a>
+  <a href="#stories" onclick="toggleMenu()">Careers</a>
+  <a href="#contact" onclick="toggleMenu()">Partner With Us</a>
+</div>
+
+<!-- LANGUAGE TICKER -->
+<div class="lang-ticker">
+  <div class="lang-ticker-label">26 Languages</div>
+  <div class="lang-ticker-track" id="langTrack">
+    <span class="lang-chip">हिन्दी</span>
+    <span class="lang-chip">বাংলা</span>
+    <span class="lang-chip">தமிழ்</span>
+    <span class="lang-chip">తెలుగు</span>
+    <span class="lang-chip">ಕನ್ನಡ</span>
+    <span class="lang-chip">मराठी</span>
+    <span class="lang-chip">ਪੰਜਾਬੀ</span>
+    <span class="lang-chip">ગુજરાતી</span>
+    <span class="lang-chip">ଓଡ଼ିଆ</span>
+    <span class="lang-chip">English</span>
+    <span class="lang-chip">اردو</span>
+    <span class="lang-chip">Assamese</span>
+    <span class="lang-chip">हिन्दी</span>
+    <span class="lang-chip">বাংলা</span>
+    <span class="lang-chip">தமிழ்</span>
+    <span class="lang-chip">తెలుగు</span>
+    <span class="lang-chip">ಕನ್ನಡ</span>
+    <span class="lang-chip">मराठी</span>
+    <span class="lang-chip">ਪੰਜਾਬੀ</span>
+    <span class="lang-chip">ગુજરાતી</span>
+    <span class="lang-chip">ଓଡ଼ିଆ</span>
+    <span class="lang-chip">English</span>
+    <span class="lang-chip">اردو</span>
+    <span class="lang-chip">Assamese</span>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════
@@ -834,7 +872,7 @@
   </div>
 </section>
 
-<!-- ── FOOTER ── -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
@@ -842,6 +880,7 @@
         <div class="nav-logo-mark">
           <img src="iconWhite.png" alt="Digital Green icon" style="height:26px;object-fit:contain;">
         </div>
+        <!-- <span style="font-family:var(--font-display);font-size:1.05rem;color:white;font-weight:400">Digital Green Trust</span> -->
       </div>
       <p>Harnessing technology and community knowledge to build resilient, prosperous farming communities across India.</p>
     </div>

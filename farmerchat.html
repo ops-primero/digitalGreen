@@ -37,41 +37,80 @@ html{scroll-behavior:smooth;font-size:16px;}
 body{font-family:var(--font-sans);background:#fff;color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
 img{display:block;max-width:100%;}
 
-/* ─────────────────────────────────────
-   NAV
-───────────────────────────────────── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1rem 6%;
-  background:rgba(255,255,255,.94);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border);
-  transition:padding .3s var(--ease),box-shadow .3s;
-}
-nav.scrolled{padding:.65rem 6%;box-shadow:0 2px 20px rgba(48,87,42,.07);}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.nav-logo img{height:26px;}
-.nav-links{display:flex;list-style:none;gap:0;}
-.nav-links a{
-  display:block;padding:.5rem 1rem;
-  font-size:.875rem;font-weight:500;color:var(--ink-muted);
-  text-decoration:none;border-radius:8px;transition:all .2s;
-}
-.nav-links a:hover,.nav-links a.active{background:var(--green-light);color:var(--green-deep);}
-.nav-cta{background:var(--green-mid)!important;color:#fff!important;border-radius:8px!important;padding:.5rem 1.25rem!important;}
-.nav-cta:hover{background:var(--green-deep)!important;}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
-.hamburger span{width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s;}
-.mobile-nav{
-  display:none;position:fixed;top:66px;left:0;right:0;z-index:199;
-  background:#fff;border-bottom:1px solid var(--border);
-  flex-direction:column;gap:.25rem;padding:1rem 6%;
-  box-shadow:0 8px 24px rgba(0,0,0,.08);
-}
-.mobile-nav.open{display:flex;}
-.mobile-nav a{padding:.75rem 1rem;border-radius:8px;color:var(--ink-muted);text-decoration:none;font-size:.925rem;}
-.mobile-nav a:hover{background:var(--green-light);}
+/* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 5%;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  nav.scrolled {
+    padding: 0.65rem 5%;
+    box-shadow: 0 2px 20px rgba(48,87,42,0.08);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-mark {
+    /* width: 36px; height: 36px; */
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .nav-logo-mark::after { content: none; }
+  .nav-logo-text {
+    font-family: var(--font-display);
+    font-size: 1.05rem; font-weight: 600;
+    color: var(--green-deep); line-height: 1.2;
+  }
+  .nav-logo-text span { display: block; font-size: 0.65rem; font-weight: 400; color: var(--ink-faint); letter-spacing: 0.08em; font-family: var(--font-body); }
+  .nav-links {
+    display: flex; gap: 0; list-style: none;
+  }
+  .nav-links a {
+    display: block; padding: 0.5rem 1.1rem;
+    text-decoration: none; font-size: 0.875rem; font-weight: 500;
+    color: var(--ink-muted);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { background: var(--green-light); color: var(--green-deep); }
+  .nav-cta {
+    background: var(--green-mid); color: white !important;
+    border-radius: 8px !important; padding: 0.5rem 1.25rem !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--green-deep) !important; color: white !important; }
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px;
+  }
+  .nav-hamburger span {
+    width: 22px; height: 2px; background: var(--ink);
+    border-radius: 2px; transition: all 0.3s;
+  }
+
+    /* Mobile menu */
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 70px; left: 0; right: 0; z-index: 99;
+    background: white; border-bottom: 1px solid var(--border);
+    padding: 1rem 5%;
+    flex-direction: column; gap: 0.25rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    padding: 0.75rem 1rem; border-radius: 8px;
+    color: var(--ink-muted); text-decoration: none;
+    font-size: 0.925rem; font-weight: 500;
+    transition: background 0.2s;
+  }
+  .mobile-menu a:hover { background: var(--green-light); color: var(--green-deep); }
 
 /* ─────────────────────────────────────
    REVEAL
@@ -1201,27 +1240,45 @@ textarea.form-control{resize:none;min-height:80px;}
 .form-submit svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2.5;}
 .form-privacy{font-size:.68rem;color:var(--ink-faint);text-align:center;margin-top:.75rem;}
 
-/* ═══════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════ */
-footer{
-  background:#0c1c0a;color:rgba(255,255,255,.55);
-  padding:4rem 8% 2rem;
-}
-.footer-grid{
-  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
-  gap:3rem;padding-bottom:3rem;
-  border-bottom:1px solid rgba(255,255,255,.07);
-}
-.footer-brand p{font-size:.875rem;line-height:1.75;margin-top:1rem;max-width:260px;}
-.footer-col h4{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin-bottom:1.25rem;}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
-.footer-col ul li a{color:rgba(255,255,255,.45);text-decoration:none;font-size:.875rem;transition:color .2s;}
-.footer-col ul li a:hover{color:var(--green-vivid);}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;font-size:.78rem;}
-.footer-social{display:flex;gap:8px;}
-.social-btn{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);display:flex;align-items:center;justify-content:center;font-size:.85rem;text-decoration:none;transition:all .2s;border:1px solid rgba(255,255,255,.07);}
-.social-btn:hover{background:var(--green-mid);color:#fff;border-color:var(--green-mid);}
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.6);
+    padding: 4rem 8% 2rem;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand p {
+    font-size: 0.875rem; line-height: 1.75; margin-top: 1rem;
+    max-width: 280px;
+  }
+  .footer-col h4 {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: white;
+    margin-bottom: 1rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .footer-col a {
+    color: rgba(255,255,255,0.55); text-decoration: none;
+    font-size: 0.875rem; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: #A5DE48; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.5rem;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-bottom p { font-size: 0.8rem; }
+  .footer-social { display: flex; gap: 12px; }
+  .social-btn {
+    width: 34px; height: 34px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5); font-size: 0.8rem; font-weight: 700;
+    text-decoration: none; transition: all 0.2s; font-family: serif;
+  }
+  .social-btn:hover { border-color: #A5DE48; color: #A5DE48; }
 
 /* ═══════════════════════════════════════
    RESPONSIVE
@@ -1262,7 +1319,68 @@ footer{
 <body>
 
 <!-- ── NAV ── -->
+ <!-- NAV -->
 <nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">
+      <img src="icon.png" alt="Digital Green icon" style="height:26px;object-fit:contain;">
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="who-we-are.html">Who We Are</a></li>
+    <li><a href="how-we-work.html">How We Work</a></li>
+    <li><a href="farmerchat.html">FarmerChat</a></li>
+    <li><a href="impact.html">Impact</a></li>
+    <li><a href="#stories">Insights</a></li>
+    <li><a href="#stories">Careers</a></li>
+    <li><a href="#contact" class="nav-cta">Partner With Us</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="toggleMenu()">Who We Are</a>
+  <a href="how-we-work.html" onclick="toggleMenu()">How We Work</a>
+  <a href="#farmerchat" onclick="toggleMenu()">FarmerChat</a>
+  <a href="#impact" onclick="toggleMenu()">Impact</a>
+  <a href="#stories" onclick="toggleMenu()">Insights</a>
+  <a href="#stories" onclick="toggleMenu()">Careers</a>
+  <a href="#contact" onclick="toggleMenu()">Partner With Us</a>
+</div>
+
+<!-- LANGUAGE TICKER -->
+<div class="lang-ticker">
+  <div class="lang-ticker-label">26 Languages</div>
+  <div class="lang-ticker-track" id="langTrack">
+    <span class="lang-chip">हिन्दी</span>
+    <span class="lang-chip">বাংলা</span>
+    <span class="lang-chip">தமிழ்</span>
+    <span class="lang-chip">తెలుగు</span>
+    <span class="lang-chip">ಕನ್ನಡ</span>
+    <span class="lang-chip">मराठी</span>
+    <span class="lang-chip">ਪੰਜਾਬੀ</span>
+    <span class="lang-chip">ગુજરાતી</span>
+    <span class="lang-chip">ଓଡ଼ିଆ</span>
+    <span class="lang-chip">English</span>
+    <span class="lang-chip">اردو</span>
+    <span class="lang-chip">Assamese</span>
+    <span class="lang-chip">हिन्दी</span>
+    <span class="lang-chip">বাংলা</span>
+    <span class="lang-chip">தமிழ்</span>
+    <span class="lang-chip">తెలుగు</span>
+    <span class="lang-chip">ಕನ್ನಡ</span>
+    <span class="lang-chip">मराठी</span>
+    <span class="lang-chip">ਪੰਜਾਬੀ</span>
+    <span class="lang-chip">ગુજરાતી</span>
+    <span class="lang-chip">ଓଡ଼ିଆ</span>
+    <span class="lang-chip">English</span>
+    <span class="lang-chip">اردو</span>
+    <span class="lang-chip">Assamese</span>
+  </div>
+</div>
+<!-- <nav id="navbar">
   <a href="index.html" class="nav-logo">
     <img src="icon.png" alt="Digital Green Trust">
   </a>
@@ -1284,7 +1402,7 @@ footer{
   <a href="farmerchat.html" onclick="toggleMenu()">FarmerChat</a>
   <a href="index.html#impact" onclick="toggleMenu()">Impact</a>
   <a href="#partner" onclick="toggleMenu()">Partner With Us</a>
-</div>
+</div> -->
 
 
 <!-- ══════════════════════════════════
@@ -2190,44 +2308,51 @@ footer{
 </section>
 
 
-<!-- ── FOOTER ── -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <img src="iconWhite.png" alt="Digital Green Trust" style="height:26px;object-fit:contain;">
-      <p>Harnessing technology and community knowledge to build resilient, prosperous farming communities worldwide.</p>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="nav-logo-mark">
+          <img src="iconWhite.png" alt="Digital Green icon" style="height:26px;object-fit:contain;">
+        </div>
+        <!-- <span style="font-family:var(--font-display);font-size:1.05rem;color:white;font-weight:400">Digital Green Trust</span> -->
+      </div>
+      <p>Harnessing technology and community knowledge to build resilient, prosperous farming communities across India.</p>
     </div>
     <div class="footer-col">
       <h4>Organization</h4>
       <ul>
         <li><a href="#">About Us</a></li>
         <li><a href="#">Our Team</a></li>
+        <li><a href="#">Board of Trustees</a></li>
         <li><a href="#">Annual Reports</a></li>
         <li><a href="#">Careers</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4>FarmerChat</h4>
+      <h4>Solutions</h4>
       <ul>
-        <li><a href="#how">How It Works</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#impact">Impact Data</a></li>
-        <li><a href="#">Open Source (GitHub)</a></li>
-        <li><a href="#">Download App</a></li>
+        <li><a href="#">FarmerChat</a></li>
+        <li><a href="#">Digital Extension</a></li>
+        <li><a href="#">Community Video</a></li>
+        <li><a href="#">Data Platforms</a></li>
+        <li><a href="#">Open Source</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Connect</h4>
       <ul>
-        <li><a href="#partner">Partner With Us</a></li>
+        <li><a href="#">Contact Us</a></li>
         <li><a href="#">Media Enquiries</a></li>
+        <li><a href="#">Partner Portal</a></li>
         <li><a href="#">Newsletter</a></li>
         <li><a href="#">www.digitalgreen.org</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 Digital Green Trust. Registered in India. FarmerChat is open-source under MIT License.</p>
+    <p>© 2025 Digital Green Trust. Registered in India.</p>
     <div class="footer-social">
       <a href="#" class="social-btn">𝕏</a>
       <a href="#" class="social-btn">in</a>
